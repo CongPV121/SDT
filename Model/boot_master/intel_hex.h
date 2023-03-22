@@ -12,6 +12,8 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "math.h"
+#include "stdint.h"
+
 
 typedef enum{
 	INTEL_HEX_Data = 0x00,
@@ -31,6 +33,7 @@ struct intel_hex_t{
 	Record_type_t record_type; //1 byte
 	uint8_t *data; // (1 * byte_count) byte
 	uint8_t checksum; // 1 byte
+    uint32_t addrs;
 };
 
 

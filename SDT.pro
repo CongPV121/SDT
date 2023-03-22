@@ -21,6 +21,7 @@ SOURCES += \
     Model/boot_master/boot_master_process.c \
     Model/boot_master/bootloader.c \
     Model/boot_master/firmware.c \
+    Model/boot_master/intel_hex.c \
     Model/boot_master/segment_driver.c \
     Model/boot_master/segment_firmware.c \
     Model/canopen/CO.c \
@@ -42,14 +43,6 @@ SOURCES += \
     Model/canopen/CO_TPDO.c \
     Model/cp202-2ci/cp202.c \
     Model/cp202-2ci/tcp_client.c \
-    Model/extract_file/CRC.c \
-    Model/extract_file/boot_master.c \
-    Model/extract_file/boot_master_app.c \
-    Model/extract_file/bootloader.c \
-    Model/extract_file/firmware.c \
-    Model/extract_file/intel_hex.c \
-    Model/extract_file/ota_bms.c \
-    Model/extract_file/segment_firmware.c \
     main.cpp \
     sdt.cpp
 
@@ -74,6 +67,7 @@ HEADERS += \
     Model/boot_master/boot_master_process.h \
     Model/boot_master/bootloader.h \
     Model/boot_master/firmware.h \
+    Model/boot_master/intel_hex.h \
     Model/boot_master/segment_driver.h \
     Model/boot_master/segment_firmware.h \
     Model/canopen/CO.h \
@@ -98,15 +92,6 @@ HEADERS += \
     Model/canopen/CO_utils.h \
     Model/cp202-2ci/cp202.h \
     Model/cp202-2ci/tcp_client.h \
-    Model/extract_file/CRC.h \
-    Model/extract_file/app_boot_config.h \
-    Model/extract_file/boot_master.h \
-    Model/extract_file/boot_master_app.h \
-    Model/extract_file/bootloader.h \
-    Model/extract_file/firmware.h \
-    Model/extract_file/intel_hex.h \
-    Model/extract_file/ota_bms.h \
-    Model/extract_file/segment_firmware.h \
     sdt.h
 
 FORMS += \

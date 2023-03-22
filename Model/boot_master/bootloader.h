@@ -26,15 +26,16 @@ typedef enum BOOT_STATE_t{
     BOOT_ST_WAITING_EXT_BOOT,
     BOOT_ST_WRITE_VERSION,
     BOOT_ST_READ_INFO,
-	BOOT_ST_PRE_INIT
+    BOOT_ST_PRE_INIT
 }BOOT_STATE;
 
 typedef struct Bootloader_t Bootloader;
 struct Bootloader_t{
     BOOT_STATE  state;
+    bool        is_state_change;
     Firmware    fw[MAX_IMAGE_NUM];
     Segment_fw  segment_downloaded;
-    uint32_t    timeout;
+    uint64_t    timeout;
     Firmware    main_app;
     Firmware    sub_app;
     bool        is_new_version;
@@ -68,7 +69,9 @@ static inline void boot_fail_handle(Bootloader* p_boot){
 }
 
 static inline void boot_set_state(Bootloader* p_boot, BOOT_STATE state){
+    if(p_boot->state == state) return;
     p_boot->state = state;
+    p_boot->is_state_change = true;
 }
 
 static inline BOOT_STATE boot_get_state(Bootloader* p_boot){

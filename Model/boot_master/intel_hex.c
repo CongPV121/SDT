@@ -8,18 +8,18 @@
 
 
 
-#include "ota_bms/intel_hex.h"
+#include "Model/boot_master/intel_hex.h"
 #include "stdio.h"
 #include "stdlib.h"
 #include "string.h"
-#include "esp_log.h"
+#include "stdint.h"
 
 static const char* TAG = "INTEL_HEX";
 
 intel_hex hex_record;
 
 uint8_t hex_data[32];
-
+uint32_t addrs;
 intel_hex* intel_hex_process(uint8_t* data, uint16_t length){
 	intel_hex* result = &hex_record;
 	if(data[0] == ':'){
@@ -27,33 +27,29 @@ intel_hex* intel_hex_process(uint8_t* data, uint16_t length){
 		result->byte_count = data[1];
 		result->addr[0] = data[2];
 		result->addr[1] = data[3];
+        result->addrs = (uint32_t)(((uint32_t)data[2]<<8) | (uint32_t)data[3]);
 		result->record_type = data[4];
 		result->data = hex_data;
 		for(uint16_t i = 0;i<result->byte_count;i++){
 			result->data[i] = data[5+i];
 		}
 		result->checksum = data[5+result->byte_count];
-		if(result->checksum != intel_hex_checksum(data, length)){
-			ESP_LOG_BUFFER_HEX(TAG,data,length);
-			ESP_LOGE(TAG,"Checksum error\n");
-			ESP_LOGE(TAG,"Checksum : %02X, Checksum taget : %02X\n",intel_hex_checksum(data, length),result->checksum);
-			return NULL;
-		}
+        if(result->checksum != intel_hex_checksum(data, length)){
+            return NULL;
+        }
 	}
 	else{
-		ESP_LOGE(TAG,"Not intel hex data\n");
-		ESP_LOG_BUFFER_HEX(TAG,data,length);
 		return NULL;
 	}
 	return result;
 }
 uint8_t intel_hex_checksum(uint8_t* data, uint16_t length){
-	uint8_t intel_crc = 0;
-	for(uint16_t i = 1;i<length-1;i++){
-		intel_crc = intel_crc + data[i];
-	}
-	intel_crc = (~intel_crc + 1);
-	return intel_crc;
+    uint8_t intel_crc = 0;
+    for(uint16_t i = 1 ; i < length -1;i++){
+        intel_crc = intel_crc + data[i];
+    }
+    intel_crc = (~intel_crc + 1);
+    return intel_crc;
 }
 uint8_t hex[22] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A',
 		'B', 'C', 'D', 'E', 'F', 'a', 'b', 'c', 'd', 'e', 'f' };

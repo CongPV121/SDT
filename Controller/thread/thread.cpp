@@ -20,10 +20,10 @@ void thread::timeout_timer_10ms_handle(){
     sys_timestamp += 1;
     boot_master_process(&boot_master,sys_timestamp);
 
-    qDebug()<< "tesst10";
+    //qDebug()<< "tesst10";
 }
 void thread::timeout_timer_1ms_handle(){
-    qDebug()<< "tesst1";
+    //qDebug()<< "tesst1";
     CO_process(&CO_DEVICE,1);
 
 }
