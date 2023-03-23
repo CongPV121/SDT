@@ -76,9 +76,9 @@ void boot_master_process(Boot_master *p_boot_m,uint64_t timestamp){
     case BOOT_ST_INIT:
         //boot_reboot((Bootloader*)p_boot_m) ;
 
-        file = fopen("/home/cong/Data/1.Selex/1.Software/1.SDT/SDT/s2_pmu.hex","r");
-        fclose(file);
-        file = fopen("/home/cong/Data/1.Selex/1.Software/1.SDT/SDT/s2_pmu.hex","r");
+//        file = fopen("/home/cong/Data/1.Selex/1.Software/1.SDT/SDT/s2_pmu.hex","r");
+//        fclose(file);
+//        file = fopen("/home/cong/Data/1.Selex/1.Software/1.SDT/SDT/s2_pmu.hex","r");
 
         p_boot_m->fw_signature.addr = (uint32_t) BMS_MAIN_APP_FIRM_ADDR;
         boot_set_state(&p_boot_m->base, BOOT_ST_PREPARING);

@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui network quick
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
@@ -44,7 +44,9 @@ SOURCES += \
     Model/cp202-2ci/cp202.c \
     Model/cp202-2ci/tcp_client.c \
     main.cpp \
-    sdt.cpp
+    mainwindow.cpp \
+    views/pmu.cpp \
+    views/hmi.cpp
 
     # Default rules for deployment.
     qnx: target.path = /tmp/$${TARGET}/bin
@@ -92,9 +94,16 @@ HEADERS += \
     Model/canopen/CO_utils.h \
     Model/cp202-2ci/cp202.h \
     Model/cp202-2ci/tcp_client.h \
-    sdt.h
+    mainwindow.h \
+    views/pmu.h \
+    views/hmi.h
 
 FORMS += \
-    sdt.ui
+    mainwindow.ui \
+    views/pmu.ui \
+    views/hmi.ui
+
+DISTFILES += \
+    pmu2.qml
 
 
