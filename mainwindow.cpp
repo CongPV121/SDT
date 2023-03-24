@@ -29,5 +29,7 @@ void MainWindow::on_testHmiButton_clicked()
 {
     hmi* p_hmi =hmi::get_hmi();
     p_hmi->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-    p_hmi->showFullScreen();
+    p_hmi->showNormal();
 }
+
+

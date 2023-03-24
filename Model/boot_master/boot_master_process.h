@@ -27,12 +27,26 @@ typedef struct {
     uint8_t begin_ota;
     int err;
     uint32_t addr_t;
-}Bp_Ota_Data;
-extern Boot_master boot_master;
+}seg_firmware;
+
+typedef struct{
+    BOOT_STATE  state;
+    uint16_t        download_results;
+    uint16_t        percent_complete;
+}proress_results ;
+
+extern Boot_master      boot_master;
+extern proress_results  download_results;
+
 void boot_master_init(void);
-void segment_download_build(uint32_t addr,uint8_t *data, uint16_t seg_size);
-void boot_master_process(Boot_master *p_boot_m, uint64_t timestamp);
-Bp_Ota_Data* unzip_fw(FILE *file);
+void segment_download_build(Boot_master *p_boot_m);
+void boot_master_process(Boot_master *p_boot_m,uint64_t timestamp,
+                         uint16_t *active_download,
+                         uint16_t nodeid_device,
+                         char *path,
+                         proress_results *download_results);
+seg_firmware* unzip_fw(FILE *file);
+bool extract_getsegment(FILE *p_file);
 
 static inline bool boot_master_is_timeout(Boot_master *p_boot_m,uint64_t timestamp){
     return (timestamp >= p_boot_m->base.timeout) && (p_boot_m->base.timeout != 0);
@@ -74,7 +88,7 @@ static inline void boot_master_update_timeout(Boot_master *p_boot_m,uint64_t tim
     case BOOT_ST_READ_INFO:
         timeout = 0;
         break;
-    case BOOT_ST_PRE_INIT:
+    case BOOT_ST_NOT_ACTIVE:
         timeout = 0;
         break;
     default:

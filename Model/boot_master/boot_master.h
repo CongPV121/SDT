@@ -14,6 +14,8 @@ typedef struct Boot_master_t Boot_master;
 struct Boot_master_t{
     Bootloader      base;
     uint32_t        boot_id_src;                // Node ID of CAN
+    uint16_t        total_segment;
+    uint8_t         *data_firmware;
     Signature       fw_signature;
 };
 

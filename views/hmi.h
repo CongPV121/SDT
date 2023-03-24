@@ -51,5 +51,6 @@ signals:
     void on_response_read_data_config(const QString&data); // data config
 //-----------------------------------------------------------------------------------------------------
 };
+void set_value_processbar(const int value);
 
 #endif // hmi_H

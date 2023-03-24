@@ -1,6 +1,9 @@
 #include "hmi.h"
 #include "ui_hmi.h"
 #include <QFileDialog>
+#include "Controller/controler.h"
+
+int process_value = 10;
 hmi::hmi(QWidget *parent) :
     QDockWidget(parent),
     ui(new Ui::hmi)
@@ -10,7 +13,15 @@ hmi::hmi(QWidget *parent) :
     ui->setupUi(this);
 }
 /*data input form*/
-void hmi::percents_to_complete(const int &percent){
+void hmi::percents_to_complete(const int& percent){
+    int value = percent;
+    if(percent >100 ){
+        value = 100;
+    }
+    if(percent < 0){
+        value = 0;
+    }
+    this->ui->download_process->setValue(value);
 
 }
 void hmi::data_read_config(const QString &data){
@@ -48,19 +59,24 @@ void hmi::on_write_firm_ware_clicked()
 {
     QUrl folder_url = QUrl::fromLocalFile(get_link_director());
     emit on_request_write_firmware(folder_url);
+    QString str_path = this->link_director;
+    if( str_path == NULL) return;
+    const char* path = str_path.toUtf8().constData();
+   set_download_firmware_par(1,1,path);
+
 }
+//set_value_processbar(12);
 
 void hmi::on_choose_file_btn_clicked()
 {
-    QFileDialog dialog(this);
-       dialog.setFileMode(QFileDialog::DirectoryOnly);
-       if (dialog.exec()) {
-           QString folderPath = dialog.selectedFiles().first();
-           set_link_director(folderPath);
-
-           this->ui->link_director_file->setText(get_link_director());
-
-       }
+    QString path = QFileDialog::getOpenFileName(
+                this,
+                "Open File",
+                "//",
+                "hex(*.hex);; All File(*.*)");
+    if( path == NULL) return;
+    set_link_director(path);
+    this->ui->link_director_file->setText(get_link_director());
 }
 QString hmi::get_link_director() const{
     return this->link_director;
@@ -80,3 +96,7 @@ void hmi::on_write_process_valueChanged(int value)
 {
 
 }
+void set_value_processbar(const int value){
+    emit hmi::get_hmi()->on_response_percents_to_complete(value);
+}
+

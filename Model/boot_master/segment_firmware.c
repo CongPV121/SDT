@@ -14,5 +14,5 @@ bool segment_fw_is_valid(Segment_fw* p_seg){
     return (crc_cal == p_seg->crc_code);
 }
 void reset_id_segment_download(Segment_fw* p_seg){
-	p_seg->id = 0;
+	p_seg->transmitted_seg = 0;
 }

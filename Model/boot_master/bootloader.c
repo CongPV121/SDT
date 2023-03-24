@@ -14,6 +14,7 @@
  * [15 - 28]    sub app signature
  */
 void  boot_read_info (Bootloader* p_boot) {
+    (void)p_boot;
 
 //    uint8_t buff_size = 29;             // new_ver_flag(1) + main_app_sign(14) + sub_app_sign(14)
 //    uint8_t buff[buff_size];
@@ -25,6 +26,7 @@ void  boot_read_info (Bootloader* p_boot) {
 }
 
 void boot_update_info (Bootloader* p_boot, uint8_t* buff){
+    (void)p_boot;
 
 //    buff[0] = p_boot->is_new_version;
 //    firmware_set_signature(&p_boot->main_app, buff+1);

@@ -7,6 +7,10 @@
 
 #ifndef APP_CONFIG_APP_BOOT_CONFIG_H_
 #define APP_CONFIG_APP_BOOT_CONFIG_H_
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "Model/canopen/CO.h"
 
 
@@ -24,6 +28,36 @@
 #define FLASH_IMAGE_BLOCK_SIZE              FLASH_HP_CF_BLOCK_SIZE_32KB
 
 #define SEGMENT_MEMORY_SIZE                 1024               // Bytes
-#define NUMBER_OF_SEGMENT	                96               // Bytes
+#define NUMBER_OF_SEGMENT	                96
+// Bytes
 
+typedef enum{
+    PMU_MAINAPP_NODE_ID = 1,
+    MC_MAINAPP_NODE_ID = 2,
+    BP_MAINAPP_NODE_ID = 4,
+    HMI_MAINAPP_NODE_ID = 8
+
+} DEVICE_NODEID;
+
+
+
+typedef struct{
+    uint16_t        start_download;
+    DEVICE_NODEID   nodeid_device;
+    char            *src_data_firmware;
+
+}boot_master_config_t ;
+
+
+
+
+extern boot_master_config_t boot_master_config;
+
+void set_download_firmware_par( uint16_t start_download,
+                                uint16_t nodeid_device,
+                                const char * src_firmware);
+
+#ifdef __cplusplus
+}
+#endif
 #endif /* APP_CONFIG_APP_BOOT_CONFIG_H_ */

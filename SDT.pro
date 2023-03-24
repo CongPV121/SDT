@@ -15,6 +15,7 @@ SOURCES += \
     Controller/app_co/od/manu_od/manu_od_default_value.c \
     Controller/app_co/od/od.c \
     Controller/boot_master_app/boot_master_config.c \
+    Controller/controler.cpp \
     Controller/testing/hmi_testing/hmi_testing.cpp \
     Controller/testing/mc_testing/mc_testing.cpp \
     Controller/testing/pmu_testing/pmu_testing.cpp \
@@ -66,6 +67,7 @@ HEADERS += \
     Controller/app_co/od/od_config.h \
     Controller/boot_master_app/app_can_config.h \
     Controller/boot_master_app/boot_master_config.h \
+    Controller/controler.h \
     Controller/testing/hmi_testing/hmi_testing.h \
     Controller/testing/mc_testing/mc_testing.h \
     Controller/testing/pmu_testing/pmu_testing.h \

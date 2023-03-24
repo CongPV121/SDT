@@ -27,7 +27,7 @@ struct Segment_fw_t{
     WRITE_SEGMENT_FW_STATE write_state;
     uint32_t addr;
     uint16_t size;
-    uint16_t id;
+    uint16_t transmitted_seg;
     uint16_t crc_code;
     uint8_t  data[SEGMENT_MEMORY_SIZE];
     uint16_t data_index;
@@ -35,6 +35,7 @@ struct Segment_fw_t{
     void     (*write_addr)(Segment_fw*);
     void     (*write_data)(Segment_fw*);
     void     (*write_crc)(Segment_fw*);
+    Segment_fw      (*get_segment_download)(Segment_fw*);
 };
 
 bool segment_fw_is_valid(Segment_fw*);
