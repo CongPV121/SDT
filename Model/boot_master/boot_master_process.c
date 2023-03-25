@@ -23,11 +23,11 @@ static void co_segment_fw_write_addr_handle      (Segment_fw*);
 static void co_segment_fw_write_data_handle      (Segment_fw*);
 static void co_segment_fw_write_crc_handle       (Segment_fw*);
 static void main_app_request_new_firmware        (Segment_fw*);
-void        co_segment_build_handle(Segment_fw* p_seg, uint32_t addr, uint8_t* data,
-                                    uint16_t crc_code,uint16_t size );
-static void co_set_download_completed(Boot_master* p_boot);
+void        co_segment_build_handle              (Segment_fw* p_seg, uint32_t addr, uint8_t* data,
+                                                  uint16_t crc_code,uint16_t size );
+static void co_set_download_completed            (Boot_master* p_boot);
 static void co_read_version_fw_handle            (Signature*);
-static void flashImageFromHex(seg_firmware *p_data,intel_hex *p_record);
+static void flashImageFromHex                    (seg_firmware *p_data,intel_hex *p_record);
 
 
 uint8_t reboot_state[2];
@@ -58,15 +58,18 @@ void boot_master_init(void){
     p_boot->segment_downloaded.write_addr        = co_segment_fw_write_addr_handle;
     p_boot->segment_downloaded.write_data        = co_segment_fw_write_data_handle;
     p_boot->segment_downloaded.write_crc         = co_segment_fw_write_crc_handle;
+
+
 }
 FILE *file = NULL;
 
-
+bool display = false;
 void boot_master_process(Boot_master *p_boot_m,uint64_t timestamp,
                          uint16_t *active_download,
                          uint16_t nodeid_device,
                          char *path,
                          proress_results *download_results){
+
     printf("boot sate: %d\n",boot_get_state((Bootloader*)p_boot_m));
     //boot_read_info((Bootloader*)p_boot_m);
     /*timeout update*/
@@ -82,7 +85,6 @@ void boot_master_process(Boot_master *p_boot_m,uint64_t timestamp,
 
     case BOOT_ST_NOT_ACTIVE:
         /* Start preparing and download firmware*/
-
         if(*active_download == 1 &&
                 path != NULL    ){
             boot_set_state((Bootloader*)p_boot_m, BOOT_ST_INIT);
@@ -96,11 +98,12 @@ void boot_master_process(Boot_master *p_boot_m,uint64_t timestamp,
         fclose(file);
         file = NULL;
         file = fopen(path,"r");
-        if(extract_getsegment(file) == 0 ){
+        if(extract_getsegment(file,0x10000) == 0 ){
             fclose(file);
             file = NULL;
             boot_set_state(&p_boot_m->base, BOOT_ST_PREPARING);
         }
+        display = true;
         p_boot_m->fw_signature.addr = (uint32_t) BMS_MAIN_APP_FIRM_ADDR;
         p_boot_m->base.segment_downloaded.transmitted_seg = 0;
         boot_set_state(&p_boot_m->base, BOOT_ST_PREPARING);
@@ -136,10 +139,6 @@ void boot_master_process(Boot_master *p_boot_m,uint64_t timestamp,
         break;
 
     case BOOT_ST_FAIL:
-        if( file != NULL ){
-            fclose(file);
-        }
-        file = NULL;
         CO_SDO_reset_status(&CO_DEVICE.sdo_client);
         boot_set_state((Bootloader*)p_boot_m, BOOT_ST_NOT_ACTIVE);
         reset_id_segment_download(&boot_master.base.segment_downloaded);
@@ -155,17 +154,14 @@ void boot_master_process(Boot_master *p_boot_m,uint64_t timestamp,
         break;
     }
 
-    if(p_boot_m->total_segment < 1){
-        download_results->percent_complete = 0;
-    }
-    else{
-        download_results->percent_complete = 100*p_boot_m->base.segment_downloaded.transmitted_seg
-                /p_boot_m->total_segment;
-    }
+    update_download_process(p_boot_m);
 
 }
 /*-------------------------------------------------------------------*/
-bool extract_getsegment(FILE *p_file){
+static uint8_t segment_data[2*SEGMENT_MEMORY_SIZE];
+seg_firmware bp_data = {.addr = 0,.start_addr = 0,.p_data = segment_data,.length = 0,.err = 0,.is_comming = false,.end_record = false};
+
+bool extract_getsegment(FILE *p_file,uint32_t flash_start){
     if(p_file == NULL){
         return 0;
     }
@@ -177,6 +173,7 @@ bool extract_getsegment(FILE *p_file){
     memset(boot_master.data_firmware,0xff,1024*1024);
     boot_master.total_segment = 0;
     boot_master.fw_signature.size = 0;
+
 
     seg_firmware *data_iscomming;
 
@@ -192,6 +189,16 @@ bool extract_getsegment(FILE *p_file){
             //co_set_download_completed(p_boot_m);
             break;
         }
+        /*INTEL_HEX_Extended_Linear_Address*/
+        if(data_iscomming->end_old_segment == true){
+            data_iscomming->end_old_segment = false;
+            memcpy(boot_master.data_firmware + boot_master.fw_signature.size,
+                   data_iscomming->p_data,data_iscomming->length);
+            boot_master.fw_signature.size += data_iscomming->length;
+            data_iscomming->addr += data_iscomming->length;
+            boot_master.total_segment ++;
+            continue;
+        }
         /*remove the part of data that is outside the address*/
         if(data_iscomming->addr > (0x10000 + 0x20000)
                 || data_iscomming->addr < 0x10000){
@@ -204,6 +211,7 @@ bool extract_getsegment(FILE *p_file){
         boot_master.fw_signature.size += data_iscomming->length;
         data_iscomming->addr += data_iscomming->length;
         boot_master.total_segment ++;
+
     }
     return 1;
 }
@@ -212,8 +220,6 @@ bool extract_getsegment(FILE *p_file){
 /* This is the function to decode intel hex file to flash data Image
  *
 */
-static uint8_t segment_data[SEGMENT_MEMORY_SIZE];
-seg_firmware bp_data = {.addr = 0,.start_addr = 0,.p_data = segment_data,.length = 0,.err = 0,.is_comming = false,.end_record = false};
 
 seg_firmware* unzip_fw(FILE *file){
     if(file == NULL){
@@ -226,6 +232,7 @@ seg_firmware* unzip_fw(FILE *file){
 
     p_bp_data->p_data = segment_data;
     p_bp_data->length = 0;
+    p_bp_data->start_addr = p_bp_data->addr;
     while(p_bp_data->length < SEGMENT_MEMORY_SIZE){
         char *p_line = fgets(line, 64, file);
         if (p_line == NULL) {
@@ -238,7 +245,9 @@ seg_firmware* unzip_fw(FILE *file){
         if (p_record == NULL) {
         }
         flashImageFromHex(p_bp_data,p_record);
-        if(p_bp_data->is_comming == true) break;
+        if(p_bp_data->is_comming == true) {
+            break;
+        }
     }
     return p_bp_data;
 }
@@ -255,6 +264,8 @@ static void flashImageFromHex(seg_firmware *p_data,intel_hex *p_record){
         // TODO: Add data to buffer
         for(uint16_t i = 0;i<p_record->byte_count;i++){
             p_data->p_data[p_data->length+i] = p_record->data[i];
+            //            printf("%x,",p_data->p_data[p_data->length+i]);
+
         }
         p_data->length+= p_record->byte_count;
         break;
@@ -269,6 +280,8 @@ static void flashImageFromHex(seg_firmware *p_data,intel_hex *p_record){
         p_data->addr = (addr_16_31<<16)  + addr_0_15;
         if(p_data->length > 0){
             p_data->is_comming = true;
+            p_data->end_old_segment = true;
+
         }
         break;
     case INTEL_HEX_Extended_Segment_Address:
@@ -278,6 +291,7 @@ static void flashImageFromHex(seg_firmware *p_data,intel_hex *p_record){
         p_data->addr = (addr_4_19<<4) + addr_0;
         if(p_data->length > 0){
             p_data->is_comming = true;
+            p_data->end_old_segment = true;
         }
         break;
     case INTEL_HEX_Start_Linear_Address:
@@ -358,6 +372,7 @@ void co_segment_build_handle(Segment_fw* p_seg, uint32_t addr, uint8_t *data,
 }
 static void co_set_download_completed(Boot_master* p_boot){
     reset_id_segment_download(&p_boot->base.segment_downloaded);
+    p_boot->fw_signature.size = p_boot->total_segment * SEGMENT_MEMORY_SIZE;
     p_boot->fw_signature.crc  = (uint16_t) CRC_CalculateCRC16(p_boot->data_firmware
                                                               ,p_boot->fw_signature.size);
 }
@@ -378,6 +393,7 @@ static void boot_reboot_handle(Bootloader* p_boot){
 static void boot_finish_handle(Bootloader* p_boot){
     (void)p_boot;
     boot_set_state(&boot_master.base, BOOT_ST_NOT_ACTIVE);
+    download_results.download_results = DOWNLOAD_SUCESS;
     CO_SDO_reset_status(&CO_DEVICE.sdo_client);
 }
 
@@ -653,3 +669,19 @@ static void main_app_request_new_firmware (Segment_fw* p_seg)
     }
 }
 
+void update_download_process(Boot_master *p_boot_m){
+    proress_results *results = &p_boot_m->results;
+    if(boot_get_state((Bootloader*)p_boot_m) == BOOT_ST_DOWNLOAD_COMPLETED){
+        results->download_results = DOWNLOAD_SUCESS;
+    }
+    else if(boot_get_state((Bootloader*)p_boot_m) == BOOT_ST_LOADING_LOCAL){
+        results->download_results = DOWNLOADING;
+    }
+    if(p_boot_m->total_segment < 1){
+        results->percent_complete = 0;
+    }
+    else{
+        results->percent_complete = 100*p_boot_m->base.segment_downloaded.transmitted_seg
+                /p_boot_m->total_segment;
+    }
+}

@@ -2,6 +2,8 @@
 #include "ui_hmi.h"
 #include <QFileDialog>
 #include "Controller/controler.h"
+#include "Controller/testing/testing.h"
+
 
 int process_value = 10;
 hmi::hmi(QWidget *parent) :
@@ -43,7 +45,8 @@ hmi::~hmi()
 
 void hmi::on_read_btn_clicked()
 {
-    emit on_request_read_data_config("hmi");
+    //read_hmi_infor_config(1);
+    //emit on_request_read_data_config("hmi");
 }
 
 void hmi::on_write_btn_clicked()
@@ -62,7 +65,7 @@ void hmi::on_write_firm_ware_clicked()
     QString str_path = this->link_director;
     if( str_path == NULL) return;
     const char* path = str_path.toUtf8().constData();
-   set_download_firmware_par(1,1,path);
+   set_download_firmware_par(1,8,path);
 
 }
 //set_value_processbar(12);

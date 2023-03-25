@@ -6,6 +6,7 @@
 #include "Model/boot_master/boot_master_process.h"
 #include "Controller/boot_master_app/boot_master_config.h"
 #include "Controller/controler.h"
+#include "Controller/testing/testing.h"
 
 thread::thread(QObject *parent) : QObject(parent)
 {
@@ -19,7 +20,7 @@ thread::thread(QObject *parent) : QObject(parent)
 
     timer_10ms->start(1);
     timer_1ms->start(1);
-    timer_testing_process->start(1000);
+    timer_testing_process->start(10);
 }
 thread* thread ::start_timer(){
     static thread* seft = new thread();
@@ -43,7 +44,13 @@ void thread::timeout_timer_10ms_handle(){
                         boot_master_config.nodeid_device,
                         boot_master_config.src_data_firmware,
                         &download_results);
-    set_value_processbar(download_results.percent_complete);
+    /* display on ui for download process*/
+    if(boot_master.results.download_results == DOWNLOAD_SUCESS){
+        set_value_processbar(100);
+    }
+    else{
+        set_value_processbar(boot_master.results.percent_complete);
+    }
 
     //qDebug()<< "tesst10";
 }
@@ -54,6 +61,8 @@ void thread::timeout_timer_1ms_handle(){
 uint64_t sys_timestamp_testing = 0;
 void thread::timeout_timer_testing_process_handle(){
     value_process ++;
+    testing_sdo_process(&SDO_mailbox);
+
 
 }
 

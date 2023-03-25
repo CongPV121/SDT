@@ -22,18 +22,13 @@ typedef struct {
     uint32_t addr;
     uint8_t *p_data;
     bool end_record;
+    bool end_old_segment;
     uint32_t start_addr;
     uint32_t begin_addr;
     uint8_t begin_ota;
     int err;
     uint32_t addr_t;
 }seg_firmware;
-
-typedef struct{
-    BOOT_STATE  state;
-    uint16_t        download_results;
-    uint16_t        percent_complete;
-}proress_results ;
 
 extern Boot_master      boot_master;
 extern proress_results  download_results;
@@ -46,7 +41,7 @@ void boot_master_process(Boot_master *p_boot_m,uint64_t timestamp,
                          char *path,
                          proress_results *download_results);
 seg_firmware* unzip_fw(FILE *file);
-bool extract_getsegment(FILE *p_file);
+bool extract_getsegment(FILE *p_file,uint32_t flash_start);
 
 static inline bool boot_master_is_timeout(Boot_master *p_boot_m,uint64_t timestamp){
     return (timestamp >= p_boot_m->base.timeout) && (p_boot_m->base.timeout != 0);
@@ -68,7 +63,7 @@ static inline void boot_master_update_timeout(Boot_master *p_boot_m,uint64_t tim
         timeout = 2000;
         break;
     case BOOT_ST_DOWNLOAD_COMPLETED:
-        timeout = 2000;
+        timeout = 0;
         break;
     case BOOT_ST_FINISH:
         timeout = 2000;
