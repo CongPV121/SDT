@@ -13,14 +13,17 @@ thread::thread(QObject *parent) : QObject(parent)
     this->timer_10ms            = new QTimer();
     this->timer_1ms             = new QTimer();
     this->timer_testing_process = new QTimer();
+    this->timer_Notification    = new QTimer();
 
     connect(this->timer_10ms, &QTimer::timeout,this, &thread::timeout_timer_10ms_handle);
     connect(this->timer_1ms, &QTimer::timeout,this, &thread::timeout_timer_1ms_handle);
     connect(this->timer_testing_process, &QTimer::timeout,this,&thread::timeout_timer_testing_process_handle);
+    connect(this->timer_Notification, &QTimer::timeout,this,&thread::timeout_timer_Notification_handle);
 
     timer_10ms->start(1);
     timer_1ms->start(1);
     timer_testing_process->start(10);
+    timer_Notification->start(10);
 }
 thread* thread ::start_timer(){
     static thread* seft = new thread();
@@ -44,15 +47,35 @@ void thread::timeout_timer_10ms_handle(){
                         boot_master_config.nodeid_device,
                         boot_master_config.src_data_firmware,
                         boot_master_config.flash_image_start);
-    /* display on ui for download process*/
-    if(boot_master.results.download_results == DOWNLOAD_SUCESS){
-        set_value_processbar(100);
-    }
-    else{
-        set_value_processbar(boot_master.results.percent_complete);
-    }
+
 
     //qDebug()<< "tesst10";
+}
+void thread::timeout_timer_Notification_handle(){
+    /* display on ui for download process*/
+    switch (boot_master_config.nodeid_device) {
+    case HMI_MAINAPP_NODE_ID:
+        if(boot_master.results.download_results == DOWNLOAD_SUCESS){
+            set_value_processbar(100, (uint8_t)boot_master.base.state);
+        }
+        else{
+            set_value_processbar(boot_master.results.percent_complete, (uint8_t)boot_master.base.state);
+        }
+        break;
+    case BP_MAINAPP_NODE_ID:
+        if(boot_master.results.download_results == DOWNLOAD_SUCESS){
+            set_value_processbar(100, (uint8_t)boot_master.base.state);
+        }
+        else{
+            set_value_processbar(boot_master.results.percent_complete, (uint8_t)boot_master.base.state);
+        }
+
+        break;
+    default:
+        break;
+    }
+
+
 }
 void thread::timeout_timer_1ms_handle(){
     CO_process(&CO_DEVICE,1);

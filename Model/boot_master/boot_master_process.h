@@ -42,7 +42,7 @@ void boot_master_process(Boot_master *p_boot_m,uint64_t timestamp,
                          uint32_t flash_start);
 seg_firmware* unzip_fw(FILE *file);
 bool extract_getsegment(FILE *p_file,uint32_t flash_start);
-
+bool extract_getfw(FILE *p_file,uint32_t flash_start);
 static inline bool boot_master_is_timeout(Boot_master *p_boot_m,uint64_t timestamp){
     return (timestamp >= p_boot_m->base.timeout) && (p_boot_m->base.timeout != 0);
 }
@@ -85,6 +85,9 @@ static inline void boot_master_update_timeout(Boot_master *p_boot_m,uint64_t tim
         break;
     case BOOT_ST_NOT_ACTIVE:
         timeout = 0;
+        break;
+    case BOOT_ST_EXT_REQUEST:
+        timeout = 2000;
         break;
     default:
         break;

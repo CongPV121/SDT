@@ -22,7 +22,7 @@ static void can_reboot_sync_state_to_local 		 (Segment_fw*);
 static void co_segment_fw_write_addr_handle      (Segment_fw*);
 static void co_segment_fw_write_data_handle      (Segment_fw*);
 static void co_segment_fw_write_crc_handle       (Segment_fw*);
-static void main_app_request_new_firmware        (Segment_fw*);
+static void ex_request_new_firmware              (Segment_fw*);
 void        co_segment_build_handle              (Segment_fw* p_seg, uint32_t addr, uint8_t* data,
                                                   uint16_t crc_code,uint16_t size );
 static void co_set_download_completed            (Boot_master* p_boot);
@@ -52,7 +52,7 @@ void boot_master_init(void){
     p_boot->start                                = boot_start_handle;
     p_boot->download_completed                   = boot_completed_download_handle;
     p_boot->save_setting                         = boot_save_setting_handle;
-    p_boot->request_new_firmware				 = main_app_request_new_firmware;
+    p_boot->request_new_firmware				 = ex_request_new_firmware;
 
 
     p_boot->segment_downloaded.write_addr        = co_segment_fw_write_addr_handle;
@@ -64,13 +64,14 @@ void boot_master_init(void){
 FILE *file = NULL;
 
 bool display = false;
+uint32_t cnt_st_preparing = 0;
 void boot_master_process(Boot_master *p_boot_m,uint64_t timestamp,
                          uint16_t *active_download,
                          uint16_t nodeid_device,
                          char *path,
                          uint32_t flash_start){
 
-    printf("boot sate: %d\n",boot_get_state((Bootloader*)p_boot_m));
+   // printf("boot sate: %d\n",boot_get_state((Bootloader*)p_boot_m));
     //boot_read_info((Bootloader*)p_boot_m);
     /*timeout update*/
     if(p_boot_m->base.is_state_change){
@@ -87,33 +88,50 @@ void boot_master_process(Boot_master *p_boot_m,uint64_t timestamp,
         /* Start preparing and download firmware*/
         if(*active_download == 1 &&
                 path != NULL    ){
-            boot_set_state((Bootloader*)p_boot_m, BOOT_ST_INIT);
+//            file = fopen(path,"r");
+//            fclose(file);
+//            file = NULL;
+            file = fopen(path,"r");
+            if(file == NULL){
+                break;
+            }
+            rewind(file);
+            if(extract_getsegment(file,flash_start) == 0 ){
+                fclose(file);
+                file = NULL;
+                boot_set_state(&p_boot_m->base, BOOT_ST_FAIL);
+            }
+            display = true;
+
             p_boot_m->boot_id_src = nodeid_device;
             *active_download = 0;
+            p_boot_m->fw_signature.addr = (uint32_t) flash_start;
+            p_boot_m->base.segment_downloaded.transmitted_seg = 0;
+            boot_set_state(&p_boot_m->base, BOOT_ST_INIT);
+
         }
         break;
     case BOOT_ST_INIT:
 
-        file = fopen(path,"r");
-        fclose(file);
-        file = NULL;
-        file = fopen(path,"r");
-        if(extract_getsegment(file,flash_start) == 0 ){
-            fclose(file);
-            file = NULL;
-            boot_set_state(&p_boot_m->base, BOOT_ST_FAIL);
+        if(active_download_button == true){
+            boot_set_state(&p_boot_m->base, BOOT_ST_PREPARING);
+            CO_SDO_reset_status(&CO_DEVICE.sdo_client);
         }
-        display = true;
-        p_boot_m->fw_signature.addr = (uint32_t) flash_start;
-        p_boot_m->base.segment_downloaded.transmitted_seg = 0;
-        boot_set_state(&p_boot_m->base, BOOT_ST_PREPARING);
         break;
 
     case BOOT_ST_PREPARING:
         boot_reboot((Bootloader*)p_boot_m);
+        if(cnt_st_preparing ++ > 4000){
+            CO_SDO_reset_status(&CO_DEVICE.sdo_client);
+            cnt_st_preparing = 0;
+            boot_set_state(&p_boot_m->base, BOOT_ST_INIT);
+        }
+
 
         break;
-
+    case BOOT_ST_EXT_REQUEST:
+        request_new_firmware((Bootloader*)p_boot_m);
+        break;
     case BOOT_ST_LOADING_SERVER:
 
         boot_set_state(&p_boot_m->base, BOOT_ST_LOADING_LOCAL);
@@ -153,7 +171,7 @@ void boot_master_process(Boot_master *p_boot_m,uint64_t timestamp,
     default:
         break;
     }
-
+    active_download_button = false;
     update_download_process(p_boot_m);
 
 }
@@ -173,6 +191,7 @@ bool extract_getsegment(FILE *p_file,uint32_t flash_start){
     memset(boot_master.data_firmware,0xff,1024*1024);
     boot_master.total_segment = 0;
     boot_master.fw_signature.size = 0;
+    bp_data.is_comming = false;
 
 
     seg_firmware *data_iscomming;
@@ -185,6 +204,7 @@ bool extract_getsegment(FILE *p_file,uint32_t flash_start){
         }
         /*end of hex file*/
         if(data_iscomming->end_record == true){
+            data_iscomming->end_record = false;
             end_of_file = false;
             fclose(p_file);
             break;
@@ -391,7 +411,7 @@ static void boot_reboot_handle(Bootloader* p_boot){
 
 static void boot_finish_handle(Bootloader* p_boot){
     (void)p_boot;
-    boot_set_state(&boot_master.base, BOOT_ST_NOT_ACTIVE);
+    boot_set_state(&boot_master.base, BOOT_ST_INIT);
     download_results.download_results = DOWNLOAD_SUCESS;
     CO_SDO_reset_status(&CO_DEVICE.sdo_client);
 }
@@ -635,11 +655,11 @@ static void can_reboot_sync_state_to_local (Segment_fw* p_seg)
     }
     else if(CO_SDO_get_status(p_sdo) == CO_SDO_RT_success){
         CO_SDO_reset_status(p_sdo);
-        // boot_set_state(&boot_master.base, BOOT_ST_PRE_INIT);
+        boot_set_state(&boot_master.base, BOOT_ST_EXT_REQUEST);
         return;
     }
 }
-static void main_app_request_new_firmware (Segment_fw* p_seg)
+static void ex_request_new_firmware (Segment_fw* p_seg)
 {
     (void)p_seg;
     CO_SDO* p_sdo = &CO_DEVICE.sdo_client;
@@ -652,18 +672,17 @@ static void main_app_request_new_firmware (Segment_fw* p_seg)
                                      .attr      = ODA_SDO_RW,
                                      .len       = 1,
                                      .p_ext     = NULL};
-        CO_SDOclient_start_download(p_sdo, boot_master.boot_id_src	, 0x2300,
-                                    1,
+        CO_SDOclient_start_download(p_sdo, boot_master.boot_id_src	, 0x2001,
+                                    7,
                                     &boot_state,
-                                    1000);
+                                    10);
     }
     if (CO_SDO_get_status(p_sdo) == CO_SDO_RT_abort ){
         CO_SDO_reset_status(p_sdo);
-        //boot_set_state(&boot_master.base, BOOT_ST_PRE_INIT);
     }
     else if(CO_SDO_get_status(p_sdo) == CO_SDO_RT_success){
         CO_SDO_reset_status(p_sdo);
-        boot_set_state(&boot_master.base, BOOT_ST_NOT_ACTIVE);
+        boot_set_state(&boot_master.base, BOOT_ST_INIT);
         return;
     }
 }

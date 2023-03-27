@@ -13,10 +13,10 @@ public:
     explicit testing(QObject *parent = nullptr);
 };
 
+typedef struct sdo_msg_buff_t sdo_msg_buff;
+typedef struct sdo_send_mailbox_t sdo_send_mailbox;
 
-class sdo_msg_buff
-{
-public:
+struct sdo_msg_buff_t{
 
     void        (*method)(void);
     void        (*response_fucntion)(void);
@@ -25,12 +25,9 @@ public:
 
 };
 
-class sdo_send_mailbox
-{
-public:
-
+struct sdo_send_mailbox_t{
     sdo_msg_buff    sdo_send_msg[32];
-    uint16_t        msg_waiting;
+    uint16_t        msg_waiting = 0;
 
 };
 

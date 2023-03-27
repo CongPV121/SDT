@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include "views/pmu.h"
 #include "views/hmi.h"
+#include "views/bp.h"
+#include "views/mc.h"
+
 namespace Ui {
 class MainWindow;
 }

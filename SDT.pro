@@ -54,8 +54,10 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     views/bp.cpp \
-    views/pmu.cpp \
-    views/hmi.cpp
+    views/dialog.cpp \
+    views/hmi.cpp \
+    views/mc.cpp \
+    views/pmu.cpp
 
     # Default rules for deployment.
     qnx: target.path = /tmp/$${TARGET}/bin
@@ -110,14 +112,18 @@ HEADERS += \
     Model/cp202-2ci/tcp_client.h \
     mainwindow.h \
     views/bp.h \
-    views/pmu.h \
-    views/hmi.h
+    views/dialog.h \
+    views/hmi.h \
+    views/mc.h \
+    views/pmu.h
 
 FORMS += \
     mainwindow.ui \
     views/bp.ui \
-    views/pmu.ui \
-    views/hmi.ui
+    views/dialog.ui \
+    views/hmi.ui \
+    views/mc.ui \
+    views/pmu.ui
 
 DISTFILES +=
 

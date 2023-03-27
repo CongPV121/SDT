@@ -6,29 +6,26 @@
 #include <QMessageBox>
 #include <QtCore>
 
+int process_value = 10;
 hmi::hmi(QWidget *parent) :
-    QDialog(parent),
+    QDockWidget(parent),
     ui(new Ui::hmi)
 {
     connect(this, &hmi::on_response_read_data_config,this, &hmi::data_read_config);
-    connect(this, &hmi::on_response_percents_to_complete,this, &hmi::percents_to_complete);
+   // connect(this, &hmi::on_response_percents_to_complete,this, &hmi::percents_to_complete);
     connect(this, &hmi::on_response_read_serial_number,this, &hmi::on_write_serial_number);
     connect(this, &hmi::on_response_read_fw_version,this, &hmi::on_write_fw_version);
     connect(this, &hmi::on_response_read_hw_version,this, &hmi::on_write_hw_version);
     connect(this, &hmi::on_response_read_esim_number,this, &hmi::on_write_esim_number);
-    connect(this, &hmi::on_response_write_fw_button,this, &hmi::on_write_write_fw_button);
-
     ui->setupUi(this);
 }
-
 hmi::~hmi()
 {
-    delete ui;
+    //delete ui;
 }
-
 /*--------------------Slots-----------------------*/
-static int old_percents = 0;
-static int war_success = 0;
+int old_percents = 0;
+int war_success = 0;
 void hmi::percents_to_complete(const int& percent){
     int value = percent;
     if(percent >100 ){
@@ -62,7 +59,7 @@ void hmi::data_read_config(const QString &data){
     this->ui->hard_ware_ver->setText(hard_ware_ver);
 }
 void hmi::on_write_serial_number(QString value){
-    this->ui->serial_vehicle->setText(value);
+    this->ui->serial_module->setText(value);
 }
 void hmi::on_write_fw_version(QString value){
     this->ui->firm_ware_ver->setText(value);
@@ -72,9 +69,6 @@ void hmi::on_write_hw_version(QString value){
 }
 void hmi::on_write_esim_number(QString value){
     this->ui->esim_num->setText(value);
-}
-void hmi::on_write_write_fw_button(int value){
-    this->ui->write_firm_ware->setEnabled(value);
 }
 
 /*--------------------Signals-----------------------*/
@@ -91,14 +85,26 @@ void hmi::on_write_btn_clicked()
     QString input_serial_module_value = this->ui->input_serual_module->text();
     QString snVehicle_Upper = input_serial_vehicle_value.toUpper();
     write_hmi_sn(snVehicle_Upper);
-    //this->ui->esim_num->setText(snVehicle_Upper);
+    this->ui->esim_num->setText(snVehicle_Upper);
     /*prepare data*/
     //emit on_request_write_data_config(data_out);
 }
 static char src_file[1024];
 void hmi::on_write_firm_ware_clicked()
 {
-    active_download_firmware();
+    QUrl folder_url = QUrl::fromLocalFile(get_link_director());
+    emit on_request_write_firmware(folder_url);
+    QString str_path = this->link_director;
+    if( str_path.length() == 0) return;
+    if(str_path.length() >= 1024){
+        QMessageBox::information(this,"ERROR","The path to the file is too long !");
+        return;
+    }
+    QByteArray ba;
+    ba = str_path.toLatin1();
+    const char* path = ba.data();
+    memcpy(src_file,path,str_path.length());
+    set_download_firmware_par(1,HMI_MAINAPP_NODE_ID,src_file,0x10000);
 
 }
 void hmi::on_choose_file_btn_clicked()
@@ -111,7 +117,6 @@ void hmi::on_choose_file_btn_clicked()
     if( path.length() == 0) return;
     set_link_director(path);
     this->ui->link_director_file->setText(get_link_director());
-    this->ui->write_firm_ware->setEnabled(0);
 }
 QString hmi::get_link_director() const{
     return this->link_director;
@@ -131,16 +136,13 @@ void hmi::on_write_process_valueChanged(int value)
 {
 
 }
-void set_value_processbar(const int value, uint8_t state_process){
-    hmi* p_hmi = hmi::get_hmi();
-    if(p_hmi == nullptr){
-        qDebug()<<"err: hmi null";
-        return;
-    }
-    if(state_process == 11){
-        emit p_hmi->on_response_write_fw_button(0);
-    }
-    emit p_hmi->on_response_percents_to_complete(value);
+void set_value_processbar(const int value){
+//    hmi* p_hmi = hmi::get_hmi();
+//    if(p_hmi == nullptr){
+//        qDebug()<<"err: hmi null";
+//        return;
+//    }
+//    emit p_hmi->on_response_percents_to_complete(value);
 }
 void setText_serial_number(const char* value){
 
@@ -154,48 +156,24 @@ void setText_esim_number(const char* value){
 }
 void setText_hw_version(const char* value){
 
-    QString s_value;
-    for(uint8_t i = 0; i < 3; i++){
-        s_value += QString::number(value[2-i]);
-        s_value += ".";
-    }
+    QString s_value = QString(value);
     hmi::get_hmi()->on_write_hw_version(s_value);
 
 }
-void setText_fw_version(const uint8_t* value){
-    QString s_value;
-    for(uint8_t i = 0; i < 3; i++){
-        s_value += QString::number(value[2-i]);
-        s_value += ".";
-    }
+void setText_fw_version(const char* value){
+
+    QString s_value = QString(value);
     hmi::get_hmi()->on_write_fw_version(s_value);
 }
 
 void hmi::on_connect_dut_clicked()
 {
-
-    QUrl folder_url = QUrl::fromLocalFile(get_link_director());
-    emit on_request_write_firmware(folder_url);
-    QString str_path = this->link_director;
-    if( str_path.length() == 0) return;
-    if(str_path.length() >= 1024){
-        QMessageBox::information(this,"ERROR","The path to the file is too long !");
-        return;
-    }
-    QByteArray ba;
-    ba = str_path.toLatin1();
-    const char* path = ba.data();
-    memcpy(src_file,path,str_path.length());
-
-    set_download_firmware_par(1,HMI_MAINAPP_NODE_ID,src_file,0x10000);
-
     this->ui->write_firm_ware->setEnabled(1);
 }
 
 
 void hmi::on_read_btn_2_clicked()
 {
-
+    delete ui;
 }
-
 

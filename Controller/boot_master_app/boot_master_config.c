@@ -6,11 +6,17 @@ DEVICE_NODEID   nodeid_device;
 
 void set_download_firmware_par( uint16_t start_download,
                                 uint16_t nodeid_device,
-                                const char * src_firmware,
+                                char src_firmware[],
                                 uint32_t flash_download_start){
     boot_master_config.start_download       = start_download;
     boot_master_config.nodeid_device        = (DEVICE_NODEID)nodeid_device;
-    boot_master_config.src_data_firmware    = src_firmware;
+    memcpy(boot_master_config.src_data_firmware,
+           src_firmware,
+           strlen(src_firmware));
     download_results.download_results       = DOWNLOADING;
     boot_master_config.flash_image_start    = flash_download_start;
+}
+bool active_download_button = false;
+void active_download_firmware(void){
+    active_download_button = true;
 }

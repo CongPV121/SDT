@@ -1,7 +1,7 @@
 #include "testing.h"
 //#include "Controller/testing/hmi_testing/hmi_testing.h"
 
-sdo_send_mailbox SDO_mailbox ={.msg_waiting = 0};
+sdo_send_mailbox SDO_mailbox = {.msg_waiting = 0};
 testing::testing(QObject *parent) : QObject(parent)
 {
 
@@ -27,25 +27,34 @@ static bool shift_left(sdo_send_mailbox *mailbox){
     }
     mailbox->sdo_send_msg[31].method = NULL;
     mailbox->sdo_send_msg[31].time_delay_10ms = 0;
-    mailbox->msg_waiting --;
+    if(mailbox->msg_waiting <= 0){
+        mailbox->msg_waiting = 0;
+    }
+    else{
+        mailbox->msg_waiting --;
+    }
     return 1;
 }
 
 sdo_msg_buff sdo_sending_msg;
 void testing_sdo_process(sdo_send_mailbox *mailbox){
-    if( mailbox->msg_waiting <= 0 ){
+    printf("boot sate: %d\n",mailbox->msg_waiting);
+
+    if( mailbox->msg_waiting <= 0 &&
+          sdo_sending_msg.method == NULL  ){
         return;
     }
-    sdo_sending_msg = mailbox->sdo_send_msg[0];
-    if(sdo_sending_msg.method == NULL) {
-        shift_left(mailbox);
-        return;
-    }
+
 
     CO_SDO* p_sdo = &CO_DEVICE.sdo_client;
 
     switch( CO_SDO_get_status(p_sdo) ){
     case CO_SDO_RT_idle:
+        sdo_sending_msg = mailbox->sdo_send_msg[0];
+        if(sdo_sending_msg.method == NULL) {
+            shift_left(mailbox);
+            break;
+        }
         if(sdo_sending_msg.time_delay_10ms > 0){
            sdo_sending_msg.time_delay_10ms --;
             break;

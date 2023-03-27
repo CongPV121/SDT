@@ -12,6 +12,7 @@ private:
     QTimer *timer_10ms;
     QTimer *timer_1ms;
     QTimer *timer_testing_process;
+    QTimer *timer_Notification;
 
 public:
     explicit thread(QObject *parent = nullptr);
@@ -20,7 +21,7 @@ public slots:
     void timeout_timer_1ms_handle();
     void timeout_timer_10ms_handle();
     void timeout_timer_testing_process_handle();
-
+    void timeout_timer_Notification_handle();
 
 signals:
 

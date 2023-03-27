@@ -19,9 +19,9 @@ public:
     ~bp();
 
 private slots:
-    void on_write_firm_ware_clicked();
-
     void on_choose_file_btn_clicked();
+
+    void on_write_firm_ware_clicked();
 
 private:
     Ui::bp *ui;
@@ -42,5 +42,6 @@ signals:
     void on_response_read_hw_version        (const QString&data);
     void on_response_read_esim_number       (const QString&data);
 };
+void set_value_processbar_bp(const int value, uint8_t state_process);
 
 #endif // BP_H

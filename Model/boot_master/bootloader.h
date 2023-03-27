@@ -26,7 +26,8 @@ typedef enum BOOT_STATE_t{
     BOOT_ST_WAITING_EXT_BOOT,
     BOOT_ST_WRITE_VERSION,
     BOOT_ST_READ_INFO,
-    BOOT_ST_NOT_ACTIVE
+    BOOT_ST_NOT_ACTIVE,
+    BOOT_ST_EXT_REQUEST
 }BOOT_STATE;
 
 typedef struct Bootloader_t Bootloader;

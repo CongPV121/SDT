@@ -19,11 +19,11 @@ int write_cnt = 0;
 int main(int argc, char *argv[])
 {
 #ifdef WIN32
-WSADATA wsadata;
-if (WSAStartup(MAKEWORD(1,1), &wsadata) == SOCKET_ERROR) {
-printf("Error creating socket.");
-return -1;
-}
+    WSADATA wsadata;
+    if (WSAStartup(MAKEWORD(1,1), &wsadata) == SOCKET_ERROR) {
+        printf("Error creating socket.");
+        return -1;
+    }
 #endif
     QApplication a(argc, argv);
     MainWindow w;
@@ -32,8 +32,7 @@ return -1;
     boot_master_init();
 
     /* start receive can msg */
-    get_event can_receive;
-    can_receive.start();
+
 
     /* start timer processing  */
     thread::start_timer();
