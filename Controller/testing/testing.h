@@ -19,6 +19,7 @@ class sdo_msg_buff
 public:
 
     void        (*method)(void);
+    void        (*response_fucntion)(void);
     uint32_t    time_delay_10ms;// time delay before start
 
 
@@ -36,7 +37,7 @@ public:
 extern sdo_send_mailbox SDO_mailbox ;
 
 void testing_sdo_process            (sdo_send_mailbox *mailbox);
-bool push_data_into_queue_to_send   (void (*method)(void),uint32_t time_delay);
-
+bool push_data_into_queue_to_send(void (*method)(void),void (*response)(void),
+                                  uint32_t time_delay);
 
 #endif // TESTING_H

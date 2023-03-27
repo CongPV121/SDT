@@ -68,7 +68,7 @@ void boot_master_process(Boot_master *p_boot_m,uint64_t timestamp,
                          uint16_t *active_download,
                          uint16_t nodeid_device,
                          char *path,
-                         proress_results *download_results){
+                         uint32_t flash_start){
 
     printf("boot sate: %d\n",boot_get_state((Bootloader*)p_boot_m));
     //boot_read_info((Bootloader*)p_boot_m);
@@ -98,19 +98,19 @@ void boot_master_process(Boot_master *p_boot_m,uint64_t timestamp,
         fclose(file);
         file = NULL;
         file = fopen(path,"r");
-        if(extract_getsegment(file,0x10000) == 0 ){
+        if(extract_getsegment(file,flash_start) == 0 ){
             fclose(file);
             file = NULL;
-            boot_set_state(&p_boot_m->base, BOOT_ST_PREPARING);
+            boot_set_state(&p_boot_m->base, BOOT_ST_FAIL);
         }
         display = true;
-        p_boot_m->fw_signature.addr = (uint32_t) BMS_MAIN_APP_FIRM_ADDR;
+        p_boot_m->fw_signature.addr = (uint32_t) flash_start;
         p_boot_m->base.segment_downloaded.transmitted_seg = 0;
         boot_set_state(&p_boot_m->base, BOOT_ST_PREPARING);
         break;
 
     case BOOT_ST_PREPARING:
-        //boot_reboot((Bootloader*)p_boot_m);
+        boot_reboot((Bootloader*)p_boot_m);
 
         break;
 
@@ -181,12 +181,12 @@ bool extract_getsegment(FILE *p_file,uint32_t flash_start){
     while(!end_of_file){
         data_iscomming = unzip_fw(p_file);
         if(data_iscomming->err == 1){
+            return 0;
         }
         /*end of hex file*/
         if(data_iscomming->end_record == true){
             end_of_file = false;
             fclose(p_file);
-            //co_set_download_completed(p_boot_m);
             break;
         }
         /*INTEL_HEX_Extended_Linear_Address*/
@@ -200,8 +200,8 @@ bool extract_getsegment(FILE *p_file,uint32_t flash_start){
             continue;
         }
         /*remove the part of data that is outside the address*/
-        if(data_iscomming->addr > (0x10000 + 0x20000)
-                || data_iscomming->addr < 0x10000){
+        if(data_iscomming->addr > (flash_start + 0x20000)
+                || data_iscomming->addr < flash_start){
             continue;
         }
 
@@ -211,7 +211,6 @@ bool extract_getsegment(FILE *p_file,uint32_t flash_start){
         boot_master.fw_signature.size += data_iscomming->length;
         data_iscomming->addr += data_iscomming->length;
         boot_master.total_segment ++;
-
     }
     return 1;
 }
@@ -320,7 +319,7 @@ void segment_download_build(Boot_master *p_boot_m){
                             SEGMENT_MEMORY_SIZE);
     p_boot->segment_downloaded.write_state = SEGMENT_WRITE_NONE;
     p_seg->transmitted_seg++;
-    if(p_seg->transmitted_seg > boot_master.total_segment){
+    if(p_seg->transmitted_seg > p_boot_m->total_segment){
         p_seg->transmitted_seg = 0;
         co_set_download_completed(p_boot_m);
         boot_set_state(&p_boot_m->base, BOOT_ST_DOWNLOAD_COMPLETED);
@@ -628,7 +627,7 @@ static void can_reboot_sync_state_to_local (Segment_fw* p_seg)
         CO_SDOclient_start_download(p_sdo, boot_master.boot_id_src	, SDO_BOOTLOADER_INDEX,
                                     1,
                                     &boot_state,
-                                    1000);
+                                    100);
     }
     if (CO_SDO_get_status(p_sdo) == CO_SDO_RT_abort ){
         CO_SDO_reset_status(p_sdo);

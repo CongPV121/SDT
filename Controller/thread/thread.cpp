@@ -43,7 +43,7 @@ void thread::timeout_timer_10ms_handle(){
                         &boot_master_config.start_download,
                         boot_master_config.nodeid_device,
                         boot_master_config.src_data_firmware,
-                        &download_results);
+                        boot_master_config.flash_image_start);
     /* display on ui for download process*/
     if(boot_master.results.download_results == DOWNLOAD_SUCESS){
         set_value_processbar(100);

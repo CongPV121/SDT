@@ -7,7 +7,8 @@ testing::testing(QObject *parent) : QObject(parent)
 
 }
 
-bool push_data_into_queue_to_send(void (*method)(void),uint32_t time_delay){
+bool push_data_into_queue_to_send(void (*method)(void),void (*response)(void),
+                                  uint32_t time_delay){
     if(method == NULL){
         return 0;
     }
@@ -15,6 +16,7 @@ bool push_data_into_queue_to_send(void (*method)(void),uint32_t time_delay){
         return 0;
     }
     SDO_mailbox.sdo_send_msg[SDO_mailbox.msg_waiting].method            = method;
+    SDO_mailbox.sdo_send_msg[SDO_mailbox.msg_waiting].response_fucntion = response;
     SDO_mailbox.sdo_send_msg[SDO_mailbox.msg_waiting].time_delay_10ms   = time_delay;
     SDO_mailbox.msg_waiting ++;
     return 1;
@@ -23,15 +25,19 @@ static bool shift_left(sdo_send_mailbox *mailbox){
     for(int i = 0; i < 31; i++){
         mailbox->sdo_send_msg[i] = mailbox->sdo_send_msg[i + 1];
     }
+    mailbox->sdo_send_msg[31].method = NULL;
+    mailbox->sdo_send_msg[31].time_delay_10ms = 0;
     mailbox->msg_waiting --;
     return 1;
 }
 
+sdo_msg_buff sdo_sending_msg;
 void testing_sdo_process(sdo_send_mailbox *mailbox){
     if( mailbox->msg_waiting <= 0 ){
         return;
     }
-    if(mailbox->sdo_send_msg[0].method == NULL) {
+    sdo_sending_msg = mailbox->sdo_send_msg[0];
+    if(sdo_sending_msg.method == NULL) {
         shift_left(mailbox);
         return;
     }
@@ -40,11 +46,11 @@ void testing_sdo_process(sdo_send_mailbox *mailbox){
 
     switch( CO_SDO_get_status(p_sdo) ){
     case CO_SDO_RT_idle:
-        if(mailbox->sdo_send_msg[0].time_delay_10ms > 0){
-            mailbox->sdo_send_msg[0].time_delay_10ms --;
+        if(sdo_sending_msg.time_delay_10ms > 0){
+           sdo_sending_msg.time_delay_10ms --;
             break;
         }
-        mailbox->sdo_send_msg[0].method();
+        sdo_sending_msg.method();
         shift_left(mailbox);
         break;
 
@@ -53,11 +59,17 @@ void testing_sdo_process(sdo_send_mailbox *mailbox){
 
     case CO_SDO_RT_success:
         CO_SDO_reset_status(p_sdo);
+        if(sdo_sending_msg.response_fucntion != NULL){
+            sdo_sending_msg.response_fucntion();
+        }
         // p_seg->write_state = next_state;
         break;
 
     case CO_SDO_RT_abort:
         CO_SDO_reset_status(p_sdo);
+        if(sdo_sending_msg.response_fucntion != NULL){
+            sdo_sending_msg.response_fucntion();
+        }
         break;
     }
 }

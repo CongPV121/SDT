@@ -1,49 +1,32 @@
-﻿#ifndef HMI_H
-#define HMI_H
+#ifndef BP_H
+#define BP_H
 
-#include <QDockWidget>
+#include <QDialog>
 
 namespace Ui {
-class hmi;
+class bp;
 }
 
-class hmi : public QDockWidget
+class bp : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit hmi(QWidget *parent = 0);
-    static hmi* get_hmi();
+    explicit bp(QWidget *parent = nullptr);
+    static bp* get_bp();
     QString get_link_director() const ;
     void set_link_director(const QString& link_director);
-    ~hmi();
-public slots:
-    void data_read_config               (const QString& data);
-    void percents_to_complete           (const int& percent); //percent download code
-    void on_write_serial_number         (QString value);
-    void on_write_fw_version            (QString value);
-    void on_write_hw_version            (QString value);
-    void on_write_esim_number           (QString value);
-private slots:
-    void on_read_btn_clicked();
-    void on_write_btn_clicked();
+    ~bp();
 
+private slots:
     void on_write_firm_ware_clicked();
 
     void on_choose_file_btn_clicked();
 
-    void on_write_process_valueChanged  (int value);
-
-
-
 private:
-    Ui::hmi *ui;
+    Ui::bp *ui;
     QString link_director;
     void parse_data(const QString& data);
-
-
-/*implement for user*/
-//-----------------------------------------------------------------------------------------------------
 signals:
     /*call signal connect(hmi::get_hmi, &hmi::<signal>, this,&<localLib>::<local_slot>)*/
     /*signal call output*/
@@ -58,16 +41,6 @@ signals:
     void on_response_read_fw_version        (const QString&data);
     void on_response_read_hw_version        (const QString&data);
     void on_response_read_esim_number       (const QString&data);
-
-//-----------------------------------------------------------------------------------------------------
 };
-void set_value_processbar       (const int value);
-void setText_serial_number      (const char* value);
-void setText_esim_number        (const char* value);
-void setText_hw_version         (const char* value);
-void setText_fw_version         (const char* value);
 
-
-
-
-#endif // hmi_H
+#endif // BP_H

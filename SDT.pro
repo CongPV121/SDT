@@ -50,6 +50,7 @@ SOURCES += \
     Model/cp202-2ci/tcp_client.c \
     main.cpp \
     mainwindow.cpp \
+    views/bp.cpp \
     views/pmu.cpp \
     views/hmi.cpp
 
@@ -105,15 +106,16 @@ HEADERS += \
     Model/cp202-2ci/cp202.h \
     Model/cp202-2ci/tcp_client.h \
     mainwindow.h \
+    views/bp.h \
     views/pmu.h \
     views/hmi.h
 
 FORMS += \
     mainwindow.ui \
+    views/bp.ui \
     views/pmu.ui \
     views/hmi.ui
 
-DISTFILES += \
-    pmu2.qml
+DISTFILES +=
 
 

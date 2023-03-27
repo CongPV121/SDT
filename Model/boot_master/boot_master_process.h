@@ -39,7 +39,7 @@ void boot_master_process(Boot_master *p_boot_m,uint64_t timestamp,
                          uint16_t *active_download,
                          uint16_t nodeid_device,
                          char *path,
-                         proress_results *download_results);
+                         uint32_t flash_start);
 seg_firmware* unzip_fw(FILE *file);
 bool extract_getsegment(FILE *p_file,uint32_t flash_start);
 

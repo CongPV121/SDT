@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>638</width>
-    <height>511</height>
+    <width>636</width>
+    <height>538</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,33 +20,46 @@
    <widget class="QLabel" name="header">
     <property name="geometry">
      <rect>
-      <x>280</x>
+      <x>256</x>
       <y>10</y>
-      <width>67</width>
-      <height>17</height>
+      <width>91</width>
+      <height>20</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="text">
-     <string>HMI Test</string>
+     <string>HMI Testing</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>340</y>
+      <y>320</y>
       <width>111</width>
       <height>17</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="text">
-     <string>Nạp firm-ware</string>
+     <string>Nạp firmware</string>
     </property>
    </widget>
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>10</x>
       <y>360</y>
       <width>461</width>
       <height>115</height>
@@ -89,6 +102,11 @@
        </item>
        <item>
         <widget class="QLabel" name="link_director_file">
+         <property name="font">
+          <font>
+           <pointsize>7</pointsize>
+          </font>
+         </property>
          <property name="layoutDirection">
           <enum>Qt::RightToLeft</enum>
          </property>
@@ -204,7 +222,7 @@
    <widget class="QPushButton" name="read_btn">
     <property name="geometry">
      <rect>
-      <x>460</x>
+      <x>490</x>
       <y>80</y>
       <width>81</width>
       <height>51</height>
@@ -217,8 +235,8 @@
    <widget class="QPushButton" name="write_firm_ware">
     <property name="geometry">
      <rect>
-      <x>470</x>
-      <y>380</y>
+      <x>490</x>
+      <y>390</y>
       <width>89</width>
       <height>51</height>
      </rect>
@@ -262,7 +280,14 @@
         <widget class="QLineEdit" name="input_serial_vehicle"/>
        </item>
        <item>
-        <widget class="QLineEdit" name="input_serual_module"/>
+        <widget class="QLineEdit" name="input_serual_module">
+         <property name="mouseTracking">
+          <bool>false</bool>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -271,7 +296,7 @@
    <widget class="QPushButton" name="write_btn">
     <property name="geometry">
      <rect>
-      <x>460</x>
+      <x>480</x>
       <y>220</y>
       <width>101</width>
       <height>61</height>

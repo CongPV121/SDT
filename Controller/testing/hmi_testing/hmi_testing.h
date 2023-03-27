@@ -31,12 +31,20 @@ signals:
 };
 extern bool testing_hmi;
 void read_hmi_infor_config(void);
+void write_hmi_sn( QString value );
+
 
 void send_test_hmi_icon              (void);
 void send_test_hmi_blue              (void);
 void send_test_hmi_4G                (void);
+void send_write_hmi_sn               (void);
+
 void read_device_serial_number       (void);
 void read_esim_number                (void);
-void read_fw_version(void);
-void read_hw_version(void);
+void read_fw_version                 (void);
+void read_hw_version                 (void);
+void respone_read_device_serial_number       (void);
+void respone_read_esim_number                (void);
+void respone_read_fw_version                 (void);
+void respone_read_hw_version                 (void);
 #endif // HMI_TESTING_H
