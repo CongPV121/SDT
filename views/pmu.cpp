@@ -45,12 +45,12 @@ void pmu::on_write_btn_clicked()
 
 void pmu::on_write_firm_ware_clicked()
 {
-    QFileDialog dialog(this);
-       dialog.setFileMode(QFileDialog::DirectoryOnly);
-       if (dialog.exec()) {
-           QString folderPath = dialog.selectedFiles().first();
-           QUrl folder_url = QUrl::fromLocalFile(folderPath);
-           this->ui->link_director_file->setText(folderPath);
-           emit on_request_write_firmware(folder_url);
-       }
+//    QFileDialog dialog(this);
+//       dialog.setFileMode(QFileDialog::DirectoryOnly);
+//       if (dialog.exec()) {
+//           QString folderPath = dialog.selectedFiles().first();
+//           QUrl folder_url = QUrl::fromLocalFile(folderPath);
+//           this->ui->link_director_file->setText(folderPath);
+//           emit on_request_write_firmware(folder_url);
+//       }
 }

@@ -29,7 +29,7 @@ void bp::on_choose_file_btn_clicked()
                 "Open File",
                 "//",
                 "hex(*.hex);; All File(*.*)");
-    if( path == NULL) return;
+    if( path.length() == 0) return;
     set_link_director(path);
     this->ui->link_director_file->setText(get_link_director());
 }

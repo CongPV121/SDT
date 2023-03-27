@@ -89,7 +89,7 @@ void hmi::on_write_firm_ware_clicked()
     QUrl folder_url = QUrl::fromLocalFile(get_link_director());
     emit on_request_write_firmware(folder_url);
     QString str_path = this->link_director;
-    if( str_path == NULL) return;
+    if( str_path.length() == 0) return;
     const char* path = str_path.toUtf8().constData();
     set_download_firmware_par(1,8,path,0x10000);
 
@@ -101,7 +101,7 @@ void hmi::on_choose_file_btn_clicked()
                 "Open File",
                 "//",
                 "hex(*.hex);; All File(*.*)");
-    if( path == NULL) return;
+    if( path.length() == 0) return;
     set_link_director(path);
     this->ui->link_director_file->setText(get_link_director());
 }

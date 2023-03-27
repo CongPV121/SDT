@@ -7,6 +7,9 @@ CONFIG += c++11
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+LIBS += -lwsock32
+LIBS += -lws2_32
+
 SOURCES += \
     Controller/app_co/init/app_co_init.c \
     Controller/app_co/od/comm_od/comm_od.c \
