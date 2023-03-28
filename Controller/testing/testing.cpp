@@ -38,7 +38,7 @@ static bool shift_left(sdo_send_mailbox *mailbox){
 
 sdo_msg_buff sdo_sending_msg;
 void testing_sdo_process(sdo_send_mailbox *mailbox){
-    printf("boot sate: %d\n",mailbox->msg_waiting);
+   // printf("boot sate: %d\n",mailbox->msg_waiting);
 
     if( mailbox->msg_waiting <= 0 &&
           sdo_sending_msg.method == NULL  ){

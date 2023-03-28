@@ -71,7 +71,7 @@ void boot_master_process(Boot_master *p_boot_m,uint64_t timestamp,
                          char *path,
                          uint32_t flash_start){
 
-   // printf("boot sate: %d\n",boot_get_state((Bootloader*)p_boot_m));
+    printf("boot sate: %d\n",boot_get_state((Bootloader*)p_boot_m));
     //boot_read_info((Bootloader*)p_boot_m);
     /*timeout update*/
     if(p_boot_m->base.is_state_change){

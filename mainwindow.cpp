@@ -21,7 +21,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_testBpButton_clicked()
 {
-    bp* p_bp = new bp();
+    bp* p_bp =bp::get_bp();
     p_bp->setModal(true);
     p_bp->exec();
 

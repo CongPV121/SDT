@@ -37,7 +37,7 @@ void hmi::percents_to_complete(const int& percent){
     if(percent < 0){
         value = 0;
     }
-    this->ui->download_process->setValue(value);
+    this->ui->download_process->setValue(20);
     if( war_success == 0 &&  percent == 100){
         war_success = 1;
         QMessageBox::information(this,"Download Firmware HMI","Success");
