@@ -44,3 +44,11 @@ void MainWindow::on_testHmiButton_clicked()
 }
 
 
+
+void MainWindow::on_testMcButton_clicked()
+{
+    mc* p_mc = mc::get_mc();
+    p_mc->setModal(true);
+    p_mc->exec();
+}
+

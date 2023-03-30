@@ -8,7 +8,7 @@
 #include "Controller/controler.h"
 #include "Controller/testing/testing.h"
 #include "views/bp.h"
-
+#include "views/mc.h"
 
 thread::thread(QObject *parent) : QObject(parent)
 {
@@ -59,10 +59,10 @@ void thread::timeout_timer_Notification_handle(){
     switch (boot_master_config.nodeid_device) {
     case HMI_MAINAPP_NODE_ID:
         if(boot_master.results.download_results == DOWNLOAD_SUCESS){
-            set_value_processbar(100, (uint8_t)boot_master.base.state);
+            set_value_processbar_mc(100, (uint8_t)boot_master.base.state);
         }
         else{
-            set_value_processbar(boot_master.results.percent_complete,
+            set_value_processbar_mc(boot_master.results.percent_complete,
                                  (uint8_t)boot_master.base.state);
         }
         break;
@@ -72,6 +72,16 @@ void thread::timeout_timer_Notification_handle(){
         }
         else{
             set_value_processbar_bp(boot_master.results.percent_complete,
+                                    (uint8_t)boot_master.base.state);
+        }
+
+        break;
+    case MC_MAINAPP_NODE_ID:
+        if(boot_master.results.download_results == DOWNLOAD_SUCESS){
+            set_value_processbar_mc(100, (uint8_t)boot_master.base.state);
+        }
+        else{
+            set_value_processbar_mc(boot_master.results.percent_complete,
                                     (uint8_t)boot_master.base.state);
         }
 

@@ -87,7 +87,7 @@ void set_value_processbar_bp(const int value, uint8_t state_process){
     if(state_process == 11){
         emit p_bp->on_response_write_fw_button(0);
     }
-    emit p_bp->on_response_bp_percents_to_complete(0);
+    emit p_bp->on_response_bp_percents_to_complete(value);
 }
 
 void bp::on_connect_dut_clicked()

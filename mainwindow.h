@@ -27,6 +27,8 @@ private slots:
     void on_testHmiButton_clicked();
 
 
+    void on_testMcButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

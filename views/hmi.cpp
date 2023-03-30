@@ -37,7 +37,7 @@ void hmi::percents_to_complete(const int& percent){
     if(percent < 0){
         value = 0;
     }
-    this->ui->download_process->setValue(20);
+    this->ui->download_process->setValue(value);
     if( war_success == 0 &&  percent == 100){
         war_success = 1;
         QMessageBox::information(this,"Download Firmware HMI","Success");
@@ -173,7 +173,6 @@ void setText_fw_version(const uint8_t* value){
 
 void hmi::on_connect_dut_clicked()
 {
-
     QUrl folder_url = QUrl::fromLocalFile(get_link_director());
     emit on_request_write_firmware(folder_url);
     QString str_path = this->link_director;

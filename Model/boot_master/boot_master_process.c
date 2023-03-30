@@ -54,17 +54,16 @@ void boot_master_init(void){
     p_boot->save_setting                         = boot_save_setting_handle;
     p_boot->request_new_firmware				 = ex_request_new_firmware;
 
-
     p_boot->segment_downloaded.write_addr        = co_segment_fw_write_addr_handle;
     p_boot->segment_downloaded.write_data        = co_segment_fw_write_data_handle;
     p_boot->segment_downloaded.write_crc         = co_segment_fw_write_crc_handle;
-
 
 }
 FILE *file = NULL;
 
 bool display = false;
 uint32_t cnt_st_preparing = 0;
+uint32_t cnt_st_ex_request = 0;
 void boot_master_process(Boot_master *p_boot_m,uint64_t timestamp,
                          uint16_t *active_download,
                          uint16_t nodeid_device,
@@ -114,8 +113,13 @@ void boot_master_process(Boot_master *p_boot_m,uint64_t timestamp,
     case BOOT_ST_INIT:
 
         if(active_download_button == true){
-            boot_set_state(&p_boot_m->base, BOOT_ST_PREPARING);
             CO_SDO_reset_status(&CO_DEVICE.sdo_client);
+            if(nodeid_device == MC_MAINAPP_NODE_ID){
+                boot_set_state(&p_boot_m->base, BOOT_ST_EXT_REQUEST);
+            }
+            else {
+                boot_set_state(&p_boot_m->base, BOOT_ST_PREPARING);
+            }
         }
         break;
 
@@ -127,10 +131,15 @@ void boot_master_process(Boot_master *p_boot_m,uint64_t timestamp,
             boot_set_state(&p_boot_m->base, BOOT_ST_INIT);
         }
 
-
         break;
     case BOOT_ST_EXT_REQUEST:
         request_new_firmware((Bootloader*)p_boot_m);
+        if(cnt_st_ex_request ++ > 30000){
+            CO_SDO_reset_status(&CO_DEVICE.sdo_client);
+            cnt_st_ex_request = 0;
+            boot_set_state(&p_boot_m->base, BOOT_ST_INIT);
+        }
+
         break;
     case BOOT_ST_LOADING_SERVER:
 
@@ -220,8 +229,8 @@ bool extract_getsegment(FILE *p_file,uint32_t flash_start){
             continue;
         }
         /*remove the part of data that is outside the address*/
-        if(data_iscomming->addr > (flash_start + 0x20000)
-                || data_iscomming->addr < flash_start){
+        if(data_iscomming->addr_segment > (flash_start + 0x20000)
+                || data_iscomming->addr_segment < flash_start){
             continue;
         }
 
@@ -267,14 +276,17 @@ seg_firmware* unzip_fw(FILE *file){
         if(p_bp_data->is_comming == true) {
             break;
         }
+        if(p_bp_data->end_record == true) {
+            break;
+        }
     }
+    p_bp_data->is_comming = false;
     return p_bp_data;
 }
 
 static void flashImageFromHex(seg_firmware *p_data,intel_hex *p_record){
     uint32_t addr_16_31 ;
     uint32_t addr_4_19 ;
-    p_data->addr_t = p_record->addrs;
     if(p_record == NULL) return;
     if(p_data == NULL) return;
 
@@ -286,6 +298,8 @@ static void flashImageFromHex(seg_firmware *p_data,intel_hex *p_record){
             //            printf("%x,",p_data->p_data[p_data->length+i]);
 
         }
+        p_data->addr_segment = p_data->addr +
+                (uint32_t)(((uint32_t)p_record->addr[0]<<8) | (uint32_t)p_record->addr[1]);
         p_data->length+= p_record->byte_count;
         break;
     case INTEL_HEX_EndFile:

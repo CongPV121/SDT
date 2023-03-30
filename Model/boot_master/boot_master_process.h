@@ -27,7 +27,7 @@ typedef struct {
     uint32_t begin_addr;
     uint8_t begin_ota;
     int err;
-    uint32_t addr_t;
+    uint32_t addr_segment;
 }seg_firmware;
 
 extern Boot_master      boot_master;
@@ -57,10 +57,10 @@ static inline void boot_master_update_timeout(Boot_master *p_boot_m,uint64_t tim
         timeout = 0;
         break;
     case BOOT_ST_LOADING_SERVER:
-        timeout = 1000;
+        timeout = 5000;
         break;
     case BOOT_ST_LOADING_LOCAL:
-        timeout = 2000;
+        timeout = 5000;
         break;
     case BOOT_ST_DOWNLOAD_COMPLETED:
         timeout = 0;
@@ -87,7 +87,7 @@ static inline void boot_master_update_timeout(Boot_master *p_boot_m,uint64_t tim
         timeout = 0;
         break;
     case BOOT_ST_EXT_REQUEST:
-        timeout = 2000;
+        timeout = 0;
         break;
     default:
         break;
