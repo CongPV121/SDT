@@ -90,7 +90,7 @@
     <string>Điện áp Cell</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>890</x>
@@ -1142,7 +1142,7 @@
     <string>Thông số Pack Pin</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -1246,10 +1246,10 @@
       <widget class="QPushButton" name="write_btn">
        <property name="geometry">
         <rect>
-         <x>340</x>
-         <y>70</y>
-         <width>155</width>
-         <height>43</height>
+         <x>354</x>
+         <y>62</y>
+         <width>141</width>
+         <height>51</height>
         </rect>
        </property>
        <property name="font">
@@ -1401,7 +1401,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>540</x>
@@ -1863,7 +1863,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>540</x>

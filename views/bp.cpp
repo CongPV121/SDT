@@ -1,10 +1,9 @@
 #include "bp.h"
 #include "ui_bp.h"
 #include <QFileDialog>
-#include "Controller/controler.h"
-#include "Controller/testing/testing.h"
 #include <QMessageBox>
 #include "Controller/boot_master_app/boot_master_config.h"
+#include "Controller/testing/bp_testing/bp_tesing.h"
 
 bp::bp(QWidget *parent) :
     QDialog(parent),
@@ -112,6 +111,13 @@ void bp::on_connect_dut_clicked()
 
 void bp::on_write_fw_clicked()
 {
+
+}
+
+
+void bp::on_read_btn_clicked()
+{
+     read_bp_infor_config();
 
 }
 

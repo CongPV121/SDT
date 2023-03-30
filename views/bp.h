@@ -35,6 +35,8 @@ private slots:
 
     void on_write_fw_clicked();
 
+    void on_read_btn_clicked();
+
 private:
     Ui::bp *ui;
     QString link_director;

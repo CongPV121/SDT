@@ -21,6 +21,7 @@ SOURCES += \
     Controller/config/config.cpp \
     Controller/controler.cpp \
     Controller/log_data/log.cpp \
+    Controller/testing/bp_testing/bp_tesing.cpp \
     Controller/testing/hmi_testing/hmi_testing.cpp \
     Controller/testing/mc_testing/mc_testing.cpp \
     Controller/testing/pmu_testing/pmu_testing.cpp \
@@ -78,6 +79,7 @@ HEADERS += \
     Controller/config/config.h \
     Controller/controler.h \
     Controller/log_data/log.h \
+    Controller/testing/bp_testing/bp_tesing.h \
     Controller/testing/hmi_testing/hmi_testing.h \
     Controller/testing/mc_testing/mc_testing.h \
     Controller/testing/pmu_testing/pmu_testing.h \
