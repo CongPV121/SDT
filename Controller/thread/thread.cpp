@@ -21,6 +21,7 @@ thread::thread(QObject *parent) : QObject(parent)
     timer_10ms->start(1);
     timer_1ms->start(1);
     timer_testing_process->start(10);
+
 }
 thread* thread ::start_timer(){
     static thread* seft = new thread();
