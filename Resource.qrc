@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/image">
+        <file>icon/download.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>icon/copy-link.png</file>
+        <file>icon/up-arrow.png</file>
+    </qresource>
+</RCC>

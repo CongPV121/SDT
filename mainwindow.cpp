@@ -21,17 +21,19 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_testBpButton_clicked()
 {
-    bp* p_bp =bp::get_bp();
+    bp* p_bp = bp::get_bp();
     p_bp->setModal(true);
-    p_bp->exec();
+    p_bp->show();
+
 
 }
 
 void MainWindow::on_testPmuButton_clicked()
 {
     pmu* p_pmu = new pmu();
-    p_pmu->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-    p_pmu->showFullScreen();
+
+    p_pmu->show();
+    //p_pmu->showFullScreen();
 }
 
 void MainWindow::on_testHmiButton_clicked()

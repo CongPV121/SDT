@@ -20,7 +20,7 @@ SOURCES += \
     Controller/boot_master_app/boot_master_config.c \
     Controller/config/config.cpp \
     Controller/controler.cpp \
-    Controller/log/log.cpp \
+    Controller/log_data/log.cpp \
     Controller/testing/hmi_testing/hmi_testing.cpp \
     Controller/testing/mc_testing/mc_testing.cpp \
     Controller/testing/pmu_testing/pmu_testing.cpp \
@@ -77,7 +77,7 @@ HEADERS += \
     Controller/boot_master_app/boot_master_config.h \
     Controller/config/config.h \
     Controller/controler.h \
-    Controller/log/log.h \
+    Controller/log_data/log.h \
     Controller/testing/hmi_testing/hmi_testing.h \
     Controller/testing/mc_testing/mc_testing.h \
     Controller/testing/pmu_testing/pmu_testing.h \
@@ -130,5 +130,8 @@ FORMS += \
     views/pmu.ui
 
 DISTFILES +=
+
+RESOURCES += \
+    Resource.qrc
 
 
