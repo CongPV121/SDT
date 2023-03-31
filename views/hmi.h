@@ -25,7 +25,7 @@ public slots:
     void on_write_fw_version            (QString value);
     void on_write_hw_version            (QString value);
     void on_write_esim_number           (QString value);
-    void on_write_write_fw_button                (int value);
+    void on_write_write_fw_button       (int value);
 
 private slots:
     void on_read_btn_clicked();
@@ -36,8 +36,6 @@ private slots:
     void on_choose_file_btn_clicked();
 
     void on_write_process_valueChanged  (int value);
-
-
 
     void on_connect_dut_clicked();
 

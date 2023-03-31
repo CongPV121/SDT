@@ -46,6 +46,7 @@ typedef struct{
     DEVICE_NODEID   nodeid_device;
     char            src_data_firmware[1024];
     uint32_t        flash_image_start;
+    void            (*reboot)(void);
 
 }boot_master_config_t ;
 
@@ -58,8 +59,12 @@ extern boot_master_config_t boot_master_config;
 void set_download_firmware_par( uint16_t start_download,
                                 uint16_t nodeid_device,
                                 char src_firmware[],
-                                uint32_t flash_download_start);
+                                uint32_t flash_download_start,
+                                void        (*method)(void));
 void active_download_firmware(void);
+void bp_reboot_method (void);
+
+
 
 #ifdef __cplusplus
 }

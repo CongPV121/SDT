@@ -34,7 +34,7 @@ struct sdo_send_mailbox_t{
 extern sdo_send_mailbox SDO_mailbox ;
 
 void testing_sdo_process            (sdo_send_mailbox *mailbox);
-bool push_data_into_queue_to_send(void (*method)(void),void (*response)(void),
+bool push_data_into_queue_to_send(void (*method)(void ),void (*response)(void),
                                   uint32_t time_delay);
 
 #endif // TESTING_H

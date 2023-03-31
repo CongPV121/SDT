@@ -7,6 +7,7 @@
 #include "Controller/boot_master_app/boot_master_config.h"
 #include "Controller/controler.h"
 #include "Controller/testing/testing.h"
+#include "Controller/app_co/pdo/pdo.h"
 #include "views/bp.h"
 #include "views/mc.h"
 
@@ -48,7 +49,8 @@ void thread::timeout_timer_10ms_handle(){
                         &boot_master_config.start_download,
                         boot_master_config.nodeid_device,
                         boot_master_config.src_data_firmware,
-                        boot_master_config.flash_image_start);
+                        boot_master_config.flash_image_start,
+                        boot_master_config.reboot);
 
 
     //qDebug()<< "tesst10";
@@ -63,7 +65,7 @@ void thread::timeout_timer_Notification_handle(){
         }
         else{
             set_value_processbar_mc(boot_master.results.percent_complete,
-                                 (uint8_t)boot_master.base.state);
+                                    (uint8_t)boot_master.base.state);
         }
         break;
     case BP_MAINAPP_NODE_ID:
@@ -100,8 +102,9 @@ uint64_t sys_timestamp_testing = 0;
 void thread::timeout_timer_testing_process_handle(){
     value_process ++;
     testing_sdo_process(&SDO_mailbox);
-
-
+    if(pdo_data_processing()){
+        bp_information_show();
+    }
 }
 
 

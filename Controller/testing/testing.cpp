@@ -38,28 +38,26 @@ static bool shift_left(sdo_send_mailbox *mailbox){
 
 sdo_msg_buff sdo_sending_msg;
 void testing_sdo_process(sdo_send_mailbox *mailbox){
-   // printf("boot sate: %d\n",mailbox->msg_waiting);
+    // printf("boot sate: %d\n",mailbox->msg_waiting);
 
-    if( mailbox->msg_waiting <= 0 &&
-          sdo_sending_msg.method == NULL  ){
+    if( mailbox->msg_waiting <= 0){
         return;
     }
-
 
     CO_SDO* p_sdo = &CO_DEVICE.sdo_client;
 
     switch( CO_SDO_get_status(p_sdo) ){
     case CO_SDO_RT_idle:
-        sdo_sending_msg = mailbox->sdo_send_msg[0];
-        if(sdo_sending_msg.method == NULL) {
+        if(mailbox->sdo_send_msg[0].method == NULL) {
             shift_left(mailbox);
             break;
         }
-        if(sdo_sending_msg.time_delay_10ms > 0){
-           sdo_sending_msg.time_delay_10ms --;
+        if(mailbox->sdo_send_msg[0].time_delay_10ms > 0){
+            mailbox->sdo_send_msg[0].time_delay_10ms --;
             break;
         }
-        sdo_sending_msg.method();
+        sdo_sending_msg = mailbox->sdo_send_msg[0];
+        mailbox->sdo_send_msg[0].method();
         shift_left(mailbox);
         break;
 
@@ -71,14 +69,13 @@ void testing_sdo_process(sdo_send_mailbox *mailbox){
         if(sdo_sending_msg.response_fucntion != NULL){
             sdo_sending_msg.response_fucntion();
         }
-        // p_seg->write_state = next_state;
         break;
 
     case CO_SDO_RT_abort:
         CO_SDO_reset_status(p_sdo);
-        if(sdo_sending_msg.response_fucntion != NULL){
-            sdo_sending_msg.response_fucntion();
-        }
+        //        if(sdo_sending_msg->response_fucntion != NULL){
+        //            sdo_sending_msg->response_fucntion();
+        //        }
         break;
     }
 }

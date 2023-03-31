@@ -9,6 +9,7 @@
 #include "Controller/app_co/od/od.h"
 #include <stdbool.h>
 #include <stdio.h>
+#include "Controller/app_co/pdo/pdo.h"
 
 //#include<QtDebug>
 #include "Model/cp202-2ci/cp202.h"
@@ -28,10 +29,10 @@ static void tpdo4_build_data_impl(uint8_t* buffer);
 
 void* tpdo_build_data_impl[TPDO_NUMBER] =
 {
-            tpdo1_build_data_impl,
-            tpdo2_build_data_impl,
-            tpdo3_build_data_impl,
-            tpdo4_build_data_impl
+    tpdo1_build_data_impl,
+    tpdo2_build_data_impl,
+    tpdo3_build_data_impl,
+    tpdo4_build_data_impl
 };
 
 static void tpdo1_build_data_impl(uint8_t* buffer)
@@ -99,7 +100,7 @@ void app_co_can_receive(const uint32_t can_id, uint8_t* data)
     //printf("CANID: 0x%02X\n", can_id);
     if(CO_can_receive_basic_handle(&CO_DEVICE, can_id, data)) ;
     /* USER CODE BEGIN */
-
+    pdo_process_handle(can_id,data);
     /* USER CODE END */
 }
 

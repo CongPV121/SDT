@@ -186,7 +186,7 @@ void hmi::on_connect_dut_clicked()
     const char* path = ba.data();
     memcpy(src_file,path,str_path.length());
 
-    set_download_firmware_par(1,HMI_MAINAPP_NODE_ID,src_file,0x10000);
+    set_download_firmware_par(1,HMI_MAINAPP_NODE_ID,src_file,0x10000,NULL);
 
     this->ui->write_firm_ware->setEnabled(1);
 }

@@ -17,6 +17,7 @@ SOURCES += \
     Controller/app_co/od/manu_od/manu_od.c \
     Controller/app_co/od/manu_od/manu_od_default_value.c \
     Controller/app_co/od/od.c \
+    Controller/app_co/pdo/pdo.c \
     Controller/boot_master_app/boot_master_config.c \
     Controller/config/config.cpp \
     Controller/controler.cpp \
@@ -74,6 +75,7 @@ HEADERS += \
     Controller/app_co/od/manu_od/manu_od_default_value.h \
     Controller/app_co/od/od.h \
     Controller/app_co/od/od_config.h \
+    Controller/app_co/pdo/pdo.h \
     Controller/boot_master_app/app_can_config.h \
     Controller/boot_master_app/boot_master_config.h \
     Controller/config/config.h \

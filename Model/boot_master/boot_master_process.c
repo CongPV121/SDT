@@ -64,14 +64,15 @@ FILE *file = NULL;
 bool display = false;
 uint32_t cnt_st_preparing = 0;
 uint32_t cnt_st_ex_request = 0;
-void boot_master_process(Boot_master *p_boot_m,uint64_t timestamp,
-                         uint16_t *active_download,
-                         uint16_t nodeid_device,
-                         char *path,
-                         uint32_t flash_start){
+void boot_master_process(Boot_master    *p_boot_m,
+                         uint64_t       timestamp,
+                         uint16_t       *active_download,
+                         uint16_t       nodeid_device,
+                         char           *path,
+                         uint32_t       flash_start,
+                         void           (*reboot)(void)){
 
     printf("boot sate: %d\n",boot_get_state((Bootloader*)p_boot_m));
-    //boot_read_info((Bootloader*)p_boot_m);
     /*timeout update*/
     if(p_boot_m->base.is_state_change){
         boot_master_update_timeout(p_boot_m,timestamp);
@@ -87,9 +88,6 @@ void boot_master_process(Boot_master *p_boot_m,uint64_t timestamp,
         /* Start preparing and download firmware*/
         if(*active_download == 1 &&
                 path != NULL    ){
-//            file = fopen(path,"r");
-//            fclose(file);
-//            file = NULL;
             file = fopen(path,"r");
             if(file == NULL){
                 break;
@@ -124,7 +122,8 @@ void boot_master_process(Boot_master *p_boot_m,uint64_t timestamp,
         break;
 
     case BOOT_ST_PREPARING:
-        boot_reboot((Bootloader*)p_boot_m);
+        reboot();
+//        boot_reboot((Bootloader*)p_boot_m);
         if(cnt_st_preparing ++ > 4000){
             CO_SDO_reset_status(&CO_DEVICE.sdo_client);
             cnt_st_preparing = 0;

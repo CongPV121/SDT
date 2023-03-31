@@ -35,11 +35,14 @@ extern proress_results  download_results;
 
 void boot_master_init(void);
 void segment_download_build(Boot_master *p_boot_m);
-void boot_master_process(Boot_master *p_boot_m,uint64_t timestamp,
-                         uint16_t *active_download,
-                         uint16_t nodeid_device,
-                         char *path,
-                         uint32_t flash_start);
+
+void boot_master_process(Boot_master    *p_boot_m,uint64_t timestamp,
+                         uint16_t       *active_download,
+                         uint16_t       nodeid_device,
+                         char           *path,
+                         uint32_t       flash_start,
+                         void           (*reboot)(void));
+
 seg_firmware* unzip_fw(FILE *file);
 bool extract_getsegment(FILE *p_file,uint32_t flash_start);
 bool extract_getfw(FILE *p_file,uint32_t flash_start);
