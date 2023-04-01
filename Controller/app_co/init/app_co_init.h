@@ -26,6 +26,9 @@ void app_process(void);
 void app_co_can_receive(const uint32_t can_id, uint8_t *data);
 void can_send(const uint32_t can_id, uint8_t* data,uint32_t dlc);
 
+int cp202_device_is_connected(void);
+int cp202_device_connect(void);
+
 #ifdef __cplusplus
 }
 #endif

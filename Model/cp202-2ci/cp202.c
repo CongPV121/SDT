@@ -85,7 +85,7 @@ int cp202_register_recv_callback(cp202_t* self, cp202_can_receive_callback_fn ca
 int cp202_connect(cp202_t* self){
     if(!tcp_client_is_connected(self->m_tcp_client)){
         if(tcp_client_connect(self->m_tcp_client, self->m_host, self->m_port) < 0){
-            usleep(1000*1000);
+            //usleep(1000*1000);
             return 0;
             //qDebug()<<"connected";
         }
@@ -94,7 +94,7 @@ int cp202_connect(cp202_t* self){
     //        return tcp_client_connect(self->m_tcp_client, self->m_host, self->m_port);
     //    }
     //qDebug()<<"connect fail";
-    return -1;
+    return 1;
 }
 
 int cp202_disconnect(cp202_t* self){

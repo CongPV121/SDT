@@ -6,26 +6,51 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>626</width>
-    <height>435</height>
+    <width>640</width>
+    <height>451</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>SDT 1.0</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <selectedon>:/icon/diagnostic-tool.png</selectedon>
+   </iconset>
+  </property>
+  <property name="iconSize">
+   <size>
+    <width>32</width>
+    <height>32</height>
+   </size>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>210</y>
+      <y>168</y>
       <width>301</width>
-      <height>89</height>
+      <height>131</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>12</pointsize>
+      <bold>true</bold>
+     </font>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QPushButton" name="testBpButton">
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="text">
         <string>Test BP</string>
        </property>
@@ -33,6 +58,13 @@
      </item>
      <item>
       <widget class="QPushButton" name="testHmiButton">
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="text">
         <string>Test HMI</string>
        </property>
@@ -40,6 +72,13 @@
      </item>
      <item>
       <widget class="QPushButton" name="testvehicleButton">
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="text">
         <string>Test vehicle</string>
        </property>
@@ -51,14 +90,28 @@
     <property name="geometry">
      <rect>
       <x>320</x>
-      <y>210</y>
+      <y>168</y>
       <width>301</width>
-      <height>89</height>
+      <height>131</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>12</pointsize>
+      <bold>true</bold>
+     </font>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
       <widget class="QPushButton" name="testMcButton">
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="text">
         <string>Test MC</string>
        </property>
@@ -66,6 +119,13 @@
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_2">
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="text">
         <string>None</string>
        </property>
@@ -73,6 +133,13 @@
      </item>
      <item>
       <widget class="QPushButton" name="testPmuButton">
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="text">
         <string>Test PMU</string>
        </property>
@@ -98,13 +165,53 @@
      <string>SELEX DIAGNOSTIC TOOL</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>390</y>
+      <width>61</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <italic>true</italic>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Kết nối 
+CP202-2CI</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="CP202">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>400</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Mất Kết Nối</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>626</width>
+     <width>640</width>
      <height>21</height>
     </rect>
    </property>

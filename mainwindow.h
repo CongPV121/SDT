@@ -18,6 +18,10 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    static MainWindow* get_MainWindow();
+
+public slots:
+    void on_write_CP202_st      (int value);
 
 private slots:    
     void on_testBpButton_clicked();
@@ -29,8 +33,14 @@ private slots:
 
     void on_testMcButton_clicked();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
+signals:
+    void on_response_CP202_st                 (int value);
+
 };
 
+void CP202_set_state(int value);
 #endif // MAINWINDOW_H

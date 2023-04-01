@@ -36,6 +36,7 @@ int cp202_recv(cp202_t *self, unsigned char *buf, int max_len, int timeout);
 
 int cp202_process(cp202_t *self);
 
+
 #ifdef __cplusplus
 }
 #endif

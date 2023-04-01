@@ -127,20 +127,20 @@ OD_Temp_Comm_Profile_Para_t od_temp_comm_profile_para =
 	.x1000_device_type = DEFAULT__1000__DEVICE_TYPE,
 	.x1005_cob_id_sync_message =
 	{
-			.node_id = 0,
-			.func_code = CO_CAN_ID_SYNC >> 7,
-			.reverse1 = 0,
-			.bit_frame = CO_BIT_CAN_FRAME_11BIT,
-			.bit_30 = DEFAULT__1005__SYNC_GEN,
-			.valid = DEFAULT__1005__SYNC_ENABLE
+            .node_id    = 0,
+            .func_code  = CO_CAN_ID_SYNC >> 7,
+            .reverse1   = 0,
+            .bit_frame  = CO_BIT_CAN_FRAME_11BIT,
+            .bit_30     = DEFAULT__1005__SYNC_GEN,
+            .valid      = DEFAULT__1005__SYNC_ENABLE
 	},
-	.x1006_comm_cycle_period_ms = DEFAULT__1006__COMM_CYCLE_PERIOD_MS,
-	.x1007_sync_window_length_ms = DEFAULT__1007__SYNC_WINDOW_LENGTH_MS,
-	.x1008_device_name = DEFAULT__1008__DEVICE_NAME,
-	.x1009_hardware_version = DEFAULT__1009__HW_VERSION,
-	.x100A_software_version = DEFAULT__100A__SW_VERSION,
-	.x100C_guard_time_ms = DEFAULT__100C__GUARD_TIME_MS,
-	.x100D_life_time_factor = DEFAULT__100D__LIFE_TIME_FACTOR,
+    .x1006_comm_cycle_period_ms     = DEFAULT__1006__COMM_CYCLE_PERIOD_MS,
+    .x1007_sync_window_length_ms    = DEFAULT__1007__SYNC_WINDOW_LENGTH_MS,
+    .x1008_device_name              = DEFAULT__1008__DEVICE_NAME,
+    .x1009_hardware_version         = DEFAULT__1009__HW_VERSION,
+    .x100A_software_version         = DEFAULT__100A__SW_VERSION,
+    .x100C_guard_time_ms            = DEFAULT__100C__GUARD_TIME_MS,
+    .x100D_life_time_factor         = DEFAULT__100D__LIFE_TIME_FACTOR,
 	.x1012_cob_id_time_stamp_object = 0x00000000,	//<< Unsupported function
 	.x1014_cob_id_emcy =
 	{

@@ -29,7 +29,7 @@
 #define CO_TPDO_USE_EVENT_TIMER											0
 
 /* FLASH option : enable (set 1), disable (set 0) ----------------------------------------------*/
-#define CO_FLASH__USE													0
+#define CO_FLASH__USE													1
 /**
  * Describe:
  * - Cac ham luu data vao flash tai lop board ton tai "delay". Dieu nay dan toi ham "CO_process" ton tai "delay" do ham nay co su dung chuc nang tu CO_FLASH,

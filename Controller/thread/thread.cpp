@@ -2,14 +2,17 @@
 #include "thread.h"
 #include <QtDebug>
 #include "Model/canopen/CO.h"
-#include "Controller/app_co/od/od_config.h"
 #include "Model/boot_master/boot_master_process.h"
+
+#include "Controller/app_co/od/od_config.h"
 #include "Controller/boot_master_app/boot_master_config.h"
 #include "Controller/controler.h"
 #include "Controller/testing/testing.h"
 #include "Controller/app_co/pdo/pdo.h"
+
 #include "views/bp.h"
 #include "views/mc.h"
+#include "mainwindow.h"
 
 thread::thread(QObject *parent) : QObject(parent)
 {
@@ -99,12 +102,19 @@ void thread::timeout_timer_1ms_handle(){
 
 }
 uint64_t sys_timestamp_testing = 0;
+int cp202_st;
 void thread::timeout_timer_testing_process_handle(){
     value_process ++;
     testing_sdo_process(&SDO_mailbox);
     if(pdo_data_processing()){
         bp_information_show();
     }
+    int cp202_st_read = cp202_device_is_connected();
+    if(cp202_st != cp202_st_read){
+        cp202_st = cp202_st_read;
+        CP202_set_state(cp202_st_read);
+    }
+
 }
 
 
