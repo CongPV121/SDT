@@ -92,6 +92,10 @@ void boot_master_process(Boot_master    *p_boot_m,
             if(file == NULL){
                 break;
             }
+            fseek(file, 0, SEEK_END);
+
+            long fileSize = ftell(file);
+
             rewind(file);
             if(extract_getsegment(file,flash_start) == 0 ){
                 fclose(file);
@@ -223,12 +227,12 @@ bool extract_getsegment(FILE *p_file,uint32_t flash_start){
             memcpy(boot_master.data_firmware + boot_master.fw_signature.size,
                    data_iscomming->p_data,data_iscomming->length);
             boot_master.fw_signature.size += data_iscomming->length;
-            data_iscomming->addr += data_iscomming->length;
+            //data_iscomming->addr += data_iscomming->length;
             boot_master.total_segment ++;
             continue;
         }
         /*remove the part of data that is outside the address*/
-        if(data_iscomming->addr_segment > (flash_start + 0x20000)
+        if(data_iscomming->addr_segment > (flash_start + 0x50000)
                 || data_iscomming->addr_segment < flash_start){
             continue;
         }
@@ -237,7 +241,7 @@ bool extract_getsegment(FILE *p_file,uint32_t flash_start){
         memcpy(boot_master.data_firmware + boot_master.fw_signature.size,
                data_iscomming->p_data,data_iscomming->length);
         boot_master.fw_signature.size += data_iscomming->length;
-        data_iscomming->addr += data_iscomming->length;
+        //data_iscomming->addr += data_iscomming->length;
         boot_master.total_segment ++;
     }
     return 1;
@@ -327,7 +331,10 @@ static void flashImageFromHex(seg_firmware *p_data,intel_hex *p_record){
         }
         break;
     case INTEL_HEX_Start_Linear_Address:
-        // TODO: Nothing
+        if(p_data->length > 0){
+            p_data->is_comming = true;
+            p_data->end_old_segment = true;
+        }
         break;
     case INTEL_HEX_Start_Segment_Address:
         // TODO: Nothing

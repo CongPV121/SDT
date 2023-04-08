@@ -19,7 +19,7 @@
 extern CO CO_DEVICE;
 
 /* OD STORAGE option : enable (set 1), disable (set 0) */
-#define APP_OD_STORAGE__USE											1
+#define APP_OD_STORAGE__USE											0
 
 #if APP_OD_STORAGE__USE
 #define APP_OD_STORAGE__STORAGE_REGION__ADDR						(xxx)
