@@ -89,3 +89,20 @@ void MainWindow::on_pushButton_clicked()
     }
 }
 
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    camel* p_camel = camel::get_camel();
+    //p_camel->setModal(true);
+    p_camel->show();
+}
+
+
+
+void MainWindow::on_fw_update_config_triggered()
+{
+    downfw_config* p_downfw_config = downfw_config::get_downfw_config();
+    //p_camel->setModal(true);
+    p_downfw_config->show();
+}
+

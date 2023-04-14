@@ -127,7 +127,7 @@
         </font>
        </property>
        <property name="text">
-        <string>None</string>
+        <string>Test Xe Camel</string>
        </property>
       </widget>
      </item>
@@ -215,9 +215,34 @@ CP202-2CI</string>
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="fw_update_config"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="fw_update_config">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/icon/edit.png</normaloff>:/icon/edit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Sửa cấu hình nạp code</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

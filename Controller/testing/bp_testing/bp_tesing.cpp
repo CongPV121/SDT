@@ -2,6 +2,7 @@
 #include "Controller/app_co/pdo/pdo.h"
 #include "Controller/testing/testing.h"
 #include "views/bp.h"
+#include "Controller/config/config.h"
 bp_tesing::bp_tesing()
 {
 
@@ -206,7 +207,12 @@ void static bp_fw_version_sucsess(){
     bp_fw_version_show(s_value);
 }
 void static bp_sn_show_sucsess(){
-    bp_sn_show(QString((char*)BP_infor.sn));
+    QString sn =QString((char*)BP_infor.sn);
+    QString snRev;
+    for (int i = sn.length() - 1; i >= 0; --i) {
+        snRev.append(sn.at(i));
+    }
+    bp_sn_show(snRev);
 }
 void static bp_device_mating_sucsess(){
     bp_device_mating_show(QString((char*)BP_infor.device_mating));
@@ -241,24 +247,24 @@ void  send_device_sn_mating_bp(void){
                                 VEHICLE_SN_OBJECT_SUB_INDEX,
                                 &test_object, 3000);
 }
-static char bp_sn[40];
+static char bp_sn[41];
 
 bool  write_sn_number( QString value ){
     if(value.length() < 8){
 
         return 0;
     }
-    memset(bp_sn,0,40);
+    memset(bp_sn,0,41);
     /* Write key*/
-    QString key = "selex123";
+    QString key = wirteConfigKey;
     QByteArray key_arr = key.toLatin1();
     const char* key_c = key_arr.data();
-    memcpy(bp_sn,key_c,8);
+    memcpy(bp_sn,key_c,9);
     /* Write data*/
     QByteArray ba;
     ba = value.toLatin1();
     const char* path = ba.data();
-    memcpy(bp_sn + 8,path,value.length());
+    memcpy(bp_sn + 9,path,value.length());
 
     push_data_into_queue_to_send(send_sn_bp,
                                  NULL,
@@ -269,7 +275,7 @@ bool  write_sn_number( QString value ){
 void  send_sn_bp(void){
     CO_Sub_Object test_object = {.p_data = bp_sn,
                                  .attr   = ODA_SDO_RW,
-                                 .len    = 32,
+                                 .len    = 41,
                                  .p_ext  = NULL
                                 };
     CO_SDOclient_start_download(&CO_DEVICE.sdo_client,

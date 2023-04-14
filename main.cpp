@@ -7,6 +7,8 @@
 #include "Model/boot_master/boot_master_process.h"
 #include "moc_predefs.h"
 #include "mainwindow.h"
+#include "Controller/downloadfw/downloadfw.h"
+
 //can_handle * can_receive;
 uint8_t data[8] = {1};
 uint8_t data0 = 0;
@@ -30,10 +32,9 @@ int main(int argc, char *argv[])
     w.show();
     app_co_init();
     boot_master_init();
+    downloadfwIntit();
 
     /* start receive can msg */
-
-
     /* start timer processing  */
     thread::start_timer();
     return a.exec();

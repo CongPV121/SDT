@@ -38,9 +38,6 @@ typedef enum{
     HMI_MAINAPP_NODE_ID = 8
 
 } DEVICE_NODEID;
-
-
-
 typedef struct{
     uint16_t        start_download;
     DEVICE_NODEID   nodeid_device;
@@ -56,13 +53,15 @@ extern bool active_download_button;
 
 extern boot_master_config_t boot_master_config;
 
-void set_download_firmware_par( uint16_t start_download,
+bool set_download_firmware_par( uint16_t start_download,
                                 uint16_t nodeid_device,
                                 char src_firmware[],
                                 uint32_t flash_download_start,
                                 void        (*method)(void));
 void active_download_firmware(void);
 void bp_reboot_method (void);
+void boot1_bp_reboot_method (void);
+
 
 
 

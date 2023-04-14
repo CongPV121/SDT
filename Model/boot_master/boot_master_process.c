@@ -44,7 +44,6 @@ void boot_master_init(void){
     Bootloader* p_boot                           = &boot_master.base;
     boot_set_state(&boot_master.base, BOOT_ST_NOT_ACTIVE);
     reset_id_segment_download(&boot_master.base.segment_downloaded);
-
     p_boot->load_data_to_local                   = boot_load_data_to_local_handle;
     p_boot->get_data_from_server                 = boot_load_from_server_handle;
     p_boot->reboot                               = can_reboot_sync_state_to_local;
@@ -113,6 +112,10 @@ void boot_master_process(Boot_master    *p_boot_m,
         }
         break;
     case BOOT_ST_INIT:
+        if(*active_download == 1 &&
+                path != NULL    ){
+             boot_set_state(&p_boot_m->base, BOOT_ST_NOT_ACTIVE);
+        }
 
         if(active_download_button == true){
             CO_SDO_reset_status(&CO_DEVICE.sdo_client);
@@ -126,8 +129,10 @@ void boot_master_process(Boot_master    *p_boot_m,
         break;
 
     case BOOT_ST_PREPARING:
+        if(reboot == NULL){
+            break;
+        }
         reboot();
-//        boot_reboot((Bootloader*)p_boot_m);
         if(cnt_st_preparing ++ > 4000){
             CO_SDO_reset_status(&CO_DEVICE.sdo_client);
             cnt_st_preparing = 0;
@@ -149,6 +154,7 @@ void boot_master_process(Boot_master    *p_boot_m,
         boot_set_state(&p_boot_m->base, BOOT_ST_LOADING_LOCAL);
         /* get firmware segment */
         segment_download_build(p_boot_m);
+        CO_SDO_reset_status(&CO_DEVICE.sdo_client);
 
         break;
 
@@ -204,6 +210,8 @@ bool extract_getsegment(FILE *p_file,uint32_t flash_start){
     boot_master.total_segment = 0;
     boot_master.fw_signature.size = 0;
     bp_data.is_comming = false;
+    bp_data.addr = 0;
+
 
 
     seg_firmware *data_iscomming;

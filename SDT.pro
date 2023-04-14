@@ -21,6 +21,7 @@ SOURCES += \
     Controller/boot_master_app/boot_master_config.c \
     Controller/config/config.cpp \
     Controller/controler.cpp \
+    Controller/downloadfw/downloadfw.cpp \
     Controller/log_data/log.cpp \
     Controller/testing/bp_testing/bp_tesing.cpp \
     Controller/testing/hmi_testing/hmi_testing.cpp \
@@ -58,7 +59,9 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     views/bp.cpp \
+    views/camel.cpp \
     views/dialog.cpp \
+    views/downfw_config.cpp \
     views/hmi.cpp \
     views/mc.cpp \
     views/pmu.cpp
@@ -80,6 +83,7 @@ HEADERS += \
     Controller/boot_master_app/boot_master_config.h \
     Controller/config/config.h \
     Controller/controler.h \
+    Controller/downloadfw/downloadfw.h \
     Controller/log_data/log.h \
     Controller/testing/bp_testing/bp_tesing.h \
     Controller/testing/hmi_testing/hmi_testing.h \
@@ -120,7 +124,9 @@ HEADERS += \
     Model/cp202-2ci/tcp_client.h \
     mainwindow.h \
     views/bp.h \
+    views/camel.h \
     views/dialog.h \
+    views/downfw_config.h \
     views/hmi.h \
     views/mc.h \
     views/pmu.h
@@ -128,7 +134,9 @@ HEADERS += \
 FORMS += \
     mainwindow.ui \
     views/bp.ui \
+    views/camel.ui \
     views/dialog.ui \
+    views/downfw_config.ui \
     views/hmi.ui \
     views/mc.ui \
     views/pmu.ui

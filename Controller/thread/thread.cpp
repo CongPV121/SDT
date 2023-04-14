@@ -12,6 +12,7 @@
 
 #include "views/bp.h"
 #include "views/mc.h"
+#include "views/camel.h"
 #include "mainwindow.h"
 
 thread::thread(QObject *parent) : QObject(parent)

@@ -7,5 +7,6 @@
         <file>icon/up-arrow.png</file>
         <file>icon/computer.png</file>
         <file>icon/diagnostic-tool.png</file>
+        <file>icon/edit.png</file>
     </qresource>
 </RCC>

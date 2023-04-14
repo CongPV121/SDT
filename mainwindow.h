@@ -6,6 +6,8 @@
 #include "views/hmi.h"
 #include "views/bp.h"
 #include "views/mc.h"
+#include "views/camel.h"
+#include "views/downfw_config.h"
 
 namespace Ui {
 class MainWindow;
@@ -34,6 +36,11 @@ private slots:
     void on_testMcButton_clicked();
 
     void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
+
+
+    void on_fw_update_config_triggered();
 
 private:
     Ui::MainWindow *ui;

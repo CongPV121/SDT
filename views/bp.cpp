@@ -5,7 +5,6 @@
 #include "Controller/boot_master_app/boot_master_config.h"
 #include "Controller/testing/bp_testing/bp_tesing.h"
 #include "Controller/app_co/pdo/pdo.h"
-#include "Controller/boot_master_app/boot_master_config.h"
 
 bp::bp(QWidget *parent) :
     QDialog(parent),
