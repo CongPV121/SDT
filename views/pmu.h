@@ -33,6 +33,8 @@ private slots:
 private:
     Ui::pmu *ui;
     void parse_data(const QString& data);
+//protected:
+//    void closeEvent(QCloseEvent *event);
 };
 
 #endif // PMU_H

@@ -19,6 +19,8 @@ public:
     void        updateListFwDevice(QString destFilePath, QString nameDevice,
                                    QString codeDevice, QString linkFile ,
                                    QString version );
+    void        removeConfig(QString codeDevice);
+
     ~downfw_config();
 
 private slots:
@@ -30,9 +32,7 @@ private slots:
 
     //void on_tableWidget_itemClicked(QTableWidgetItem *item);
 
-    void on_tableWidget_cellClicked(int row, int column);
-
-    void on_tableWidget_cellPressed(int row, int column);
+    void on_pushButton_2_clicked();
 
 private:
     Ui::downfw_config *ui;

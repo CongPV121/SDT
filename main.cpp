@@ -9,11 +9,6 @@
 #include "mainwindow.h"
 #include "Controller/downloadfw/downloadfw.h"
 
-//can_handle * can_receive;
-uint8_t data[8] = {1};
-uint8_t data0 = 0;
-int write_cnt = 0;
-
 #ifdef WIN32
 #include <winsock2.h>
 #endif

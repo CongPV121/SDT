@@ -14,6 +14,8 @@ camel::camel(QWidget *parent) :
     ui(new Ui::camel)
 {
     connect(this, &camel::on_response_percents_to_complete,this, &camel::percents_to_complete);
+    connect(this, &camel::on_response_write_fw_button,this,     &camel::on_write_write_fw_button);
+
     ui->setupUi(this);
     /* Update device list update firmware*/
     FwConfigListInit();
@@ -40,7 +42,7 @@ void camel::percents_to_complete(const int& percent){
     if(percent < 0){
         value = 0;
     }
-    //this->ui->download_process_2->setValue(value);
+    this->ui->download_process->setValue(value);
     if( war_success == 0 &&  percent == 100){
         war_success = 1;
         QMessageBox::information(this,"Download Firmware mc","Success");
@@ -52,18 +54,11 @@ void camel::percents_to_complete(const int& percent){
 
 
 }
-//void camel::on_choose_file_btn_2_clicked()
-//{
-//    QString path = QFileDialog::getOpenFileName(
-//                this,
-//                "Open File",
-//                "//",
-//                "hex(*.hex);; All File(*.*)");
-//    if( path.length() == 0) return;
-//    set_link_director(path);
-//    //this->ui->link_director_file_2->setText(get_link_director());
-//    this->ui->write_firm_ware->setEnabled(0);
-//}
+void camel::on_write_write_fw_button(int value){
+    this->ui->write_fw->setEnabled(value);
+}
+
+
 QString camel::get_link_director() const{
     return this->link_director;
 }
@@ -80,20 +75,35 @@ camel* camel::get_camel(){
 static char src_file[1024];
 void camel::on_connect_dut_clicked()
 {
-//    QUrl folder_url = QUrl::fromLocalFile(get_link_director());
-//    emit on_request_write_firmware(folder_url);
-//    QString str_path = this->link_director;
-//    if( str_path.length() == 0) return;
-//    if(str_path.length() >= 1024){
-//        QMessageBox::information(this,"ERROR","The path to the file is too long !");
-//        return;
-//    }
-//    QByteArray ba;
-//    ba = str_path.toLatin1();
-//    const char* path = ba.data();
-//    memcpy(src_file,path,str_path.length());
+    QString codeDevice      = ui->deviceList->currentText();
+    QString srcHexFile;
+    bool ret = true;
+    if( ui->deviceList->currentIndex() < 1){
+        return;
+    }
+    for (int i = 0; i < fwConfiglist.size(); i++ ){
+        if(fwConfiglist[i].codeDevice == codeDevice){
+            srcHexFile = fwConfiglist[i].linkFile;
+        }
+    }
 
-//    set_download_firmware_par(1,BP_MAINAPP_NODE_ID,src_file,0x8000,boot1_bp_reboot_method);
+    QString infor;
+    infor = "Nạp Code " + codeDevice + "?";
+
+    QFont font;
+    font.setFamily("Arial"); // Đặt tên phông chữ
+    font.setPointSize(12); // Đặt kích thước phông chữ
+    font.setBold(true); // Đặt đậm cho phông chữ
+    QMessageBox msgBox;
+    msgBox.setFont(font);
+
+    if(msgBox.question(this,"Tiếp tục",infor) == QMessageBox::Yes ){
+
+        ret = setConfigDevice(codeDevice,srcHexFile);
+    }
+    if(ret == false){
+        msgBox.warning(this,"Lỗi","Thiết bị đang bận");
+    }
 
     this->ui->write_fw->setEnabled(1);
 }
@@ -135,36 +145,10 @@ void camel::on_deviceList_currentIndexChanged(int index)
 
 void camel::on_write_fw_clicked()
 {
-    QString codeDevice      = ui->deviceList->currentText();
-    if( ui->deviceList->currentIndex() < 1){
-        return;
-    }
-    QString infor;
-    infor = "Nạp Code " + codeDevice + "?";
 
-    QFont font;
-    font.setFamily("Arial"); // Đặt tên phông chữ
-    font.setPointSize(12); // Đặt kích thước phông chữ
-    font.setBold(true); // Đặt đậm cho phông chữ
-    QMessageBox msgBox;
-    msgBox.setFont(font);
-
-    if(msgBox.question(this,"Tiếp tục",infor) == QMessageBox::Yes ){
-        //    QUrl folder_url = QUrl::fromLocalFile(get_link_director());
-        //    emit on_request_write_firmware(folder_url);
-        //    QString str_path = this->link_director;
-        //    if( str_path.length() == 0) return;
-        //    if(str_path.length() >= 1024){
-        //        QMessageBox::information(this,"ERROR","The path to the file is too long !");
-        //        return;
-        //    }
-        //    QByteArray ba;
-        //    ba = str_path.toLatin1();
-        //    const char* path = ba.data();
-        //    memcpy(src_file,path,str_path.length());
-
-            set_download_firmware_par(1,BP_MAINAPP_NODE_ID,src_file,0x8000,boot1_bp_reboot_method);
-    }
+    active_download_firmware();
 
 }
+//void camel::closeEvent(QCloseEvent *event){
 
+//}

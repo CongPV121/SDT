@@ -203,11 +203,12 @@ void app_process(void){
     }
 }
 int cp202_device_is_connected(void){
+
     if(g_cp202_driver){
         return cp202_is_connected(g_cp202_driver);
     }
     return -1;
 }
 int cp202_device_connect(void){
-    return cp202_connect(g_cp202_driver);
+    return cp202_reconnect(g_cp202_driver);
 }

@@ -54,3 +54,7 @@ void pmu::on_write_firm_ware_clicked()
 //           emit on_request_write_firmware(folder_url);
 //       }
 }
+
+//void pmu::closeEvent(QCloseEvent *event){
+
+//}

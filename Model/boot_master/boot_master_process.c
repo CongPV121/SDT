@@ -67,9 +67,10 @@ void boot_master_process(Boot_master    *p_boot_m,
                          uint64_t       timestamp,
                          uint16_t       *active_download,
                          uint16_t       nodeid_device,
-                         char           *path,
                          uint32_t       flash_start,
-                         void           (*reboot)(void)){
+                         char           *path,
+                         void           (*reboot)(void),
+                         void           (*ex_rquest)(void)){
 
     printf("boot sate: %d\n",boot_get_state((Bootloader*)p_boot_m));
     /*timeout update*/
@@ -114,16 +115,16 @@ void boot_master_process(Boot_master    *p_boot_m,
     case BOOT_ST_INIT:
         if(*active_download == 1 &&
                 path != NULL    ){
-             boot_set_state(&p_boot_m->base, BOOT_ST_NOT_ACTIVE);
+            boot_set_state(&p_boot_m->base, BOOT_ST_NOT_ACTIVE);
         }
 
         if(active_download_button == true){
             CO_SDO_reset_status(&CO_DEVICE.sdo_client);
-            if(nodeid_device == MC_MAINAPP_NODE_ID){
-                boot_set_state(&p_boot_m->base, BOOT_ST_EXT_REQUEST);
+            if(reboot != NULL){
+                boot_set_state(&p_boot_m->base, BOOT_ST_PREPARING);
             }
             else {
-                boot_set_state(&p_boot_m->base, BOOT_ST_PREPARING);
+                boot_set_state(&p_boot_m->base, BOOT_ST_EXT_REQUEST);
             }
         }
         break;
@@ -141,7 +142,10 @@ void boot_master_process(Boot_master    *p_boot_m,
 
         break;
     case BOOT_ST_EXT_REQUEST:
-        request_new_firmware((Bootloader*)p_boot_m);
+        if(ex_rquest == NULL){
+            break;
+        }
+        ex_rquest();
         if(cnt_st_ex_request ++ > 30000){
             CO_SDO_reset_status(&CO_DEVICE.sdo_client);
             cnt_st_ex_request = 0;
@@ -626,7 +630,6 @@ static void co_segment_fw_write_addr_handle(Segment_fw* p_seg){
                                 &segment_addr,
                                 1000);
 }
-
 
 static void co_segment_fw_write_data_handle(Segment_fw* p_seg){
 

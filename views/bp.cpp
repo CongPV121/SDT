@@ -112,7 +112,7 @@ void bp::on_connect_dut_clicked()
     ba = str_path.toLatin1();
     const char* path = ba.data();
     memcpy(src_file,path,str_path.length());
-    set_download_firmware_par(1,BP_MAINAPP_NODE_ID,src_file,0x10000, bp_reboot_method);
+    set_download_firmware_par(1,BP_MAINAPP_NODE_ID,src_file,0x10000, bp_reboot_method,nullptr,nullptr);
     this->ui->write_firm_ware->setEnabled(1);
 }
 

@@ -94,7 +94,6 @@ void downfw_config::on_codeDevice_activated(int index)
 {
 }
 
-
 void downfw_config::on_linkFile_clicked()
 {
     this->linkFile = nullptr;
@@ -159,7 +158,7 @@ void downfw_config::showFwConfigList(){
         item = new QTableWidgetItem(fwConfiglist[row].version);
         p_tableWidget->setItem(row, 2, item);
 
-        QFileInfo fileInfo(this->linkFile);
+        QFileInfo fileInfo(fwConfiglist[row].linkFile);
         QString fileName = fileInfo.fileName();
         item = new QTableWidgetItem(fileName);
 
@@ -212,6 +211,16 @@ void downfw_config::updateListFwDevice(QString destFilePath, QString nameDevice,
     buff.version = version;
     fwConfiglist += buff;
 }
+void downfw_config::removeConfig(QString codeDevice){
+
+    for (int row = 0; row < fwConfiglist.size(); row++) {
+        if(fwConfiglist[row].codeDevice == codeDevice){
+            fwConfiglist.erase(fwConfiglist.begin()+row);
+            return;
+        }
+    }
+}
+
 void FwConfigListInit(){
     QString folderPath = FwConfigFolder;
     QDir dir;
@@ -279,14 +288,21 @@ void getFwConfigList(QString srcPath){
 
 //}
 
-void downfw_config::on_tableWidget_cellClicked(int row, int column)
+
+void downfw_config::on_pushButton_2_clicked()
 {
+    QList<QTableWidgetItem*> selectedItems = ui->tableWidget->selectedItems();
+    if (selectedItems.isEmpty()) return;
+    // Duyệt qua danh sách các hàng được chọn
+    foreach (QTableWidgetItem* item, selectedItems) {
+        int row = item->row();
+        QString codeDevice = ui->tableWidget->item(row, 1)->text();
+        ui->tableWidget->removeRow(row);
+        this->removeConfig(codeDevice);
+        QDir dir;
+        QString srcConfigFile = dir.filePath(FwConfigFile);
+        this->saveConfigPara(srcConfigFile);
 
-}
-
-
-void downfw_config::on_tableWidget_cellPressed(int row, int column)
-{
-
+    }
 }
 

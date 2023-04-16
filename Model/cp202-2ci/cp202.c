@@ -96,6 +96,14 @@ int cp202_connect(cp202_t* self){
     //qDebug()<<"connect fail";
     return 1;
 }
+int cp202_reconnect(cp202_t *self){
+    if(self == NULL) return 0;
+    if(tcp_client_connect(self->m_tcp_client, self->m_host, self->m_port) < 0){
+        return 0;
+    }
+    return 1;
+
+}
 
 int cp202_disconnect(cp202_t* self){
     if(self){
@@ -174,13 +182,14 @@ static int cp202_decode_packet(const uint8_t* data, int len, cp202_packet_t* pac
 
 
 int cp202_process(cp202_t* self){
-
     if(!self) {
         return -1;
     }
     if(!tcp_client_is_connected(self->m_tcp_client)){
+        return 0;
+
         if(tcp_client_connect(self->m_tcp_client, self->m_host, self->m_port) < 0){
-            usleep(1000*1000);
+            //usleep(1000*1000);
             return 0;
         }
     }
@@ -199,4 +208,8 @@ int cp202_process(cp202_t* self){
 
         }
     }
+}
+int get_fd(cp202_t* self){
+
+    return tcp_client_get_fd(self->m_tcp_client);
 }

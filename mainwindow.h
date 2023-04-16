@@ -8,6 +8,7 @@
 #include "views/mc.h"
 #include "views/camel.h"
 #include "views/downfw_config.h"
+#include "views/logui.h"
 
 namespace Ui {
 class MainWindow;
@@ -42,8 +43,12 @@ private slots:
 
     void on_fw_update_config_triggered();
 
+    void on_actionLog_triggered();
+
 private:
     Ui::MainWindow *ui;
+protected:
+    void closeEvent(QCloseEvent *event);
 signals:
     void on_response_CP202_st                 (int value);
 

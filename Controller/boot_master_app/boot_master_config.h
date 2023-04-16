@@ -44,12 +44,13 @@ typedef struct{
     char            src_data_firmware[1024];
     uint32_t        flash_image_start;
     void            (*reboot)(void);
+    void            (*ex_request)(void);
+    void            (*show_proccess)(const int, uint8_t);
 
 }boot_master_config_t ;
 
-
-
 extern bool active_download_button;
+extern int debounce_fw_download ;
 
 extern boot_master_config_t boot_master_config;
 
@@ -57,13 +58,42 @@ bool set_download_firmware_par( uint16_t start_download,
                                 uint16_t nodeid_device,
                                 char src_firmware[],
                                 uint32_t flash_download_start,
-                                void        (*method)(void));
+                                void        (*method)(void),
+                                void        (*ex_request)(void),
+                                void        (*show_proccess)(const int, uint8_t));
 void active_download_firmware(void);
 void bp_reboot_method (void);
 void boot1_bp_reboot_method (void);
 
+void boot1_bp_reboot (void);
+void boot1_pmu_reboot (void);
+void boot1_mc_reboot (void);
+void boot1_hmi_reboot (void);
 
+void boot2_bp_reboot (void);
+void boot2_pmu_reboot (void);
+void boot2_mc_reboot (void);
+void boot2_hmi_reboot (void);
 
+void boot1_bp_reconfig (void);
+void boot1_pmu_reconfig (void);
+void boot1_mc_reconfig (void);
+void boot1_hmi_reconfig (void);
+
+void boot2_bp_reconfig (void);
+void boot2_pmu_reconfig (void);
+void boot2_mc_reconfig (void);
+void boot2_hmi_reconfig (void);
+
+void boot1_bp_exRequest (void);
+void boot1_pmu_exRequest (void);
+void boot1_mc_exRequest (void);
+void boot1_hmi_exRequest (void);
+
+void boot2_bp_exRequest (void);
+void boot2_pmu_exRequest (void);
+void boot2_mc_exRequest (void);
+void boot2_hmi_exRequest (void);
 
 #ifdef __cplusplus
 }

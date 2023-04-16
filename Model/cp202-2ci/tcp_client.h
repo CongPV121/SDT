@@ -19,6 +19,8 @@ void tcp_client_destroy(tcp_client_t* self);
 
 int tcp_client_connect(tcp_client_t* self, const char* host, int port);
 
+int tcp_client_reconnect(tcp_client_t* self, const char* host, int port);
+
 int tcp_client_disconnect(tcp_client_t* self);
 
 int tcp_client_is_connected(tcp_client_t* self);
@@ -26,6 +28,9 @@ int tcp_client_is_connected(tcp_client_t* self);
 int tcp_client_send(tcp_client_t* self, unsigned char* data, int len, int timeout);
 
 int tcp_client_recv(tcp_client_t* self, unsigned char* buf, int max_len, int timeout);
+
+int tcp_client_get_fd(tcp_client_t* self);
+
 
 #ifdef __cplusplus
 }

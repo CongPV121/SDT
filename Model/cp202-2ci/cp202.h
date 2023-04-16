@@ -26,6 +26,8 @@ int cp202_register_recv_callback(cp202_t* self, cp202_can_receive_callback_fn ca
 
 int cp202_connect(cp202_t *self);
 
+int cp202_reconnect(cp202_t *self);
+
 int cp202_disconnect(cp202_t *self);
 
 int cp202_is_connected(cp202_t *self);
@@ -36,6 +38,7 @@ int cp202_recv(cp202_t *self, unsigned char *buf, int max_len, int timeout);
 
 int cp202_process(cp202_t *self);
 
+int get_fd(cp202_t* self);
 
 #ifdef __cplusplus
 }

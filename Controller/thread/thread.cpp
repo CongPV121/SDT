@@ -9,11 +9,16 @@
 #include "Controller/controler.h"
 #include "Controller/testing/testing.h"
 #include "Controller/app_co/pdo/pdo.h"
+#include "Controller/log_data/logdata.h"
 
 #include "views/bp.h"
 #include "views/mc.h"
 #include "views/camel.h"
 #include "mainwindow.h"
+#include "views/logui.h"
+
+#include "Model/cp202-2ci/cp202.h"
+
 
 thread::thread(QObject *parent) : QObject(parent)
 {
@@ -52,59 +57,39 @@ void thread::timeout_timer_10ms_handle(){
     boot_master_process(&boot_master,sys_timestamp,
                         &boot_master_config.start_download,
                         boot_master_config.nodeid_device,
-                        boot_master_config.src_data_firmware,
                         boot_master_config.flash_image_start,
-                        boot_master_config.reboot);
-
-
-    //qDebug()<< "tesst10";
+                        boot_master_config.src_data_firmware,
+                        boot_master_config.reboot,
+                        boot_master_config.ex_request);
+    if(boot_master.base.is_state_change == true){
+        dataLog += convert_bootMaster_state((uint8_t)boot_master.base.state) +"\n";
+    }
 }
 void thread::timeout_timer_Notification_handle(){
     /* display on ui for download process*/
 
-    switch (boot_master_config.nodeid_device) {
-    case HMI_MAINAPP_NODE_ID:
+    if(boot_master_config.show_proccess == nullptr) return;
+
         if(boot_master.results.download_results == DOWNLOAD_SUCESS){
-            set_value_processbar_mc(100, (uint8_t)boot_master.base.state);
+            boot_master_config.show_proccess(100, (uint8_t)boot_master.base.state);
         }
         else{
-            set_value_processbar_mc(boot_master.results.percent_complete,
+            boot_master_config.show_proccess(boot_master.results.percent_complete,
                                     (uint8_t)boot_master.base.state);
         }
-        break;
-    case BP_MAINAPP_NODE_ID:
-        if(boot_master.results.download_results == DOWNLOAD_SUCESS){
-            set_value_processbar_bp(100, (uint8_t)boot_master.base.state);
-        }
-        else{
-            set_value_processbar_bp(boot_master.results.percent_complete,
-                                    (uint8_t)boot_master.base.state);
-        }
-
-        break;
-    case MC_MAINAPP_NODE_ID:
-        if(boot_master.results.download_results == DOWNLOAD_SUCESS){
-            set_value_processbar_mc(100, (uint8_t)boot_master.base.state);
-        }
-        else{
-            set_value_processbar_mc(boot_master.results.percent_complete,
-                                    (uint8_t)boot_master.base.state);
-        }
-
-        break;
-    default:
-        break;
-    }
-
 
 }
 void thread::timeout_timer_1ms_handle(){
     CO_process(&CO_DEVICE,1);
 
 }
+/* timer 10ms*/
 uint64_t sys_timestamp_testing = 0;
 int cp202_st;
 void thread::timeout_timer_testing_process_handle(){
+    if( debounce_fw_download > 0){
+        debounce_fw_download --;
+    }
     value_process ++;
     testing_sdo_process(&SDO_mailbox);
     if(pdo_data_processing()){
@@ -115,6 +100,13 @@ void thread::timeout_timer_testing_process_handle(){
         cp202_st = cp202_st_read;
         CP202_set_state(cp202_st_read);
     }
+    QString dataUpdate = dataLog;
+    dataLog.clear();
+    if(dataUpdate.size() > 0){
+        update_data_logui(dataUpdate);
+
+    }
+
 
 }
 

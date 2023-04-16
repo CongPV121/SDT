@@ -81,6 +81,39 @@ int tcp_client_connect(tcp_client_t* self, const char* host, int port){
     return -1;
 }
 
+int tcp_client_reconnect(tcp_client_t* self, const char* host, int port){
+
+    struct sockaddr_in serv_addr;
+    if(self){
+        if(tcp_client_is_connected(self)){
+            tcp_client_disconnect(self);
+        }
+        int fd = self->fd;
+        if(fd < 0){
+            return -1;
+        }
+
+        serv_addr.sin_family = AF_INET;
+        serv_addr.sin_port = htons(port);
+
+        // Convert IPv4 and IPv6 addresses from text to binary
+        // form
+        if (inet_pton(AF_INET, host, &serv_addr.sin_addr) <= 0) {
+            printf("\nInvalid address/ Address not supported \n");
+            return -1;
+        }
+
+        if (connect(fd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
+            printf("\nConnection Failed \n");
+            return -1;
+        }
+
+        self->fd = fd;
+        return fd;
+    }
+    return -1;
+}
+
 int tcp_client_disconnect(tcp_client_t* self){
     if(self){
         if(self->fd <0)
@@ -135,4 +168,7 @@ int tcp_client_recv(tcp_client_t* self, unsigned char* buf, int max_len, int ms)
 //        return result;
     }
     return -1;
+}
+int tcp_client_get_fd(tcp_client_t* self){
+    return self->fd;
 }

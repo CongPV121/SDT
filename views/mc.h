@@ -62,6 +62,8 @@ signals:
         void on_response_read_hw_version        (const QString&data);
         void on_response_read_esim_number       (const QString&data);
         void on_response_write_fw_button                 (int value);
+//protected:
+//    void closeEvent(QCloseEvent *event);
 };
 
 void set_value_processbar_mc(const int value, uint8_t state_process);

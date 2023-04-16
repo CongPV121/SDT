@@ -22,7 +22,7 @@ SOURCES += \
     Controller/config/config.cpp \
     Controller/controler.cpp \
     Controller/downloadfw/downloadfw.cpp \
-    Controller/log_data/log.cpp \
+    Controller/log_data/logdata.cpp \
     Controller/testing/bp_testing/bp_tesing.cpp \
     Controller/testing/hmi_testing/hmi_testing.cpp \
     Controller/testing/mc_testing/mc_testing.cpp \
@@ -63,6 +63,7 @@ SOURCES += \
     views/dialog.cpp \
     views/downfw_config.cpp \
     views/hmi.cpp \
+    views/logui.cpp \
     views/mc.cpp \
     views/pmu.cpp
 
@@ -84,7 +85,7 @@ HEADERS += \
     Controller/config/config.h \
     Controller/controler.h \
     Controller/downloadfw/downloadfw.h \
-    Controller/log_data/log.h \
+    Controller/log_data/logdata.h \
     Controller/testing/bp_testing/bp_tesing.h \
     Controller/testing/hmi_testing/hmi_testing.h \
     Controller/testing/mc_testing/mc_testing.h \
@@ -128,6 +129,7 @@ HEADERS += \
     views/dialog.h \
     views/downfw_config.h \
     views/hmi.h \
+    views/logui.h \
     views/mc.h \
     views/pmu.h
 
@@ -138,6 +140,7 @@ FORMS += \
     views/dialog.ui \
     views/downfw_config.ui \
     views/hmi.ui \
+    views/logui.ui \
     views/mc.ui \
     views/pmu.ui
 

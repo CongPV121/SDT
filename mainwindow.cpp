@@ -19,6 +19,14 @@ MainWindow::~MainWindow()
 {
     can_receive.quit();
     delete ui;
+
+    foreach (QWidget *widget, QApplication::topLevelWidgets()) {
+        // Kiểm tra nếu widget là UI được tạo bởi Qt Designer
+        if (widget->objectName().startsWith("ui_")) {
+            // Đóng UI
+            delete widget;
+        }
+    }
 }
 
 void MainWindow::on_testBpButton_clicked()
@@ -63,12 +71,12 @@ MainWindow* MainWindow::get_MainWindow(){
     return seft;
 }
 void MainWindow::on_write_CP202_st(int value){
-    //    if( value == 1){
-    //        this->ui->CP202->setText("CP202-2CI: ĐÃ KẾT NỐI");
-    //    }
-    //    else{
-    //        this->ui->CP202->setText("CP202-2CI: MẤT KẾT NỐI");
-    //    }
+        if( value == 1){
+            this->ui->CP202->setText("CP202-2CI: ĐÃ KẾT NỐI");
+        }
+        else{
+            this->ui->CP202->setText("CP202-2CI: MẤT KẾT NỐI");
+        }
 }
 void CP202_set_state(int value){
     MainWindow* p_main = MainWindow::get_MainWindow();
@@ -106,3 +114,15 @@ void MainWindow::on_fw_update_config_triggered()
     p_downfw_config->show();
 }
 
+
+void MainWindow::on_actionLog_triggered()
+{
+    logui* p_logui = logui::get_logui();
+    p_logui->show();
+}
+
+void MainWindow::closeEvent(QCloseEvent *event){
+    can_receive.quit();
+    delete ui;
+
+}

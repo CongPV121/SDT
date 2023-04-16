@@ -226,6 +226,8 @@ CP202-2CI</string>
     </property>
     <addaction name="separator"/>
     <addaction name="fw_update_config"/>
+    <addaction name="separator"/>
+    <addaction name="actionLog"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -238,6 +240,15 @@ CP202-2CI</string>
    </property>
    <property name="text">
     <string>Sửa cấu hình nạp code</string>
+   </property>
+  </action>
+  <action name="actionLog">
+   <property name="icon">
+    <iconset resource="Resource.qrc">
+     <normaloff>:/icon/icons8-log-64.png</normaloff>:/icon/icons8-log-64.png</iconset>
+   </property>
+   <property name="text">
+    <string>Log</string>
    </property>
   </action>
  </widget>
