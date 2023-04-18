@@ -62,7 +62,7 @@ void thread::timeout_timer_10ms_handle(){
                         boot_master_config.reboot,
                         boot_master_config.ex_request);
     if(boot_master.base.is_state_change == true){
-        dataLog += convert_bootMaster_state((uint8_t)boot_master.base.state) +"\n";
+        ui_dataLog += convert_bootMaster_state((uint8_t)boot_master.base.state) +"\n";
     }
 }
 void thread::timeout_timer_Notification_handle(){
@@ -88,7 +88,7 @@ uint64_t sys_timestamp_testing = 0;
 int cp202_st;
 void thread::timeout_timer_testing_process_handle(){
     if( debounce_fw_download > 0){
-        debounce_fw_download --;
+        debounce_fw_download -= 10;
     }
     value_process ++;
     testing_sdo_process(&SDO_mailbox);
@@ -100,10 +100,13 @@ void thread::timeout_timer_testing_process_handle(){
         cp202_st = cp202_st_read;
         CP202_set_state(cp202_st_read);
     }
-    QString dataUpdate = dataLog;
-    dataLog.clear();
+    /*show data log*/
+    update_ui_dataLog(logDataArr);
+
+    QString dataUpdate = ui_dataLog;
+    ui_dataLog.clear();
     if(dataUpdate.size() > 0){
-        update_data_logui(dataUpdate);
+        show_data_logui(dataUpdate);
 
     }
 

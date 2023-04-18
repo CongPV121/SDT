@@ -63,7 +63,7 @@ bool setConfigDevice(QString codeDevice, QString srcHexFile){
 
     }
     else if(codeDevice == mcboot2){
-        return set_download_firmware_par(1,MC_MAINAPP_NODE_ID,src_file,0x08005800,
+        return set_download_firmware_par(1,MC_MAINAPP_NODE_ID,src_file,0x0801A800,
                                          boot1_mc_reboot,boot1_mc_exRequest, set_value_processbar_camel);
 
     }

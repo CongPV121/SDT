@@ -288,7 +288,6 @@ void getFwConfigList(QString srcPath){
 
 //}
 
-
 void downfw_config::on_pushButton_2_clicked()
 {
     QList<QTableWidgetItem*> selectedItems = ui->tableWidget->selectedItems();

@@ -261,10 +261,14 @@ bool  write_sn_number( QString value ){
     const char* key_c = key_arr.data();
     memcpy(bp_sn,key_c,9);
     /* Write data*/
+    QString valueRev;
+    for (int i = value.length() - 1; i >= 0; --i) {
+        valueRev.append(value.at(i));
+    }
     QByteArray ba;
-    ba = value.toLatin1();
+    ba = valueRev.toLatin1();
     const char* path = ba.data();
-    memcpy(bp_sn + 9,path,value.length());
+    memcpy(bp_sn + 9,path,valueRev.length());
 
     push_data_into_queue_to_send(send_sn_bp,
                                  NULL,

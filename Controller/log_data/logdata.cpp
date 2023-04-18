@@ -1,6 +1,6 @@
 #include "logdata.h"
 
-QString dataLog;
+QString ui_dataLog;
 
 log::log()
 {
@@ -37,5 +37,10 @@ QString convert_bootMaster_state(int value){
         return "Unknown";
 
     }
+}
 
+void update_ui_dataLog(char *data){
+    QString strData = QString::fromUtf8(data);
+    memset(data, 0, strlen(data));
+    ui_dataLog += strData;
 }

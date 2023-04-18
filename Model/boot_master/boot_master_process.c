@@ -137,7 +137,7 @@ void boot_master_process(Boot_master    *p_boot_m,
         if(cnt_st_preparing ++ > 4000){
             CO_SDO_reset_status(&CO_DEVICE.sdo_client);
             cnt_st_preparing = 0;
-            boot_set_state(&p_boot_m->base, BOOT_ST_INIT);
+            boot_set_state(&p_boot_m->base, BOOT_ST_EXT_REQUEST);
         }
 
         break;
@@ -215,8 +215,6 @@ bool extract_getsegment(FILE *p_file,uint32_t flash_start){
     boot_master.fw_signature.size = 0;
     bp_data.is_comming = false;
     bp_data.addr = 0;
-
-
 
     seg_firmware *data_iscomming;
 
@@ -349,7 +347,10 @@ static void flashImageFromHex(seg_firmware *p_data,intel_hex *p_record){
         }
         break;
     case INTEL_HEX_Start_Segment_Address:
-        // TODO: Nothing
+        if(p_data->length > 0){
+            p_data->is_comming = true;
+            p_data->end_old_segment = true;
+        }
         break;
     default:
         break;

@@ -33,7 +33,7 @@ void logui::on_write_update_logui(QString data){
     }
 
 }
-void update_data_logui(QString data){
+void show_data_logui(QString data){
     //    logui* p_logui = logui::get_logui();
     //    emit p_logui->on_request_update_logui(data);
     emit logui::get_logui()->on_request_update_logui(data);

@@ -118,20 +118,6 @@ void set_value_processbar_camel(const int value, uint8_t state_process){
     emit camel->on_response_percents_to_complete(value);
 }
 
-
-//void camel::on_write_firm_ware_clicked()
-//{
-//    active_download_firmware();
-//}
-
-
-
-//void camel::on_connect_dut_clicked()
-//{
-
-//}
-
-
 void camel::on_deviceList_currentIndexChanged(int index)
 {
     QString codeDevice      = ui->deviceList->currentText();
@@ -145,10 +131,12 @@ void camel::on_deviceList_currentIndexChanged(int index)
 
 void camel::on_write_fw_clicked()
 {
-
-    active_download_firmware();
+//    this->writeFwConnect = !this->writeFwConnect;
+//    if(this->writeFwConnect == true){
+        //this->ui->write_fw->setHidden(0);
+        active_download_firmware();
+   // }
 
 }
-//void camel::closeEvent(QCloseEvent *event){
-
-//}
+void camel::closeEvent(QCloseEvent *event){
+}

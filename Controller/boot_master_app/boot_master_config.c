@@ -2,11 +2,12 @@
 #include "Model/boot_master/boot_master_process.h"
 
 static void boot_can_request(uint16_t noideID,uint8_t stateRequest,
-                             BOOT_STATE nextState, uint32_t mux);
+                             BOOT_STATE nextState, uint32_t mux, uint32_t timeout);
 
 boot_master_config_t boot_master_config = {.start_download = 0};
 uint16_t        start_download;
 DEVICE_NODEID   nodeid_device;
+char logDataArr[4096];
 
 bool set_download_firmware_par( uint16_t start_download,
                                 uint16_t nodeid_device,
@@ -32,23 +33,27 @@ bool set_download_firmware_par( uint16_t start_download,
     memcpy(boot_master_config.src_data_firmware,
            src_firmware,
            strlen(src_firmware));
-
     return true;
 
 }
+void show_logData(char *data){
+    strcat_s(logDataArr,4096,data);
+}
+/*--------------------------------------------*/
 bool active_download_button = false;
 int debounce_fw_download = 0;
 void active_download_firmware(void){
     if(debounce_fw_download == 0){
         active_download_button = true;
-        debounce_fw_download = 1000; // delay 2000ms
+        debounce_fw_download = 4000; // delay 4000ms
     }
 }
+/*--------------------------------------------*/
+
 static uint8_t reboot_bp_boot1[1] ;
 void    boot1_bp_reboot_method (void)
 {
     CO_SDO* p_sdo = &CO_DEVICE.sdo_client;
-    Boot_master* p_boot_m = &boot_master;
     reboot_bp_boot1[0] = 1;
 
     if ( CO_SDO_get_status(p_sdo) == CO_SDO_RT_idle ){
@@ -72,12 +77,12 @@ void    boot1_bp_reboot_method (void)
         return;
     }
 }
+/*--------------------------------------------*/
 
 static uint8_t reboot_bp[1] ;
 void    bp_reboot_method (void)
 {
     CO_SDO* p_sdo = &CO_DEVICE.sdo_client;
-    Boot_master* p_boot_m = &boot_master;
     reboot_bp[0] = 1;
 
     if ( CO_SDO_get_status(p_sdo) == CO_SDO_RT_idle ){
@@ -101,8 +106,9 @@ void    bp_reboot_method (void)
         return;
     }
 }
+/*--------------------------------------------*/
+
 static uint8_t reboot_hmi[1] ;
-/*-----------------------------------------------------------------*/
 void hmi_reboot_method (void)
 {
     CO_SDO* p_sdo = &CO_DEVICE.sdo_client;
@@ -115,7 +121,7 @@ void hmi_reboot_method (void)
                                      .attr      = ODA_SDO_RW,
                                      .len       = 1,
                                      .p_ext     = NULL};
-        CO_SDOclient_start_download(p_sdo, boot_master.boot_id_src	, SDO_BOOTLOADER_INDEX,
+        CO_SDOclient_start_download(p_sdo, p_boot_m->boot_id_src	, SDO_BOOTLOADER_INDEX,
                                     1,
                                     &boot_state,
                                     100);
@@ -131,11 +137,10 @@ void hmi_reboot_method (void)
     }
 }
 /*-----------------------------------------------------------------*/
-static uint8_t exRequestData[1] ;
+static uint8_t  exRequestData[1] ;
 static void boot_can_request(uint16_t noideID,uint8_t stateRequest,
-                             BOOT_STATE nextState, uint32_t mux){
+                             BOOT_STATE nextState, uint32_t mux, uint32_t timeout){
     CO_SDO* p_sdo = &CO_DEVICE.sdo_client;
-    Boot_master* p_boot_m = &boot_master;
     exRequestData[0] = stateRequest;
 
     if ( CO_SDO_get_status(p_sdo) == CO_SDO_RT_idle ){
@@ -147,83 +152,85 @@ static void boot_can_request(uint16_t noideID,uint8_t stateRequest,
         CO_SDOclient_start_download(p_sdo, noideID	, (mux >> 8),
                                     (uint8_t) mux,
                                     &subOject,
-                                    100);
+                                    timeout);
     }
     if (CO_SDO_get_status(p_sdo) == CO_SDO_RT_abort ){
         CO_SDO_reset_status(p_sdo);
-        //boot_set_state(&boot_master.base, BOOT_ST_PRE_INIT);
+        show_logData(" Bootmaster request fail\n");
     }
     else if(CO_SDO_get_status(p_sdo) == CO_SDO_RT_success){
         CO_SDO_reset_status(p_sdo);
         boot_set_state(&boot_master.base, nextState);
-        return;
+        show_logData(" Bootmaster request success\n");
     }
 }
 /*-----------------------------BP------------------------------------*/
 void boot1_bp_reboot (void){
-    boot_can_request(0,1,BOOT_ST_EXT_REQUEST,0x200107);
+    boot_can_request(0,1,BOOT_ST_EXT_REQUEST,0x200107,1000);
 }
 void boot1_bp_exRequest (void){
-    boot_can_request(BP_MAINAPP_NODE_ID,1,BOOT_ST_INIT,0x200109);
+    boot_can_request(BP_MAINAPP_NODE_ID,1,BOOT_ST_INIT,0x200109,10);
 
 }
 void boot2_bp_reboot (void){
-    boot_can_request(0,1,BOOT_ST_INIT,0x200107);
+    boot_can_request(0,1,BOOT_ST_EXT_REQUEST,0x200107,1000);
 
 }
 void boot2_bp_exRequest (void){
-    boot_can_request(BP_MAINAPP_NODE_ID,1,BOOT_ST_INIT,0x200107);
+    boot_can_request(BP_MAINAPP_NODE_ID,1,BOOT_ST_INIT,0x200107,10);
 
 }
 /*---------------------------PMU----------------------------------*/
 
 void boot1_pmu_reboot (void){
-    //boot_can_request(PMU_MAINAPP_NODE_ID,1,BOOT_ST_INIT,0x200101);
+    boot_can_request(PMU_MAINAPP_NODE_ID,1,BOOT_ST_EXT_REQUEST,0x200101,1000);
 
 }
 void boot2_pmu_reboot (void){
-    //boot_can_request(PMU_MAINAPP_NODE_ID,1,BOOT_ST_INIT,0x200101);
+    boot_can_request(PMU_MAINAPP_NODE_ID,1,BOOT_ST_EXT_REQUEST,0x200101,1000);
 
 }
 void boot1_pmu_exRequest (void){
-    boot_can_request(PMU_MAINAPP_NODE_ID,1,BOOT_ST_INIT,0x200109);
+    boot_can_request(PMU_MAINAPP_NODE_ID,1,BOOT_ST_INIT,0x200109,10);
 }
 void boot2_pmu_exRequest (void){
-    boot_can_request(PMU_MAINAPP_NODE_ID,1,BOOT_ST_INIT,0x200107);
+    boot_can_request(PMU_MAINAPP_NODE_ID,1,BOOT_ST_INIT,0x200107,10);
 }
 /*---------------------------MC----------------------------------*/
 
 
 void boot1_mc_reboot (void){
+    boot_can_request(MC_MAINAPP_NODE_ID,1,BOOT_ST_EXT_REQUEST,0x200101,1000);
 
 }
 void boot1_mc_exRequest (void){
-    boot_can_request(MC_MAINAPP_NODE_ID,1,BOOT_ST_INIT,0x200109);
+    boot_can_request(MC_MAINAPP_NODE_ID,1,BOOT_ST_INIT,0x200109,10);
 
 }
 void boot2_mc_reboot (void){
+    boot_can_request(MC_MAINAPP_NODE_ID,1,BOOT_ST_EXT_REQUEST,0x200101,1000);
 
 }
 void boot2_mc_exRequest (void){
-    boot_can_request(MC_MAINAPP_NODE_ID,1,BOOT_ST_INIT,0x200107);
+    boot_can_request(MC_MAINAPP_NODE_ID,1,BOOT_ST_INIT,0x200107,10);
 
 }
 /*---------------------------HMI----------------------------------*/
 
 void boot1_hmi_reboot (void){
+    boot_can_request(HMI_MAINAPP_NODE_ID,1,BOOT_ST_EXT_REQUEST,0x200101,1000);
 
 }
 
 void boot2_hmi_reboot (void){
-
+    boot_can_request(HMI_MAINAPP_NODE_ID,1,BOOT_ST_EXT_REQUEST,0x200101,1000);
 }
 void boot1_hmi_exRequest (void){
-    boot_can_request(HMI_MAINAPP_NODE_ID,1,BOOT_ST_INIT,0x200109);
-
+    boot_can_request(HMI_MAINAPP_NODE_ID,1,BOOT_ST_INIT,0x200109,10);
 }
 
 void boot2_hmi_exRequest (void){
-    boot_can_request(HMI_MAINAPP_NODE_ID,1,BOOT_ST_INIT,0x200107);
+    boot_can_request(HMI_MAINAPP_NODE_ID,1,BOOT_ST_INIT,0x200107,10);
 
 }
 /*-------------------------------------------------------------*/

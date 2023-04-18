@@ -43,6 +43,7 @@ CO_Sub_Object boot_param[] = {
     {(void*)&boot_master.base.segment_downloaded.crc_code, ODA_SDO_RW, 2, NULL},
     {(void*)&boot_master.base.state,                       ODA_SDO_RW, 1, &check_boot_state_handle_ext},
     {(void*)&boot_master.base.is_ext_boot_request,         ODA_SDO_RW, 1, NULL},
+    {(void*)&boot_master.fw_signature.is_valid,            ODA_SDO_RW, 1, NULL},
     {(void*)&boot_master.fw_signature.is_valid,            ODA_SDO_RW, 1, NULL}
 };
 

@@ -25,5 +25,5 @@ signals:
 //protected:
 //    void closeEvent(QCloseEvent *event);
 };
-void update_data_logui(QString data);
+void show_data_logui(QString data);
 #endif // LOGUI_H

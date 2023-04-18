@@ -50,7 +50,8 @@ typedef struct{
 }boot_master_config_t ;
 
 extern bool active_download_button;
-extern int debounce_fw_download ;
+extern int  debounce_fw_download ;
+extern char logDataArr[4096];
 
 extern boot_master_config_t boot_master_config;
 
@@ -95,6 +96,7 @@ void boot2_pmu_exRequest (void);
 void boot2_mc_exRequest (void);
 void boot2_hmi_exRequest (void);
 
+void show_logData(char *data);
 #ifdef __cplusplus
 }
 #endif

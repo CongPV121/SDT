@@ -15,8 +15,10 @@ public:
     explicit camel(QWidget *parent = nullptr);
     static camel* get_camel();
     QString get_link_director() const ;
+    int  writeFwConnect;
     bool warning_success;
-    void set_link_director(const QString& link_director);    ~camel();
+    void set_link_director(const QString& link_director);
+    ~camel();
 public slots:
     void percents_to_complete                   (const int& percent);
     void on_write_write_fw_button               (int value );
@@ -39,8 +41,8 @@ signals:
         /*call  connect(hmi::get_hmi, &hmi::<signal>, this,&<localLib>::<local_slot>)*/
         void on_response_percents_to_complete   (const int& percent); //percent download code
         void on_response_write_fw_button                 (int value);
-//protected:
-//    void closeEvent(QCloseEvent *event);
+protected:
+        void closeEvent(QCloseEvent *event);
 
 };
 void set_value_processbar_camel(const int value, uint8_t state_process);
