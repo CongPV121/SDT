@@ -144,7 +144,9 @@ FORMS += \
     views/mc.ui \
     views/pmu.ui
 
-DISTFILES +=
+DISTFILES += \
+    ../../5.Jig Test/searching.icon \
+    ../../5.Jig Test/searching.icon
 
 RESOURCES += \
     Resource.qrc

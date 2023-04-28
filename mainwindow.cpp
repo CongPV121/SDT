@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this, &MainWindow::on_response_CP202_st,this, &MainWindow::on_write_CP202_st);
     ui->setupUi(this);
     can_receive.start();
+
 }
 
 MainWindow::~MainWindow()
@@ -43,7 +44,7 @@ void MainWindow::on_testPmuButton_clicked()
     pmu* p_pmu = new pmu();
 
     p_pmu->show();
-    //p_pmu->showFullScreen();
+    p_pmu->showMaximized();
 }
 
 void MainWindow::on_testHmiButton_clicked()

@@ -184,7 +184,7 @@ void app_co_init(void)
 
     CO_set_node_id(&CO_DEVICE, od_temp_manu_profile_para.x500300_node_ID);
     app_co_set_can_baudrate_impl(od_temp_manu_profile_para.x500301_baud_rate_kHz);
-    cp202_connect(g_cp202_driver);
+    //cp202_connect(g_cp202_driver);
 
     printf("CANID: 0x%02X\n", 12);
     /* USER CODE BEGIN */
