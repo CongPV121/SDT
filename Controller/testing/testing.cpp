@@ -1,7 +1,7 @@
 #include "testing.h"
 //#include "Controller/testing/hmi_testing/hmi_testing.h"
 
-sdo_send_mailbox SDO_mailbox = {.msg_waiting = 0};
+sdo_send_mailbox SDO_mailbox;
 testing::testing(QObject *parent) : QObject(parent)
 {
 

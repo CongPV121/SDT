@@ -3,7 +3,7 @@
 #include "views/dialog.h"
 #include "Controller/thread/thread.h"
 #include "Controller/app_co/init/app_co_init.h"
-
+#include "views/testing_config.h"
 get_event can_receive;
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -42,9 +42,9 @@ void MainWindow::on_testBpButton_clicked()
 void MainWindow::on_testPmuButton_clicked()
 {
     pmu* p_pmu = new pmu();
-
     p_pmu->show();
     p_pmu->showMaximized();
+
 }
 
 void MainWindow::on_testHmiButton_clicked()
@@ -127,3 +127,10 @@ void MainWindow::closeEvent(QCloseEvent *event){
     delete ui;
 
 }
+
+void MainWindow::on_actionCh_nh_s_a_danh_s_ch_test_triggered()
+{
+    testing_config *p_testing_config = testing_config::get_testing_config();
+    p_testing_config->exec();
+}
+

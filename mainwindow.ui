@@ -38,6 +38,7 @@
      <font>
       <family>Times New Roman</family>
       <pointsize>20</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -57,6 +58,7 @@
     <property name="font">
      <font>
       <family>Times New Roman</family>
+      <weight>75</weight>
       <italic>true</italic>
       <bold>true</bold>
      </font>
@@ -78,6 +80,7 @@ CP202-2CI</string>
     <property name="font">
      <font>
       <family>Times New Roman</family>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -101,6 +104,7 @@ CP202-2CI</string>
         <font>
          <family>Times New Roman</family>
          <pointsize>18</pointsize>
+         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -115,6 +119,7 @@ CP202-2CI</string>
         <font>
          <family>Times New Roman</family>
          <pointsize>18</pointsize>
+         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -129,6 +134,7 @@ CP202-2CI</string>
         <font>
          <family>Times New Roman</family>
          <pointsize>18</pointsize>
+         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -155,6 +161,7 @@ CP202-2CI</string>
         <font>
          <family>Times New Roman</family>
          <pointsize>18</pointsize>
+         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -169,6 +176,7 @@ CP202-2CI</string>
         <font>
          <family>Times New Roman</family>
          <pointsize>18</pointsize>
+         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -183,6 +191,7 @@ CP202-2CI</string>
         <font>
          <family>Times New Roman</family>
          <pointsize>18</pointsize>
+         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -193,16 +202,6 @@ CP202-2CI</string>
      </item>
     </layout>
    </widget>
-   <widget class="QDial" name="dial">
-    <property name="geometry">
-     <rect>
-      <x>770</x>
-      <y>80</y>
-      <width>50</width>
-      <height>64</height>
-     </rect>
-    </property>
-   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -210,7 +209,7 @@ CP202-2CI</string>
      <x>0</x>
      <y>0</y>
      <width>873</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -226,6 +225,7 @@ CP202-2CI</string>
     <addaction name="fw_update_config"/>
     <addaction name="separator"/>
     <addaction name="actionLog"/>
+    <addaction name="actionCh_nh_s_a_danh_s_ch_test"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -237,7 +237,7 @@ CP202-2CI</string>
      <normaloff>:/icon/edit.png</normaloff>:/icon/edit.png</iconset>
    </property>
    <property name="text">
-    <string>Sửa cấu hình nạp code</string>
+    <string>Chỉnh sửa cấu hình nạp code</string>
    </property>
   </action>
   <action name="actionLog">
@@ -247,6 +247,11 @@ CP202-2CI</string>
    </property>
    <property name="text">
     <string>Log</string>
+   </property>
+  </action>
+  <action name="actionCh_nh_s_a_danh_s_ch_test">
+   <property name="text">
+    <string>Chỉnh sửa bài test</string>
    </property>
   </action>
  </widget>

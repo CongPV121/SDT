@@ -26,6 +26,7 @@
     <font>
      <family>Times New Roman</family>
      <pointsize>12</pointsize>
+     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -42,6 +43,7 @@
    <property name="font">
     <font>
      <family>Times New Roman</family>
+     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -78,6 +80,7 @@
        <font>
         <family>Times New Roman</family>
         <pointsize>10</pointsize>
+        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -92,6 +95,7 @@
        <font>
         <family>Times New Roman</family>
         <pointsize>10</pointsize>
+        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -106,6 +110,7 @@
        <font>
         <family>Times New Roman</family>
         <pointsize>10</pointsize>
+        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -120,6 +125,7 @@
        <font>
         <family>Times New Roman</family>
         <pointsize>10</pointsize>
+        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -136,7 +142,7 @@
      <x>120</x>
      <y>31</y>
      <width>159</width>
-     <height>121</height>
+     <height>126</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout_2">
@@ -262,6 +268,7 @@
    <property name="font">
     <font>
      <family>Times New Roman</family>
+     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>

@@ -41,6 +41,10 @@ private slots:
 
     void on_read_btn_2_clicked();
 
+    void on_connect_dut_2_clicked();
+
+    void on_write_config_clicked();
+
 private:
     Ui::hmi *ui;
     QString link_director;
@@ -67,7 +71,7 @@ signals:
 //    void closeEvent(QCloseEvent *event);
 
 };
-void setText_serial_number      (const char* value);
+void setText_ev_id      (const char* value);
 void setText_esim_number        (const char* value);
 void setText_hw_version         (const char* value);
 void setText_fw_version         (const uint8_t* value);

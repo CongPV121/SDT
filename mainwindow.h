@@ -45,6 +45,8 @@ private slots:
 
     void on_actionLog_triggered();
 
+    void on_actionCh_nh_s_a_danh_s_ch_test_triggered();
+
 private:
     Ui::MainWindow *ui;
 protected:

@@ -65,7 +65,8 @@ SOURCES += \
     views/hmi.cpp \
     views/logui.cpp \
     views/mc.cpp \
-    views/pmu.cpp
+    views/pmu.cpp \
+    views/testing_config.cpp
 
     # Default rules for deployment.
     qnx: target.path = /tmp/$${TARGET}/bin
@@ -131,7 +132,8 @@ HEADERS += \
     views/hmi.h \
     views/logui.h \
     views/mc.h \
-    views/pmu.h
+    views/pmu.h \
+    views/testing_config.h
 
 FORMS += \
     mainwindow.ui \
@@ -142,11 +144,14 @@ FORMS += \
     views/hmi.ui \
     views/logui.ui \
     views/mc.ui \
-    views/pmu.ui
+    views/pmu.ui \
+    views/testing_config.ui
 
 DISTFILES += \
     ../../5.Jig Test/searching.icon \
-    ../../5.Jig Test/searching.icon
+    ../../5.Jig Test/searching.icon \
+    Test.qml \
+    TestForm.ui.qml
 
 RESOURCES += \
     Resource.qrc

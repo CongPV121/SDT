@@ -7,7 +7,7 @@
 #include <QTextStream>
 #include <iostream>
 #include "Controller/downloadfw/downloadfw.h"
-
+#include "qdebug.h"
 downfw_config::downfw_config(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::downfw_config)

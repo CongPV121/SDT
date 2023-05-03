@@ -55,23 +55,23 @@ void hmi::data_read_config(const QString &data){
 
 
     /*add to value*/
-    this->ui->esim_num->setText(esim);
-    this->ui->serial_module->setText(serial_module);
-    this->ui->serial_vehicle->setText(serial_vehicle);
-    this->ui->firm_ware_ver->setText(firm_ware_ver);
-    this->ui->hard_ware_ver->setText(hard_ware_ver);
+//    this->ui->esim_num->setText(esim);
+//    this->ui->serial_module->setText(serial_module);
+//    this->ui->serial_vehicle->setText(serial_vehicle);
+//    this->ui->firm_ware_ver->setText(firm_ware_ver);
+//    this->ui->hard_ware_ver->setText(hard_ware_ver);
 }
 void hmi::on_write_serial_number(QString value){
-    this->ui->serial_vehicle->setText(value);
+    this->ui->ev_id->setText(value);
 }
 void hmi::on_write_fw_version(QString value){
-    this->ui->firm_ware_ver->setText(value);
+    this->ui->fw_version->setText(value);
 }
 void hmi::on_write_hw_version(QString value){
-    this->ui->hard_ware_ver->setText(value);
+    this->ui->hw_version->setText(value);
 }
 void hmi::on_write_esim_number(QString value){
-    this->ui->esim_num->setText(value);
+    this->ui->esimNum->setText(value);
 }
 void hmi::on_write_write_fw_button(int value){
     this->ui->write_firm_ware->setEnabled(value);
@@ -87,10 +87,10 @@ void hmi::on_read_btn_clicked()
 
 void hmi::on_write_btn_clicked()
 {
-    QString input_serial_vehicle_value = this->ui->input_serial_vehicle->text();
-    QString input_serial_module_value = this->ui->input_serual_module->text();
-    QString snVehicle_Upper = input_serial_vehicle_value.toUpper();
-    write_hmi_sn(snVehicle_Upper);
+//    QString input_serial_vehicle_value = this->ui->input_serial_vehicle->text();
+//    QString input_serial_module_value = this->ui->input_serual_module->text();
+//    QString snVehicle_Upper = input_serial_vehicle_value.toUpper();
+//    write_hmi_sn(snVehicle_Upper);
     //this->ui->esim_num->setText(snVehicle_Upper);
     /*prepare data*/
     //emit on_request_write_data_config(data_out);
@@ -142,7 +142,7 @@ void set_value_processbar(const int value, uint8_t state_process){
     }
     emit p_hmi->on_response_percents_to_complete(value);
 }
-void setText_serial_number(const char* value){
+void setText_ev_id(const char* value){
 
     QString s_value = QString(value);
     hmi::get_hmi()->on_write_serial_number(s_value);
@@ -197,4 +197,25 @@ void hmi::on_read_btn_2_clicked()
 
 }
 
+
+
+void hmi::on_connect_dut_2_clicked()
+{
+    this->ui->write_config->setEnabled(1);
+
+}
+
+
+void hmi::on_write_config_clicked()
+{
+    if(QMessageBox::question(this,"Tiếp tục","Nạp Cấu Hình ?") == QMessageBox::Yes ){
+//        QString bp_sn = this->ui->input_serial_vehicle->text();
+//        QString bp_sn_Upper = bp_sn.toUpper();
+//        write_sn_number(bp_sn_Upper);
+
+        QString device_sn = this->ui->input_device_sn->text();
+        QString snVehicle_Upper = device_sn.toUpper();
+        write_ev_id(snVehicle_Upper);
+    }
+}
 

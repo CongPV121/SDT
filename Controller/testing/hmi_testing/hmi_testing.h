@@ -17,6 +17,10 @@
 #define    HMI_HW_VERSION_SDO_SUBINDEX       3
 #define    HMI_ESIM_NUMBER_SDO_SUBINDEX      4
 
+#define    HMI_CONFIG_PAR_INDEX              0x2800
+#define    HMI_READ_EVID_SUBINDEX              0
+#define    HMI_WRITE_EVID_SUBINDEX              1
+#define    HMI_ESIM_NUMBER_SUBINDEX             4
 
 
 #define    HMI_NODE_ID                       8
@@ -47,4 +51,8 @@ void respone_read_device_serial_number       (void);
 void respone_read_esim_number                (void);
 void respone_read_fw_version                 (void);
 void respone_read_hw_version                 (void);
+
+bool  write_ev_id( QString value );
+void send_write_ev_id(void);
+
 #endif // HMI_TESTING_H

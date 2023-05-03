@@ -2,6 +2,7 @@
 #include "Controller/testing/testing.h"
 #include "Controller/app_co/od/od.h"
 #include "Controller/controler.h"
+#include "Controller/config/config.h"
 
 bool testing_hmi = 0;
 
@@ -124,13 +125,13 @@ void read_device_serial_number(void){
                                };
     CO_SDOclient_start_upload  (&CO_DEVICE.sdo_client,
                                 HMI_NODE_ID,
-                                HMI_CONFIG_SDO_INDEX,
-                                HMI_DEVICE_NUMBER_SDO_SUBINDEX,
+                                HMI_CONFIG_PAR_INDEX,
+                                HMI_READ_EVID_SUBINDEX,
                                 &fw_version, 500);
 
 }
 void respone_read_device_serial_number(void){
-    setText_serial_number((char*)device_serial);
+    setText_ev_id((char*)device_serial);
 }
 
 uint8_t esim_number[32] = "";
@@ -143,8 +144,8 @@ void read_esim_number(void){
                                };
     CO_SDOclient_start_upload  (&CO_DEVICE.sdo_client,
                                 HMI_NODE_ID,
-                                HMI_CONFIG_SDO_INDEX,
-                                HMI_ESIM_NUMBER_SDO_SUBINDEX,
+                                HMI_CONFIG_PAR_INDEX,
+                                HMI_ESIM_NUMBER_SUBINDEX,
                                 &fw_version, 500);
 
 }
@@ -192,4 +193,48 @@ void respone_read_hw_version(void){
     setText_hw_version((char*)hw_version_arr);
 }
 /*  ______________ sdo_ext_confirm_function_________________*/
+static char ev_id[42];
 
+void send_write_ev_id(void){
+
+    CO_Sub_Object test_object = {.p_data = ev_id,
+                                 .attr   = ODA_SDO_RW,
+                                 .len    = 42,
+                                 .p_ext  = NULL
+                                };
+    CO_SDOclient_start_download(&CO_DEVICE.sdo_client,
+                                HMI_NODE_ID,
+                                HMI_CONFIG_PAR_INDEX,
+                                HMI_WRITE_EVID_SUBINDEX,
+                                &test_object, 3000);
+}
+
+
+bool  write_ev_id( QString value ){
+    if(value.length() < 8){
+
+        return 0;
+    }
+    memset(ev_id,0,42);
+    /* Write key*/
+    QString key = wirteConfigKey;
+    QByteArray key_arr = key.toLatin1();
+    const char* key_c = key_arr.data();
+    memcpy(ev_id,key_c,9);
+    /* Write data*/
+    QString valueRev;
+    for (int i = value.length() - 1; i >= 0; --i) {
+        valueRev.append(value.at(i));
+    }
+    QByteArray ba;
+    ba = valueRev.toLatin1();
+    const char* path = ba.data();
+    memcpy(ev_id + 9,path,valueRev.length());
+
+    push_data_into_queue_to_send(send_write_ev_id,
+                                 NULL,
+                                 10);
+    return 1;
+
+}
+/**/
