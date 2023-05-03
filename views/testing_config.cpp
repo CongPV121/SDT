@@ -254,6 +254,33 @@ void config_dialog::set_dialog_TC_DUT_IO2(void){
 
 }
 void config_dialog::set_dialog_TC_DUT_IO3(void){
+    QFont font("Times New Roman", 18, QFont::Bold);
+
+    QLabel *timeout_ms_label            = new QLabel("Timeout:", this);
+    QLabel *io_output_x_channel_label   = new QLabel("IO Channel:", this);
+    QLabel *dut_tc_id_label             = new QLabel("Mã số bài test của DUT:", this);
+
+    QLineEdit *timeout_ms_edit             = new QLineEdit(this);
+    QLineEdit *io_output_x_channel_edit    = new QLineEdit( this);
+    QLineEdit *dut_tc_id_edit              = new QLineEdit( this);
+
+    QLayout *layout = this->layout();
+    QGridLayout *gridLayout = qobject_cast<QGridLayout *>(layout);
+    int row = 3;
+    gridLayout->addWidget(timeout_ms_label,      row++, 0);
+    gridLayout->addWidget(io_output_x_channel_label,    row++, 0);
+    gridLayout->addWidget(dut_tc_id_label,    row++, 0);
+
+    row = 3;
+    gridLayout->addWidget(timeout_ms_edit,      row++, 1);
+    gridLayout->addWidget(io_output_x_channel_edit,    row++, 1);
+    gridLayout->addWidget(dut_tc_id_edit,    row++, 1);
+
+    QPushButton *buttonOk = this->findChild<QPushButton *>("buttonOk");
+    QPushButton *buttonCancel = this->findChild<QPushButton *>("buttonCancel");
+    row++;
+    gridLayout->addWidget(buttonOk,row , 1,     Qt::AlignRight);
+    gridLayout->addWidget(buttonCancel, row, 0, Qt::AlignRight);
 
 }
 void config_dialog::set_dialog_TC_JIG_IO1(void){
@@ -284,6 +311,49 @@ void config_dialog::set_dialog_TC_JIG_VOLT3(void){
 
 }
 void config_dialog::set_dialog_TC_DUT_VOLT1(void){
+
+    QFont font("Times New Roman", 18, QFont::Bold);
+
+    QLabel *timeout_ms_label   = new QLabel("Timeout:", this);
+    QLabel *dut_tc_id_label     = new QLabel("Mã số bài test của DUT:", this);
+    QLabel *max_avg_volt_mv_label  = new QLabel("Giá trị điện áp trung bình lớn nhất (mV):", this);
+    QLabel *min_avg_volt_mv_label   = new QLabel("Giá trị điện áp trung bình nhỏ nhất (mV):", this);
+    QLabel *ripple_volt_mv_label      = new QLabel("Giá trị điện áp dao động (mV):", this);
+
+
+    QLineEdit *timeout_ms_edit     = new QLineEdit(this);
+    QLineEdit *dut_tc_id_edit   = new QLineEdit( this);
+    QLineEdit *max_avg_volt_mv_edit    = new QLineEdit( this);
+    QLineEdit *min_avg_volt_mv_edit     = new QLineEdit( this);
+    QLineEdit *ripple_volt_mv_edit        = new QLineEdit(this);
+    QLineEdit *volMin_edit        = new QLineEdit( this);
+    QLineEdit *volDelta_edit      = new QLineEdit( this);
+
+    QLayout *layout = this->layout();
+    QGridLayout *gridLayout = qobject_cast<QGridLayout *>(layout);
+    int row = 3;
+    gridLayout->addWidget(timeout_ms_label,      row++, 0);
+    gridLayout->addWidget(dut_tc_id_label,    row++, 0);
+    gridLayout->addWidget(max_avg_volt_mv_label,     row++, 0);
+    gridLayout->addWidget(min_avg_volt_mv_label,      row++, 0);
+    gridLayout->addWidget(ripple_volt_mv_label,         row++, 0);
+    gridLayout->addWidget(volMin_label,         row++, 0);
+    gridLayout->addWidget(volDelta_label,       row++, 0);
+
+    row = 3;
+    gridLayout->addWidget(timeout_ms_edit,      row++, 1);
+    gridLayout->addWidget(dut_tc_id_edit,    row++, 1);
+    gridLayout->addWidget(max_avg_volt_mv_edit,     row++, 1);
+    gridLayout->addWidget(min_avg_volt_mv_edit,      row++, 1);
+    gridLayout->addWidget(ripple_volt_mv_edit,         row++, 1);
+    gridLayout->addWidget(volMin_edit,         row++, 1);
+    gridLayout->addWidget(volDelta_edit,       row++, 1);
+
+    QPushButton *buttonOk = this->findChild<QPushButton *>("buttonOk");
+    QPushButton *buttonCancel = this->findChild<QPushButton *>("buttonCancel");
+    row++;
+    gridLayout->addWidget(buttonOk,row , 1, Qt::AlignRight);
+    gridLayout->addWidget(buttonCancel, row, 0, Qt::AlignRight);
 
 }
 void config_dialog::set_dialog_TC_CAN(void){
