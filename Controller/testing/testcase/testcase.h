@@ -29,7 +29,7 @@ typedef enum{
     TC_BMS_GATE_DRIVER_ID = 72,
     TC_BMS_SHUTDOWN_ID = 73,
     CM_IO1_ID= 80
-}testcase;
+}type_TC;
 typedef struct TC_DUT_IO1_t         TC_DUT_IO1;
 typedef struct TC_DUT_IO2_t         TC_DUT_IO2;
 typedef struct TC_DUT_IO3_t         TC_DUT_IO3;

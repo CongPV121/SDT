@@ -1,6 +1,9 @@
 #include "testing_config.h"
 #include "ui_testing_config.h"
 #include <QMessageBox>
+#include "Controller/testing/testing.h"
+
+QVector<TestCasePar> tcParamater ;
 
 QVector<QString> testCases = {
     "TC_DUT_IO1",
@@ -105,7 +108,7 @@ config_dialog::config_dialog(QWidget *parent)
 
     this->setStyleSheet("QLabel { font-family: 'Times New Roman'; font-size: 18px; font-weight: bold; } "
                         "QLineEdit { font-family: 'Times New Roman'; font-size: 18px; font-weight: bold; } "
-                        "QComboBox { font-family: 'Times New Roman'; font-size: 18px; font-weight: bold; } "
+                        "QComboBox { font-family: 'Times New Roman'; font-size: 12px; font-weight: bold; } "
                         "QPushButton { font-family: 'Times New Roman'; font-size: 18px; font-weight: bold; } ");
 
     connect(comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onComboBoxIndexChanged(int)));
@@ -213,6 +216,7 @@ void config_dialog::set_dialog_TC_JIG_VOLT1(void){
     QLabel *volMin_label      = new QLabel("Giá trị điện áp trung bình nhỏ nhất (mV):", this);
     QLabel *volDelta_label    = new QLabel("Giá trị điện áp dao động lớn nhất "
                                            "\n giữa các lần lấy mẫu (mV):", this);
+    QLabel *dut_tc_id_label             = new QLabel("Mã số bài test của DUT:", this);
 
     QLineEdit *adcChanel_edit     = new QLineEdit(this);
     QLineEdit *adcVolt_div_edit   = new QLineEdit( this);
@@ -221,6 +225,7 @@ void config_dialog::set_dialog_TC_JIG_VOLT1(void){
     QLineEdit *volMax_edit        = new QLineEdit(this);
     QLineEdit *volMin_edit        = new QLineEdit( this);
     QLineEdit *volDelta_edit      = new QLineEdit( this);
+    QLineEdit *dut_tc_id_edit              = new QLineEdit( this);
 
     QLayout *layout = this->layout();
     QGridLayout *gridLayout = qobject_cast<QGridLayout *>(layout);
@@ -232,6 +237,7 @@ void config_dialog::set_dialog_TC_JIG_VOLT1(void){
     gridLayout->addWidget(volMax_label,         row++, 0);
     gridLayout->addWidget(volMin_label,         row++, 0);
     gridLayout->addWidget(volDelta_label,       row++, 0);
+    gridLayout->addWidget(dut_tc_id_label,       row++, 0);
 
     row = 3;
     gridLayout->addWidget(adcChanel_edit,      row++, 1);
@@ -241,6 +247,7 @@ void config_dialog::set_dialog_TC_JIG_VOLT1(void){
     gridLayout->addWidget(volMax_edit,         row++, 1);
     gridLayout->addWidget(volMin_edit,         row++, 1);
     gridLayout->addWidget(volDelta_edit,       row++, 1);
+    gridLayout->addWidget(dut_tc_id_edit,       row++, 1);
 
     QPushButton *buttonOk = this->findChild<QPushButton *>("buttonOk");
     QPushButton *buttonCancel = this->findChild<QPushButton *>("buttonCancel");
@@ -337,8 +344,8 @@ void config_dialog::set_dialog_TC_DUT_VOLT1(void){
     gridLayout->addWidget(max_avg_volt_mv_label,     row++, 0);
     gridLayout->addWidget(min_avg_volt_mv_label,      row++, 0);
     gridLayout->addWidget(ripple_volt_mv_label,         row++, 0);
-    gridLayout->addWidget(volMin_label,         row++, 0);
-    gridLayout->addWidget(volDelta_label,       row++, 0);
+//    gridLayout->addWidget(volMin_label,         row++, 0);
+//    gridLayout->addWidget(volDelta_label,       row++, 0);
 
     row = 3;
     gridLayout->addWidget(timeout_ms_edit,      row++, 1);
