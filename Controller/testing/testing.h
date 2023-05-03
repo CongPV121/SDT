@@ -139,6 +139,21 @@ struct CM_IO1_t {
     const QString testName = "CM_IO1";
 
 };
+/*-------------------------------------------------------*/
+typedef struct
+{
+    /*Common*/
+    uint8_t result;					//<< always byte[0]
+    /**/
+}TC_Can_Result;
+
+typedef struct
+{
+    /*Common*/
+    uint8_t	type;					//<< always byte[0]
+    uint32_t timeout_ms;			//<< always byte[1-4]
+    /**/
+}TC_Can_Para;
 
 
 /*-------------------------------------------------------*/

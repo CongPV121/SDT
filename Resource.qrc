@@ -9,5 +9,6 @@
         <file>icon/diagnostic-tool.png</file>
         <file>icon/edit.png</file>
         <file>icon/icons8-log-64.png</file>
+        <file>icon/download-to-storage-drive.png</file>
     </qresource>
 </RCC>

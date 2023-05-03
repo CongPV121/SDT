@@ -47,6 +47,8 @@ private slots:
 
     void on_actionCh_nh_s_a_danh_s_ch_test_triggered();
 
+    void on_testvehicleButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 protected:

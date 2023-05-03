@@ -27,6 +27,7 @@ SOURCES += \
     Controller/testing/hmi_testing/hmi_testing.cpp \
     Controller/testing/mc_testing/mc_testing.cpp \
     Controller/testing/pmu_testing/pmu_testing.cpp \
+    Controller/testing/testcase/testcase.c \
     Controller/testing/testing.cpp \
     Controller/thread/thread.cpp \
     Model/boot_master/CRC.c \
@@ -66,6 +67,7 @@ SOURCES += \
     views/logui.cpp \
     views/mc.cpp \
     views/pmu.cpp \
+    views/product_testing.cpp \
     views/testing_config.cpp
 
     # Default rules for deployment.
@@ -91,6 +93,7 @@ HEADERS += \
     Controller/testing/hmi_testing/hmi_testing.h \
     Controller/testing/mc_testing/mc_testing.h \
     Controller/testing/pmu_testing/pmu_testing.h \
+    Controller/testing/testcase/testcase.h \
     Controller/testing/testing.h \
     Controller/thread/thread.h \
     Model/boot_master/CO_utils.h \
@@ -133,6 +136,7 @@ HEADERS += \
     views/logui.h \
     views/mc.h \
     views/pmu.h \
+    views/product_testing.h \
     views/testing_config.h
 
 FORMS += \
@@ -145,6 +149,7 @@ FORMS += \
     views/logui.ui \
     views/mc.ui \
     views/pmu.ui \
+    views/product_testing.ui \
     views/testing_config.ui
 
 DISTFILES += \

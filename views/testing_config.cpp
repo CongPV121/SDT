@@ -51,10 +51,11 @@ Ui::testing_config *testing_config::getUi()
 void config_dialog::onComboBoxIndexChanged(int index){
     QString text = static_cast<QComboBox*>(sender())->currentText();
     if(text ==  "TC_JIG_VOLT1"){
-        this->set_diaolg_TC_JIG_VOLT1();
+        this->set_dialog_TC_JIG_VOLT1();
     }
 
 }
+
 void testing_config::on_new_test_clicked()
 {
     config_dialog dialog;
@@ -182,7 +183,7 @@ void config_dialog::onbuttonCancel(){
     this->close();
 }
 /*----------------Show config test case-------------------------*/
-void config_dialog::set_diaolg_TC_DUT_IO1(void){
+void config_dialog::set_dialog_TC_DUT_IO1(void){
     QFont font("Times New Roman", 18, QFont::Bold);
 
     QLabel *label3 = new QLabel("Age:", this);
@@ -201,7 +202,7 @@ void config_dialog::set_diaolg_TC_DUT_IO1(void){
     gridLayout->addWidget(button, 5, 1, Qt::AlignRight);
 }
 
-void config_dialog::set_diaolg_TC_JIG_VOLT1(void){
+void config_dialog::set_dialog_TC_JIG_VOLT1(void){
     QFont font("Times New Roman", 18, QFont::Bold);
 
     QLabel *adcChanel_label   = new QLabel("Cổng ADC:", this);
@@ -246,5 +247,63 @@ void config_dialog::set_diaolg_TC_JIG_VOLT1(void){
     row++;
     gridLayout->addWidget(buttonOk,row , 1, Qt::AlignRight);
     gridLayout->addWidget(buttonCancel, row, 0, Qt::AlignRight);
+
+}
+
+void config_dialog::set_dialog_TC_DUT_IO2(void){
+
+}
+void config_dialog::set_dialog_TC_DUT_IO3(void){
+
+}
+void config_dialog::set_dialog_TC_JIG_IO1(void){
+
+}
+void config_dialog::set_dialog_TC_JIG_IO2(void){
+
+}
+void config_dialog::set_dialog_TC_JIG_IO3(void){
+
+}
+void config_dialog::set_dialog_TC_JIG_IO4(void){
+
+}
+void config_dialog::set_dialog_TC_JIG_IO5(void){
+
+}
+void config_dialog::set_dialog_TC_JIG_IO6(void){
+
+}
+void config_dialog::set_dialog_TC_JIG_IO7(void){
+
+}
+void config_dialog::set_dialog_TC_JIG_VOLT2(void){
+
+}
+void config_dialog::set_dialog_TC_JIG_VOLT3(void){
+
+}
+void config_dialog::set_dialog_TC_DUT_VOLT1(void){
+
+}
+void config_dialog::set_dialog_TC_CAN(void){
+
+}
+void config_dialog::set_dialog_TC_DUT_1(void){
+
+}
+void config_dialog::set_dialog_TC_BMS_OTP(void){
+
+}
+void config_dialog::set_dialog_TC_BMS_CELL_VOLT(void){
+
+}
+void config_dialog::set_dialog_TC_BMS_GATE_DRIVER(void){
+
+}
+void config_dialog::set_dialog_TC_BMS_SHUTDOWN(void){
+
+}
+void config_dialog::set_dialog_CM_IO1(void){
 
 }
