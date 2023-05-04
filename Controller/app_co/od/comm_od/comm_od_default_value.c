@@ -16,7 +16,7 @@
 /* Synchronous schedule */
 #define DEFAULT__1005__SYNC_ENABLE						CO_SYNC_VALID		/*	Enable sync mode: Set CO_SYNC_VALID (0)
 																				Disable sync mode: set CO_SYNC_NOT_VALID (1) */
-#define DEFAULT__1005__SYNC_GEN							CO_SYNC_GEN            /*	Producer sync: Set CO_SYNC_GEN            -> For PMU/BSS_MASTER
+#define DEFAULT__1005__SYNC_GEN							CO_SYNC_NOT_GEN            /*	Producer sync: Set CO_SYNC_GEN            -> For PMU/BSS_MASTER
 																				Consumer sync: Set CO_SYNC_NOT_GEN        -> For MC/BP/... */
 #define DEFAULT__1006__COMM_CYCLE_PERIOD_MS				(10U)				/* Set according to synchronous scheduled */
 #define DEFAULT__1007__SYNC_WINDOW_LENGTH_MS			(5U)				/* Set according to synchronous scheduled */

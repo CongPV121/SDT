@@ -194,7 +194,7 @@ static inline CO_SDO_return_t CO_SDOclient_process_(CO_SDO *p_sdo, const uint16_
 		}
 	}
 
-	if(!CO_SDOclient_is_in_sync_window_len(p_sdo)) return CO_SDO_RT_busy;
+    //if(!CO_SDOclient_is_in_sync_window_len(p_sdo)) return CO_SDO_RT_busy;
 
 	CO_SDO_return_t ret = CO_SDO_RT_busy;
 	if (p_sdo->rx_msg.is_new || p_sdo->is_internal_processing)
