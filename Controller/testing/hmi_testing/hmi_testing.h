@@ -20,7 +20,8 @@
 #define    HMI_CONFIG_PAR_INDEX              0x2800
 #define    HMI_READ_EVID_SUBINDEX              0
 #define    HMI_WRITE_EVID_SUBINDEX              1
-#define    HMI_ESIM_NUMBER_SUBINDEX             4
+#define    HMI_CRC_SUBINDEX                     2
+#define    HMI_ESIM_NUMBER_SUBINDEX             3
 
 
 #define    HMI_NODE_ID                       8
@@ -53,6 +54,8 @@ void respone_read_fw_version                 (void);
 void respone_read_hw_version                 (void);
 
 bool  write_ev_id( QString value );
+void  write_crc_infor( void );
 void send_write_ev_id(void);
-
+void send_write_crc(void);
+void write_device_infor_success(void);
 #endif // HMI_TESTING_H

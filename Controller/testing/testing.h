@@ -33,6 +33,16 @@ struct sdo_send_mailbox_t{
 
 };
 /*-------------------------------------------------------*/
+typedef struct {
+    uint16_t CRC;
+    char deivce_name[10];
+    char serial[16];
+    char ev_id[32];
+    char PCBA_id[16];
+    char date_manufacture[16];
+    char hw_ver[3];
+    char sw_ver[3];
+}device_infor;
 
 /*-------------------------------------------------------*/
 typedef struct

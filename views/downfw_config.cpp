@@ -30,6 +30,9 @@ downfw_config::downfw_config(QWidget *parent) :
 
     getFwConfigList(srcConfigFile);
     this->showFwConfigList();
+    /* Ẩn hiện phần chọn mainapp của tính năng nạp boot1 */
+    this->ui->linkFileMainApp->hide();
+    this->ui->mainApp->hide();
 }
 
 downfw_config::~downfw_config()
@@ -97,7 +100,7 @@ void downfw_config::on_codeDevice_activated(int index)
 void downfw_config::on_linkFile_clicked()
 {
     this->linkFile = nullptr;
-    this->ui->linkFileFw->setText(this->linkFile);
+    this->ui->linkFile->setText(this->linkFile);
     QString path = QFileDialog::getOpenFileName(
                 this,
                 "Open File",
@@ -105,7 +108,7 @@ void downfw_config::on_linkFile_clicked()
                 "hex(*.hex)");
     if( path.length() == 0) return;
     this->linkFile = path;
-    this->ui->linkFileFw->setText(this->linkFile);
+    this->ui->linkFile->setText(this->linkFile);
 }
 
 int copyFile(QString sourceFilePath, QString destFilePath ){
@@ -303,5 +306,38 @@ void downfw_config::on_pushButton_2_clicked()
         this->saveConfigPara(srcConfigFile);
 
     }
+}
+
+
+void downfw_config::on_codeDevice_currentIndexChanged(int index)
+{
+    QString codeDevice      = this->ui->codeDevice->currentText();
+    if(codeDevice == "BP - Bootloader 1" ||
+       codeDevice == "PMU - Bootloader 1"||
+       codeDevice == "MC - Bootloader 1" ||
+       codeDevice == "HMI - Bootloader 1"){
+        this->ui->linkFileMainApp->show();
+        this->ui->mainApp->show();
+    }
+    else{
+
+        this->ui->linkFileMainApp->hide();
+        this->ui->mainApp->hide();
+    }
+
+}
+
+void downfw_config::on_linkFileMainApp_clicked()
+{
+    this->linkFileMainapp = nullptr;
+    this->ui->linkFile->setText(this->linkFile);
+    QString path = QFileDialog::getOpenFileName(
+                this,
+                "Open File",
+                "//",
+                "hex(*.hex)");
+    if( path.length() == 0) return;
+    this->linkFileMainapp = path;
+    this->ui->linkFile->setText(this->linkFile);
 }
 

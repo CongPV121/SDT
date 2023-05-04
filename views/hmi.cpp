@@ -76,7 +76,9 @@ void hmi::on_write_esim_number(QString value){
 void hmi::on_write_write_fw_button(int value){
     this->ui->write_firm_ware->setEnabled(value);
 }
-
+void hmi::on_write_device_infor_success  (QString value){
+    QMessageBox::information(this,"Nạp Cấu Hình",value);
+}
 /*--------------------Signals-----------------------*/
 char arr[] = "101BE1";
 

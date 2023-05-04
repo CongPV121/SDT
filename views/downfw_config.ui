@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>711</width>
-    <height>529</height>
+    <width>739</width>
+    <height>569</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QTableWidget" name="tableWidget">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>220</y>
+     <x>30</x>
+     <y>260</y>
      <width>601</width>
      <height>251</height>
     </rect>
@@ -26,7 +26,6 @@
     <font>
      <family>Times New Roman</family>
      <pointsize>12</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -34,7 +33,7 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>290</x>
+     <x>300</x>
      <y>30</y>
      <width>80</width>
      <height>24</height>
@@ -43,7 +42,6 @@
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -51,216 +49,11 @@
     <string>Lưu</string>
    </property>
   </widget>
-  <widget class="QLabel" name="linkFileFw">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>160</y>
-     <width>401</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>31</y>
-     <width>81</width>
-     <height>121</height>
-    </rect>
-   </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QLabel" name="label">
-      <property name="font">
-       <font>
-        <family>Times New Roman</family>
-        <pointsize>10</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Tên Thiết Bị</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="label_2">
-      <property name="font">
-       <font>
-        <family>Times New Roman</family>
-        <pointsize>10</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Mã Thiết Bị</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_4">
-      <property name="font">
-       <font>
-        <family>Times New Roman</family>
-        <pointsize>10</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Phiên Bản</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="label_3">
-      <property name="font">
-       <font>
-        <family>Times New Roman</family>
-        <pointsize>10</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>File Firmware</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>31</y>
-     <width>159</width>
-     <height>126</height>
-    </rect>
-   </property>
-   <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="0">
-     <widget class="QLineEdit" name="nameDevice">
-      <property name="font">
-       <font>
-        <family>Times New Roman</family>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QComboBox" name="codeDevice">
-      <property name="font">
-       <font>
-        <family>Times New Roman</family>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <item>
-       <property name="text">
-        <string>Device select</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>BP - MainApp</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>BP - Bootloader 2</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>BP - Bootloader 1</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>HMI - MainApp</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>HMI - Bootloader 2</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>HMI - Bootloader 1</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>MC - MainApp</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>MC - Bootloader 2</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>MC - Bootloader 1</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>PMU - MainApp</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>PMU - Bootloader 2</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>PMU - Bootloader 1</string>
-       </property>
-      </item>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLineEdit" name="version">
-      <property name="font">
-       <font>
-        <family>Times New Roman</family>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QPushButton" name="linkFile">
-      <property name="font">
-       <font>
-        <family>Times New Roman</family>
-        <pointsize>11</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Chọn file nạp</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
   <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
-     <x>540</x>
-     <y>480</y>
+     <x>550</x>
+     <y>520</y>
      <width>80</width>
      <height>24</height>
     </rect>
@@ -268,12 +61,275 @@
    <property name="font">
     <font>
      <family>Times New Roman</family>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
    <property name="text">
     <string>Xoá</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="mainApp">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>180</y>
+     <width>51</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>10</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Main App</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="linkFileMainApp">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>177</y>
+     <width>80</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Chọn file </string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="linkFile_2">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>130</y>
+     <width>171</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="linkFile">
+   <property name="geometry">
+    <rect>
+     <x>121</x>
+     <y>130</y>
+     <width>80</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Chọn file</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="nameDevice">
+   <property name="geometry">
+    <rect>
+     <x>121</x>
+     <y>33</y>
+     <width>125</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="codeDevice">
+   <property name="geometry">
+    <rect>
+     <x>121</x>
+     <y>65</y>
+     <width>157</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <item>
+    <property name="text">
+     <string>Device select</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>BP - MainApp</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>BP - Bootloader 2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>BP - Bootloader 1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>HMI - MainApp</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>HMI - Bootloader 2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>HMI - Bootloader 1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>MC - MainApp</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>MC - Bootloader 2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>MC - Bootloader 1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>PMU - MainApp</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>PMU - Bootloader 2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>PMU - Bootloader 1</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLineEdit" name="version">
+   <property name="geometry">
+    <rect>
+     <x>121</x>
+     <y>98</y>
+     <width>125</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>21</x>
+     <y>99</y>
+     <width>57</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>10</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Phiên Bản</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>21</x>
+     <y>33</y>
+     <width>69</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>10</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Tên Thiết Bị</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>21</x>
+     <y>66</y>
+     <width>65</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>10</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Mã Thiết Bị</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>21</x>
+     <y>132</y>
+     <width>77</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>10</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>File Firmware</string>
    </property>
   </widget>
  </widget>

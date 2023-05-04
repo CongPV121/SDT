@@ -34,9 +34,14 @@ private slots:
 
     void on_pushButton_2_clicked();
 
+    void on_codeDevice_currentIndexChanged(int index);
+
+    void on_linkFileMainApp_clicked();
+
 private:
     Ui::downfw_config *ui;
     QString linkFile;
+    QString linkFileMainapp;
 };
 int     copyFile        (QString sourceFilePath, QString destFilePath );
 void    getFwConfigList (QString srcPath);

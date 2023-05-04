@@ -40,14 +40,13 @@ sdo_msg_buff sdo_sending_msg;
 void testing_sdo_process(sdo_send_mailbox *mailbox){
     // printf("boot sate: %d\n",mailbox->msg_waiting);
 
-    if( mailbox->msg_waiting <= 0){
-        return;
-    }
-
     CO_SDO* p_sdo = &CO_DEVICE.sdo_client;
 
     switch( CO_SDO_get_status(p_sdo) ){
     case CO_SDO_RT_idle:
+        if( mailbox->msg_waiting <= 0){
+            break;
+        }
         if(mailbox->sdo_send_msg[0].method == NULL) {
             shift_left(mailbox);
             break;

@@ -26,6 +26,8 @@ public slots:
     void on_write_hw_version            (QString value);
     void on_write_esim_number           (QString value);
     void on_write_write_fw_button       (int value);
+    void on_write_device_infor_success  (QString value);
+
 
 private slots:
     void on_read_btn_clicked();

@@ -3,6 +3,7 @@
 #include "Controller/app_co/od/od.h"
 #include "Controller/controler.h"
 #include "Controller/config/config.h"
+#include <QMessageBox>
 
 bool testing_hmi = 0;
 
@@ -193,6 +194,7 @@ void respone_read_hw_version(void){
     setText_hw_version((char*)hw_version_arr);
 }
 /*  ______________ sdo_ext_confirm_function_________________*/
+
 static char ev_id[42];
 
 void send_write_ev_id(void){
@@ -208,11 +210,24 @@ void send_write_ev_id(void){
                                 HMI_WRITE_EVID_SUBINDEX,
                                 &test_object, 3000);
 }
+static char crc_data[16];
 
+void send_write_crc(void){
+
+    CO_Sub_Object test_object = {.p_data = crc_data,
+                                 .attr   = ODA_SDO_RW,
+                                 .len    = 16,
+                                 .p_ext  = NULL
+                                };
+    CO_SDOclient_start_download(&CO_DEVICE.sdo_client,
+                                HMI_NODE_ID,
+                                HMI_CONFIG_PAR_INDEX,
+                                HMI_CRC_SUBINDEX,
+                                &test_object, 3000);
+}
 
 bool  write_ev_id( QString value ){
-    if(value.length() < 8){
-
+    if(value.length() < 4){
         return 0;
     }
     memset(ev_id,0,42);
@@ -222,19 +237,35 @@ bool  write_ev_id( QString value ){
     const char* key_c = key_arr.data();
     memcpy(ev_id,key_c,9);
     /* Write data*/
-    QString valueRev;
-    for (int i = value.length() - 1; i >= 0; --i) {
-        valueRev.append(value.at(i));
-    }
     QByteArray ba;
-    ba = valueRev.toLatin1();
+    ba = value.toLatin1();
     const char* path = ba.data();
-    memcpy(ev_id + 9,path,valueRev.length());
+    memcpy(ev_id + 9,path,value.length());
 
     push_data_into_queue_to_send(send_write_ev_id,
-                                 NULL,
+                                 write_crc_infor,
                                  10);
     return 1;
 
 }
+
+void  write_crc_infor(void){
+
+    memset(crc_data,0,16);
+    /* Write key*/
+    QString key = wirteConfigKey;
+    QByteArray key_arr = key.toLatin1();
+    const char* key_c = key_arr.data();
+    memcpy(crc_data,key_c,9);
+
+    push_data_into_queue_to_send(send_write_crc,
+                                 write_device_infor_success,
+                                 100);
+
+}
+
+void write_device_infor_success(void){
+        hmi::get_hmi()->on_write_device_infor_success("Nạp Thành Công");
+}
+
 /**/
