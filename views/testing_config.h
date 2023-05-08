@@ -30,6 +30,9 @@ public:
 private slots:
     void on_new_test_clicked();
 
+
+    void on_saveTestSuite_clicked();
+
 private:
     Ui::testing_config *ui;
 };
@@ -42,6 +45,9 @@ class config_dialog : public QDialog
 
 public:
     config_dialog(QWidget *parent = nullptr) ;
+    void dialog_init            (void);
+    void dialog_clear            (void);
+    void showTableWigdet        (void);
     void set_dialog_TC_DUT_IO1(void);
     void set_dialog_TC_DUT_IO2(void);
     void set_dialog_TC_DUT_IO3(void);

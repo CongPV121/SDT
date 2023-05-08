@@ -30,28 +30,28 @@ typedef enum{
     TC_BMS_SHUTDOWN_ID = 73,
     CM_IO1_ID= 80
 }type_TC;
-typedef struct TC_DUT_IO1_t         TC_DUT_IO1;
-typedef struct TC_DUT_IO2_t         TC_DUT_IO2;
-typedef struct TC_DUT_IO3_t         TC_DUT_IO3;
-typedef struct TC_JIG_IO1_t         TC_JIG_IO1;
-typedef struct TC_JIG_IO2_t         TC_JIG_IO2;
-typedef struct TC_JIG_IO3_t         TC_JIG_IO3;
-typedef struct TC_JIG_IO4_t         TC_JIG_IO4;
-typedef struct TC_JIG_IO5_t         TC_JIG_IO5;
-typedef struct TC_JIG_IO6_t         TC_JIG_IO6;
-typedef struct TC_JIG_IO7_t         TC_JIG_IO7;
-typedef struct TC_JIG_VOLT1_t		TC_JIG_VOLT1;
-typedef struct TC_JIG_VOLT2_t		TC_JIG_VOLT2;
-typedef struct TC_JIG_VOLT3_t		TC_JIG_VOLT3;
-typedef struct TC_DUT_VOLT1_t		TC_DUT_VOLT1;
-typedef struct TC_CAN_t             TC_CAN;
-typedef struct TC_DUT_1_t           TC_DUT_1;
-typedef struct TC_BMS_OTP_t         TC_BMS_OTP;
-typedef struct TC_BMS_CELL_VOLT_t		TC_BMS_CELL_VOLT;
-typedef struct TC_BMS_GATE_DRIVER_t		TC_BMS_GATE_DRIVER;
-typedef struct TC_BMS_SHUTDOWN_t		TC_BMS_SHUTDOWN;
-typedef struct CM_IO1_t             CM_IO1;
-/*----------------------------------*/
+//typedef struct TC_DUT_IO1_t         TC_DUT_IO1;
+//typedef struct TC_DUT_IO2_t         TC_DUT_IO2;
+//typedef struct TC_DUT_IO3_t         TC_DUT_IO3;
+//typedef struct TC_JIG_IO1_t         TC_JIG_IO1;
+//typedef struct TC_JIG_IO2_t         TC_JIG_IO2;
+//typedef struct TC_JIG_IO3_t         TC_JIG_IO3;
+//typedef struct TC_JIG_IO4_t         TC_JIG_IO4;
+//typedef struct TC_JIG_IO5_t         TC_JIG_IO5;
+//typedef struct TC_JIG_IO6_t         TC_JIG_IO6;
+//typedef struct TC_JIG_IO7_t         TC_JIG_IO7;
+//typedef struct TC_JIG_VOLT1_t		TC_JIG_VOLT1;
+//typedef struct TC_JIG_VOLT2_t		TC_JIG_VOLT2;
+//typedef struct TC_JIG_VOLT3_t		TC_JIG_VOLT3;
+//typedef struct TC_DUT_VOLT1_t		TC_DUT_VOLT1;
+//typedef struct TC_CAN_t             TC_CAN;
+//typedef struct TC_DUT_1_t           TC_DUT_1;
+//typedef struct TC_BMS_OTP_t         TC_BMS_OTP;
+//typedef struct TC_BMS_CELL_VOLT_t		TC_BMS_CELL_VOLT;
+//typedef struct TC_BMS_GATE_DRIVER_t		TC_BMS_GATE_DRIVER;
+//typedef struct TC_BMS_SHUTDOWN_t		TC_BMS_SHUTDOWN;
+//typedef struct CM_IO1_t             CM_IO1;
+/*----------------TC_Can------------------*/
 
 typedef struct
 {
@@ -67,6 +67,7 @@ typedef struct
     uint32_t timeout_ms;			//<< always byte[1-4]
     /**/
 }TC_Can_Para;
+/*---------------TC_Dut_Io3-------------------*/
 
 typedef struct
 {
@@ -75,7 +76,6 @@ typedef struct
     /**/
     uint8_t actual_level;
 }TC_Dut_Io1_Result;
-/*----------------------------------*/
 
 typedef struct
 {
@@ -87,6 +87,8 @@ typedef struct
     uint8_t correct_level;
 }TC_Dut_Io1_Para;
 
+/*-------------TC_Dut_Io3---------------------*/
+
 typedef struct
 {
     /*Common*/
@@ -95,7 +97,6 @@ typedef struct
     uint8_t logic_1_is_pass;
     uint8_t logic_0_is_pass;
 }TC_Dut_Io3_Result;
-/*----------------------------------*/
 
 typedef struct
 {
@@ -106,7 +107,7 @@ typedef struct
     uint8_t dut_tc_id;				//<< DUT test case ID
     uint8_t io_output_x_channel;
 }TC_Dut_Io3_Para;
-/*----------------------------------*/
+/*--------------TC_Dut_Volt1--------------------*/
 typedef struct
 {
     /*Common*/
@@ -131,7 +132,7 @@ typedef struct
 
 }TC_Dut_Volt1_Para;
 
-/*----------------------------------*/
+/*-------------TC_Dut1---------------------*/
 typedef struct
 {
     /*Common*/
@@ -148,7 +149,7 @@ typedef struct
     uint8_t dut_tc_id;				//<< DUT test case ID
 }TC_Dut1_Para;
 
-/*----------------------------------*/
+/*---------------TC_Jig_Io5-------------------*/
 typedef struct
 {
     /*Common*/
@@ -168,7 +169,7 @@ typedef struct
     uint8_t io_input_y_channel;
 }TC_Jig_Io5_Para;
 
-/*----------------------------------*/
+/*---------------TC_Jig_Io7-------------------*/
 typedef struct
 {
     /*Common*/
@@ -190,7 +191,7 @@ typedef struct
     uint8_t io_output_x_lv;
 }TC_Jig_Io7_Para;
 
-/*----------------------------------*/
+/*----------------TC_Jig_Volt1------------------*/
 typedef struct
 {
     /*Common*/
@@ -218,7 +219,7 @@ typedef struct
 
 }TC_Jig_Volt1_Para;
 
-/*----------------------------------*/
+/*----------------TC_Jig_Volt2------------------*/
 typedef struct
 {
     /*Common*/
