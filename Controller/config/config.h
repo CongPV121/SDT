@@ -9,8 +9,8 @@ public:
     config();
 };
 /*---------------------------------Firmware Download Config---------------------*/
-#define FwConfigFolder      "FwConfig"
-#define FwConfigFile        "FwConfig/FwConfig.txt"
+#define FwConfigFolder      "Data/FwConfig"
+#define FwConfigFile        "Data/FwConfig/FwConfig.txt"
 
 #define bpMainapp       "BP - MainApp"
 #define bpboot1         "BP - Bootloader 1"
@@ -29,6 +29,9 @@ public:
 #define mcboot2         "MC - Bootloader 2"
 /*---------------------------------BP TESTING CONFIG---------------------*/
 #define wirteConfigKey    "selex123@"
+/*---------------------------------TESTCASE---------------------*/
+#define TestSiuteFolder      "TestSiute"
+#define TestSiuteFile        "TestSiute/TestSiute.json"
 
 
 #endif // CONFIG_H

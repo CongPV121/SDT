@@ -89,7 +89,6 @@ void downfw_config::on_pushButton_clicked()
     this->updateListFwDevice(srcConfigFile, nameDevice, codeDevice, filePath, version);
     this->saveConfigPara(srcConfigFile);
     this->showFwConfigList();
-
 }
 
 

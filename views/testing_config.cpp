@@ -4,6 +4,11 @@
 #include "Controller/testing/testing.h"
 #include "Controller/testing/testcase/testcase.h"
 #include <QtGui/QIntValidator>
+#include <QFile>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include "Controller/config/config.h"
 
 QVector<TestCasePar> tcParamater ;
 
@@ -216,9 +221,26 @@ void config_dialog::onbuttonOK(){
         tc_jig_vol.timeout_ms = this->findChild<QLineEdit *>("timeout_ms_edit")->text().toUInt() ;
         tc_jig_vol.type = this->findChild<QLineEdit *>("dut_tc_id_edit")->text().toUInt() ;
     }
+
+
     uint8_t data[sizeof (TC_Dut_Volt1_Para)];
     memcpy(data,(uint8_t*)&tc_jig_vol,sizeof (TC_Dut_Volt1_Para));
 
+    QString folderPath = TestSiuteFolder;
+    QDir dir;
+    dir.mkdir(folderPath);
+    QString srcConfigFile = dir.filePath(TestSiuteFile);
+
+    QJsonObject dataJson;
+    dataJson["name"] = "John";
+    QJsonDocument doc(dataJson);
+    QFile file(srcConfigFile);
+
+     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+         qDebug() << "Không thể mở tập tin";
+     }
+     file.write(doc.toJson());
+     file.close();
     TC_Dut_Volt1_Para tc_jig_vol1= *(TC_Dut_Volt1_Para*)&data;;
     this->close();
 }
