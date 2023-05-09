@@ -13,7 +13,7 @@
 #include <QComboBox>
 #include <QGridLayout>
 #include "Controller/testing/testing.h"
-
+#include "QListWidgetItem"
 namespace Ui {
 class testing_config;
 }
@@ -27,12 +27,17 @@ public:
     explicit testing_config(QWidget *parent = nullptr);
     ~testing_config();
     Ui::testing_config *getUi();
+    void upadateTestList(void);
 private slots:
     void on_new_test_clicked();
 
 
     void on_saveTestSuite_clicked();
 
+    void on_pushButton_2_clicked();
+
+    void on_jigTestlist_itemDoubleClicked(QListWidgetItem *item);
+    void clearTableListTest(void);
 private:
     Ui::testing_config *ui;
 };
@@ -47,7 +52,7 @@ public:
     config_dialog(QWidget *parent = nullptr) ;
     void dialog_init            (void);
     void dialog_clear            (void);
-    void showTableWigdet        (void);
+    QString showTableWigdet        (void);
     void set_dialog_TC_DUT_IO1(void);
     void set_dialog_TC_DUT_IO2(void);
     void set_dialog_TC_DUT_IO3(void);
@@ -75,6 +80,11 @@ private slots:
     void onbuttonOK(void);
      void onbuttonCancel(void);
 };
+
+void updateTSShowing(testcase TC);
+void saveTestSuite(const testsiute& suite, const QString& fileName);
+void saveJigTestList(const QVector<testsiute>& jigTestList, const QString& fileName);
+QVector<testsiute> loadJigTestList(const QString& fileName);
 
 extern testing_config *testingUi;
 #endif // TESTING_CONFIG_H

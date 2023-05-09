@@ -2,6 +2,8 @@
 //#include "Controller/testing/hmi_testing/hmi_testing.h"
 
 sdo_send_mailbox SDO_mailbox;
+QVector<testsiute> JigTestList;
+
 testing::testing(QObject *parent) : QObject(parent)
 {
 

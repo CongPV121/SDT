@@ -25,32 +25,11 @@ typedef enum{
     TC_CAN_ID = 50,
     TC_DUT_1_ID = 60,
     TC_BMS_OTP_ID = 70,
-    TC_BMS_CELL_VOLT_ID= 71,
+    TC_BMS_CELL_VOLT_ID = 71,
     TC_BMS_GATE_DRIVER_ID = 72,
     TC_BMS_SHUTDOWN_ID = 73,
-    CM_IO1_ID= 80
+    CM_IO1_ID   = 80
 }type_TC;
-//typedef struct TC_DUT_IO1_t         TC_DUT_IO1;
-//typedef struct TC_DUT_IO2_t         TC_DUT_IO2;
-//typedef struct TC_DUT_IO3_t         TC_DUT_IO3;
-//typedef struct TC_JIG_IO1_t         TC_JIG_IO1;
-//typedef struct TC_JIG_IO2_t         TC_JIG_IO2;
-//typedef struct TC_JIG_IO3_t         TC_JIG_IO3;
-//typedef struct TC_JIG_IO4_t         TC_JIG_IO4;
-//typedef struct TC_JIG_IO5_t         TC_JIG_IO5;
-//typedef struct TC_JIG_IO6_t         TC_JIG_IO6;
-//typedef struct TC_JIG_IO7_t         TC_JIG_IO7;
-//typedef struct TC_JIG_VOLT1_t		TC_JIG_VOLT1;
-//typedef struct TC_JIG_VOLT2_t		TC_JIG_VOLT2;
-//typedef struct TC_JIG_VOLT3_t		TC_JIG_VOLT3;
-//typedef struct TC_DUT_VOLT1_t		TC_DUT_VOLT1;
-//typedef struct TC_CAN_t             TC_CAN;
-//typedef struct TC_DUT_1_t           TC_DUT_1;
-//typedef struct TC_BMS_OTP_t         TC_BMS_OTP;
-//typedef struct TC_BMS_CELL_VOLT_t		TC_BMS_CELL_VOLT;
-//typedef struct TC_BMS_GATE_DRIVER_t		TC_BMS_GATE_DRIVER;
-//typedef struct TC_BMS_SHUTDOWN_t		TC_BMS_SHUTDOWN;
-//typedef struct CM_IO1_t             CM_IO1;
 /*----------------TC_Can------------------*/
 
 typedef struct
@@ -250,7 +229,7 @@ typedef struct
 
 /*----------------------------------*/
 
-
+;
 
 /*----------------------------------*/
 

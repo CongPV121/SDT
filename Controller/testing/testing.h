@@ -16,6 +16,8 @@ public:
     explicit testing(QObject *parent = nullptr);
 };
 
+/*----------------------SDO BUFF---------------------------------*/
+
 typedef struct sdo_msg_buff_t sdo_msg_buff;
 typedef struct sdo_send_mailbox_t sdo_send_mailbox;
 
@@ -32,7 +34,7 @@ struct sdo_send_mailbox_t{
     uint16_t        msg_waiting = 0;
 
 };
-/*-------------------------------------------------------*/
+/*----------------------device information---------------------------------*/
 typedef struct {
     uint16_t CRC;
     char deivce_name[10];
@@ -44,29 +46,25 @@ typedef struct {
     char sw_ver[3];
 }device_infor;
 
-/*-------------------------------------------------------*/
-typedef struct
+/*-----------------------test case - test siute--------------------------------*/
+class testcase
 {
-    /*Common*/
-    type_TC nameTC;
-    QString setting_data;
-
-}TestCasePar;
-
-typedef struct
+public:
+    testcase() {};
+    QString name;
+    QString testParamaters;
+    QString testShow;
+};
+class testsiute
 {
-    /*Common*/
-    QString nameTS;
-    uint16_t crc;
-    uint16_t size;
-    uint8_t tc_number;
-    uint8_t dut_nodeid;
-    QVector<TestCasePar> testCases ;
-
-}TestSuitePar;
-
+public:
+    testsiute() {};
+    QString name;
+    QVector<testcase> TestCase;
+};
 /*-------------------------------------------------------*/
-extern QVector<QString> testCases ;
+
+extern QVector<testsiute> JigTestList;
 extern sdo_send_mailbox SDO_mailbox ;
 
 void testing_sdo_process            (sdo_send_mailbox *mailbox);

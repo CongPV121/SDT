@@ -10,7 +10,7 @@
 #include <QJsonArray>
 #include "Controller/config/config.h"
 
-QVector<TestCasePar> tcParamater ;
+testsiute TS_showing;
 
 QVector<QString> testCases = {
     "TC_DUT_IO1",
@@ -45,7 +45,19 @@ testing_config::testing_config(QWidget *parent) :
     ui->setupUi(this);
     this->setStyleSheet("QTableWidgetItem { font-family: 'Times New Roman'; font-size: 18px; font-weight: bold; border: 2px solid red;} ");
     this->ui->tableWidget->horizontalHeader()->setStyleSheet("QHeaderView::section{background-color: green}");
-
+    this->upadateTestList();
+}
+void testing_config::upadateTestList(void){
+    QString folderPath = TestSiuteFolder;
+    QDir dir;
+    dir.mkdir(folderPath);
+    QString srcConfigFile = dir.filePath(TestSiuteFile);
+    JigTestList.clear();
+    JigTestList = loadJigTestList(srcConfigFile);
+    for(int i = 0; i < JigTestList.size();  i ++){
+        QListWidgetItem *item = new QListWidgetItem(JigTestList[i].name);
+        ui->jigTestlist->addItem(item);
+    }
 }
 
 testing_config::~testing_config()
@@ -131,7 +143,9 @@ void config_dialog::onComboBoxIndexChanged(int index){
     }
 
 }
-
+void creatTSShowing(testcase tc){
+    TS_showing.TestCase += tc;
+}
 void testing_config::on_new_test_clicked()
 {
     config_dialog dialog;
@@ -205,7 +219,7 @@ void config_dialog::onbuttonOK(){
         return;
     }
 
-    this->showTableWigdet();
+    QString showTestCase = this->showTableWigdet();
     QComboBox *comboBox = this->findChild<QComboBox*>("comboBox");
     QString text;
     if (comboBox) {
@@ -222,29 +236,19 @@ void config_dialog::onbuttonOK(){
         tc_jig_vol.type = this->findChild<QLineEdit *>("dut_tc_id_edit")->text().toUInt() ;
     }
 
-
     uint8_t data[sizeof (TC_Dut_Volt1_Para)];
     memcpy(data,(uint8_t*)&tc_jig_vol,sizeof (TC_Dut_Volt1_Para));
+    QString dataStr = QString::fromUtf8(reinterpret_cast<const char*>(data), sizeof(data));
 
-    QString folderPath = TestSiuteFolder;
-    QDir dir;
-    dir.mkdir(folderPath);
-    QString srcConfigFile = dir.filePath(TestSiuteFile);
+    testcase tc_buff;
+    tc_buff.name = this->findChild<QLineEdit *>("nameTC")->text();
+    tc_buff.testParamaters = dataStr;
+    tc_buff.testShow = showTestCase;
 
-    QJsonObject dataJson;
-    dataJson["name"] = "John";
-    QJsonDocument doc(dataJson);
-    QFile file(srcConfigFile);
-
-     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-         qDebug() << "Không thể mở tập tin";
-     }
-     file.write(doc.toJson());
-     file.close();
-    TC_Dut_Volt1_Para tc_jig_vol1= *(TC_Dut_Volt1_Para*)&data;;
+    creatTSShowing(tc_buff);
     this->close();
 }
-void config_dialog::showTableWigdet(){
+QString config_dialog::showTableWigdet(){
     Ui::testing_config *uiConfig = testingUi->getUi();
     QTableWidget *p_tableWidget = uiConfig->tableWidget;
 
@@ -302,6 +306,7 @@ void config_dialog::showTableWigdet(){
 
     p_tableWidget->resizeRowsToContents();
     p_tableWidget->resizeColumnsToContents();
+    return label1;
 }
 
 void config_dialog::onbuttonCancel(){
@@ -384,10 +389,10 @@ void config_dialog::set_dialog_TC_JIG_VOLT1(void){
     QLineEdit *volDelta_edit      = new QLineEdit( this);
     QLineEdit *dut_tc_id_edit              = new QLineEdit( this);
 
-//    timeout_ms_edit->setObjectName("timeout_ms_edit");
-//    adcChanel_edit->setObjectName("adcChanel_edit");
-//    adcVolt_div_edit->setObjectName("adcVolt_div_edit");
-//    sampleTime_edit->setObjectName("sampleTime_edit");
+    //    timeout_ms_edit->setObjectName("timeout_ms_edit");
+    //    adcChanel_edit->setObjectName("adcChanel_edit");
+    //    adcVolt_div_edit->setObjectName("adcVolt_div_edit");
+    //    sampleTime_edit->setObjectName("sampleTime_edit");
     sampleNum_edit->setValidator(new QIntValidator(0, 255, sampleNum_edit));
     volMax_edit->setValidator(new QIntValidator(0, 99999, volMax_edit));
     volMin_edit->setValidator(new QIntValidator(0, 99999, volMin_edit));
@@ -570,24 +575,137 @@ void config_dialog::set_dialog_CM_IO1(void){
 
 void testing_config::on_saveTestSuite_clicked()
 {
+    QString folderPath = TestSiuteFolder;
+    QDir dir;
+    dir.mkdir(folderPath);
+    QString srcConfigFile = dir.filePath(TestSiuteFile);
+    JigTestList += TS_showing;
+    for (int i = 0; i < JigTestList.size() -1; ++i) {
+        if(TS_showing.name == JigTestList[i].name){
+            JigTestList[i] = TS_showing;
+            JigTestList.removeLast();
+            break;
+        }
+    }
+    saveJigTestList(JigTestList,srcConfigFile);
+}
 
-     QTableWidget *p_tableWidget = this->ui->tableWidget;
-    for(int row = 0; row < p_tableWidget->rowCount(); row++){
-        QString line = p_tableWidget->item(row,2)->text();
-        QStringList lines = line.split("\n");
 
-         for (int i = 0; i < lines.size(); i++) {
-             if (lines[i].contains("Loại bài test"))
-             {
-                 QStringList parts = lines[i].split(":");
-                 if (parts.count() == 2)
-                 {
-                     QString param1Value = parts[1].trimmed();
+void testing_config::on_pushButton_2_clicked()
+{
+    QString folderPath = TestSiuteFolder;
+    QDir dir;
+    dir.mkdir(folderPath);
+    QString srcConfigFile = dir.filePath(TestSiuteFile);
 
-                 }
-             }
-         }
+    QVector<testsiute> JigTestList = loadJigTestList(srcConfigFile);
 
+}
+
+void saveJigTestList(const QVector<testsiute>& jigTestList, const QString& fileName)
+{
+    // Tạo một đối tượng JSON từ đối tượng JigTestList
+    QJsonObject json;
+    QJsonArray testSuiteArray;
+    for (const auto& testSuite : jigTestList)
+    {
+        QJsonObject testSuiteJson;
+        testSuiteJson["name"] = testSuite.name;
+
+        QJsonArray testCaseArray;
+        for (const auto& testCase : testSuite.TestCase)
+        {
+            QJsonObject testCaseJson;
+            testCaseJson["name"]            = testCase.name;
+            testCaseJson["testParameters"]  = testCase.testParamaters;
+            testCaseJson["testShow"]        = testCase.testShow;
+            testCaseArray.append(testCaseJson);
+        }
+
+        testSuiteJson["testCases"] = testCaseArray;
+        testSuiteArray.append(testSuiteJson);
+    }
+    json["testSuites"] = testSuiteArray;
+
+    // Lưu đối tượng JSON vào tệp tin
+    QJsonDocument doc(json);
+    QFile file(fileName);
+    if (file.open(QIODevice::WriteOnly))
+    {
+        // xoá file ghi lại từ đầu
+        file.resize(0);
+        file.write(doc.toJson());
+        file.close();
+    }
+}
+QVector<testsiute> loadJigTestList(const QString& fileName)
+{
+    QVector<testsiute> jigTestList;
+
+    // Đọc dữ liệu từ tệp tin
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly))
+        return jigTestList;
+
+    QByteArray data = file.readAll();
+    file.close();
+
+    // Phân tích dữ liệu JSON và tạo các đối tượng tương ứng
+    QJsonDocument doc = QJsonDocument::fromJson(data);
+    QJsonObject json = doc.object();
+    QJsonArray testSuiteArray = json["testSuites"].toArray();
+
+    for (const auto& testSuiteJson : testSuiteArray)
+    {
+        testsiute testSuite;
+        QJsonObject testSuiteObj = testSuiteJson.toObject();
+        testSuite.name = testSuiteObj["name"].toString();
+
+        QJsonArray testCaseArray = testSuiteObj["testCases"].toArray();
+        for (const auto& testCaseJson : testCaseArray)
+        {
+            testcase testCase;
+            QJsonObject testCaseObj = testCaseJson.toObject();
+            testCase.name           = testCaseObj["name"].toString();
+            testCase.testParamaters = testCaseObj["testParameters"].toString();
+            testCase.testShow       = testCaseObj["testShow"].toString();
+            testSuite.TestCase.append(testCase);
+        }
+        jigTestList.append(testSuite);
+    }
+
+    return jigTestList;
+}
+
+void testing_config::on_jigTestlist_itemDoubleClicked(QListWidgetItem *item)
+{
+    int row = ui->jigTestlist->currentRow();
+    QListWidgetItem *clickedItem = ui->jigTestlist->item(row);
+    QString text = clickedItem->text();
+    for(int i = 0; i < JigTestList.size();  i ++){
+        if(text == JigTestList[i].name){
+            this->clearTableListTest();
+            ui->tableWidget->setRowCount(JigTestList[i].TestCase.size());
+            for (int row = 0; row < JigTestList[i].TestCase.size(); row++) {
+                QTableWidgetItem *item = new QTableWidgetItem(JigTestList[i].TestCase[i].name);
+                ui->tableWidget->setItem(row, 0, item);
+                item = new QTableWidgetItem(JigTestList[i].TestCase[i].testShow);
+                ui->tableWidget->setItem(row, 2, item);
+            }
+
+        }
+    }
+}
+void testing_config::clearTableListTest(void)
+{
+    int numRows = ui->tableWidget->rowCount();
+    int numCols = ui->tableWidget->columnCount();
+
+    for (int row = 0; row < numRows; row++) {
+        for (int col = 0; col < numCols; col++) {
+            QTableWidgetItem *item = ui->tableWidget->takeItem(row, col);
+            delete item;
+        }
     }
 }
 
