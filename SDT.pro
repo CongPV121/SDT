@@ -68,6 +68,7 @@ SOURCES += \
     views/mc.cpp \
     views/pmu.cpp \
     views/product_testing.cpp \
+    views/tc_view.cpp \
     views/testing_config.cpp
 
     # Default rules for deployment.

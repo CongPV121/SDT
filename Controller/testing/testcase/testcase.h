@@ -46,7 +46,7 @@ typedef struct
     uint32_t timeout_ms;			//<< always byte[1-4]
     /**/
 }TC_Can_Para;
-/*---------------TC_Dut_Io3-------------------*/
+/*---------------TC_Dut_Io1-------------------*/
 
 typedef struct
 {

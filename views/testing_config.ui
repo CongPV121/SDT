@@ -26,7 +26,6 @@
     <font>
      <family>Times New Roman</family>
      <pointsize>12</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -47,7 +46,6 @@
     <font>
      <family>Times New Roman</family>
      <pointsize>14</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -65,7 +63,6 @@
     <font>
      <family>Times New Roman</family>
      <pointsize>10</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -85,7 +82,6 @@
      <font>
       <family>Times New Roman</family>
       <pointsize>14</pointsize>
-      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -100,7 +96,6 @@
       <font>
        <family>Times New Roman</family>
        <pointsize>12</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -113,7 +108,6 @@
       <font>
        <family>Times New Roman</family>
        <pointsize>12</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -126,7 +120,6 @@
       <font>
        <family>Times New Roman</family>
        <pointsize>12</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -145,7 +138,6 @@
      <font>
       <family>Times New Roman</family>
       <pointsize>14</pointsize>
-      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -183,33 +175,11 @@
      <font>
       <family>Times New Roman</family>
       <pointsize>14</pointsize>
-      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
     <property name="text">
      <string>PushButton</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>40</y>
-      <width>161</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Times New Roman</family>
-      <pointsize>14</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Tên bài kiểm thử:</string>
     </property>
    </widget>
    <widget class="QGroupBox" name="groupBox_2">
@@ -224,7 +194,7 @@
     <property name="title">
      <string>Cấu hình thiết bị</string>
     </property>
-    <widget class="QComboBox" name="comboBox_2">
+    <widget class="QComboBox" name="deviceTest">
      <property name="geometry">
       <rect>
        <x>170</x>
@@ -233,6 +203,11 @@
        <height>22</height>
       </rect>
      </property>
+     <item>
+      <property name="text">
+       <string>Chọn Thiết Bị</string>
+      </property>
+     </item>
      <item>
       <property name="text">
        <string>BP</string>
@@ -273,26 +248,45 @@
      </property>
     </widget>
    </widget>
-   <widget class="QLabel" name="nameTs">
+   <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>30</x>
       <y>40</y>
-      <width>161</width>
-      <height>20</height>
+      <width>501</width>
+      <height>31</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <family>Times New Roman</family>
-      <pointsize>14</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>14</pointsize>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Tên bài kiểm thử:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="nameTs">
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>14</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QListWidget" name="jigTestlist">
@@ -308,44 +302,62 @@
     <font>
      <family>Times New Roman</family>
      <pointsize>12</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>60</y>
-     <width>121</width>
-     <height>31</height>
+     <y>40</y>
+     <width>391</width>
+     <height>71</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Tạo mới bộ kiểm thử</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="saveTestSuite">
-   <property name="geometry">
-    <rect>
-     <x>510</x>
-     <y>50</y>
-     <width>131</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Times New Roman</family>
-     <pointsize>12</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>Lưu thay đổi</string>
-   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QPushButton" name="newTestSiute">
+      <property name="font">
+       <font>
+        <family>Times New Roman</family>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Tạo mới bộ kiểm thử</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QPushButton" name="editTS">
+      <property name="font">
+       <font>
+        <family>Times New Roman</family>
+        <pointsize>12</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Chỉnh sửa</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QPushButton" name="saveTestSuite">
+      <property name="font">
+       <font>
+        <family>Times New Roman</family>
+        <pointsize>12</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Lưu thay đổi</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

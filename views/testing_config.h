@@ -38,8 +38,11 @@ private slots:
 
     void on_jigTestlist_itemDoubleClicked(QListWidgetItem *item);
     void clearTableListTest(void);
+    void on_newTestSiute_clicked();
 
-    void on_pushButton_clicked();
+    void on_editTS_clicked();
+
+    void on_tableWidget_cellDoubleClicked(int row, int column);
 
 private:
     Ui::testing_config *ui;
@@ -52,6 +55,8 @@ class config_dialog : public QDialog
     Q_OBJECT
 
 public:
+    int row_continue;
+
     config_dialog(QWidget *parent = nullptr) ;
     void dialog_init            (void);
     void dialog_clear            (void);
@@ -77,6 +82,31 @@ public:
     void set_dialog_TC_BMS_GATE_DRIVER(void);
     void set_dialog_TC_BMS_SHUTDOWN(void);
     void set_dialog_CM_IO1(void);
+    void set_dialog_tc(QString);
+
+    QString get_dialog_TC_DUT_IO1(void);
+    QString get_dialog_TC_DUT_IO2(void);
+    QString get_dialog_TC_DUT_IO3(void);
+    QString get_dialog_TC_JIG_IO1(void);
+    QString get_dialog_TC_JIG_IO2(void);
+    QString get_dialog_TC_JIG_IO3(void);
+    QString get_dialog_TC_JIG_IO4(void);
+    QString get_dialog_TC_JIG_IO5(void);
+    QString get_dialog_TC_JIG_IO6(void);
+    QString get_dialog_TC_JIG_IO7(void);
+    QString get_dialog_TC_JIG_VOLT1(void);
+    QString get_dialog_TC_JIG_VOLT2(void);
+    QString get_dialog_TC_JIG_VOLT3(void);
+    QString get_dialog_TC_DUT_VOLT1(void);
+    QString get_dialog_TC_CAN(void);
+    QString get_dialog_TC_DUT_1(void);
+    QString get_dialog_TC_BMS_OTP(void);
+    QString get_dialog_TC_BMS_CELL_VOLT(void);
+    QString get_dialog_TC_BMS_GATE_DRIVER(void);
+    QString get_dialog_TC_BMS_SHUTDOWN(void);
+    QString get_dialog_CM_IO1(void);
+
+    QString get_par_tc(QString);
 
 private slots:
     void onComboBoxIndexChanged(int index);
