@@ -60,6 +60,7 @@ class testsiute
 public:
     testsiute() {};
     QString name;
+    QString device;
     QVector<testcase> TestCase;
 };
 /*-------------------------------------------------------*/

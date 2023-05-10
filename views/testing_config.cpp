@@ -54,10 +54,13 @@ void testing_config::upadateTestList(void){
     QString srcConfigFile = dir.filePath(TestSiuteFile);
     JigTestList.clear();
     JigTestList = loadJigTestList(srcConfigFile);
+    ui->jigTestlist->clear();
     for(int i = 0; i < JigTestList.size();  i ++){
+        if(JigTestList[i].name == nullptr) continue;
         QListWidgetItem *item = new QListWidgetItem(JigTestList[i].name);
         ui->jigTestlist->addItem(item);
     }
+    ui->groupBoxConfig->setEnabled(0);
 }
 
 testing_config::~testing_config()
@@ -143,9 +146,13 @@ void config_dialog::onComboBoxIndexChanged(int index){
     }
 
 }
-void creatTSShowing(testcase tc){
+void creatTCShowing(testcase tc){
     TS_showing.TestCase += tc;
 }
+void updateTSShowing(testsiute ts){
+    TS_showing = ts;
+}
+
 void testing_config::on_new_test_clicked()
 {
     config_dialog dialog;
@@ -166,7 +173,7 @@ void config_dialog::dialog_init(){
     QLabel *label1 = new QLabel("Tên bài test:", this);
     QLineEdit *nameTC = new QLineEdit(this);
     nameTC->setObjectName("nameTC");
-    nameTC->setPlaceholderText("Enter name");
+    nameTC->setText("Bài kiểm tra 1");
 
     QLabel *label2 = new QLabel("ID:", this);
     QLineEdit *lineEdit2 = new QLineEdit(this);
@@ -245,7 +252,7 @@ void config_dialog::onbuttonOK(){
     tc_buff.testParamaters = dataStr;
     tc_buff.testShow = showTestCase;
 
-    creatTSShowing(tc_buff);
+    creatTCShowing(tc_buff);
     this->close();
 }
 QString config_dialog::showTableWigdet(){
@@ -588,6 +595,7 @@ void testing_config::on_saveTestSuite_clicked()
         }
     }
     saveJigTestList(JigTestList,srcConfigFile);
+    this->upadateTestList();
 }
 
 
@@ -684,15 +692,23 @@ void testing_config::on_jigTestlist_itemDoubleClicked(QListWidgetItem *item)
     QString text = clickedItem->text();
     for(int i = 0; i < JigTestList.size();  i ++){
         if(text == JigTestList[i].name){
+
+            ui->groupBoxConfig->setEnabled(1);
+            updateTSShowing(JigTestList[i]);
             this->clearTableListTest();
+            ui->nameTs->setText(text);
             ui->tableWidget->setRowCount(JigTestList[i].TestCase.size());
+
             for (int row = 0; row < JigTestList[i].TestCase.size(); row++) {
-                QTableWidgetItem *item = new QTableWidgetItem(JigTestList[i].TestCase[i].name);
+                QTableWidgetItem *item = new QTableWidgetItem(JigTestList[i].TestCase[row].name);
                 ui->tableWidget->setItem(row, 0, item);
-                item = new QTableWidgetItem(JigTestList[i].TestCase[i].testShow);
+                item = new QTableWidgetItem(JigTestList[i].TestCase[row].testShow);
                 ui->tableWidget->setItem(row, 2, item);
             }
 
+            ui->tableWidget->resizeRowsToContents();
+            ui->tableWidget->resizeColumnsToContents();
+            return;
         }
     }
 }
@@ -707,5 +723,63 @@ void testing_config::clearTableListTest(void)
             delete item;
         }
     }
+}
+
+
+void testing_config::on_pushButton_clicked()
+{
+    QDialog *dialog = new QDialog();
+    QLabel *label = new QLabel("Tên bộ kiểm thử");
+    QLineEdit *lineEdit = new QLineEdit();
+    lineEdit->setText("Bộ kiểm thử 1");
+    QPushButton *okButton = new QPushButton("OK");
+    QPushButton *cancelButton = new QPushButton("Cancel");
+
+    QHBoxLayout *buttonLayout = new QHBoxLayout();
+    buttonLayout->addWidget(okButton);
+    buttonLayout->addWidget(cancelButton);
+
+    QVBoxLayout *mainLayout = new QVBoxLayout();
+    mainLayout->addWidget(label);
+    mainLayout->addWidget(lineEdit);
+    mainLayout->addLayout(buttonLayout);
+
+    dialog->setLayout(mainLayout);
+    dialog->setStyleSheet("QLabel { font-family: 'Times New Roman'; font-size: 12px; font-weight: bold; } "
+                          "QLineEdit { font-family: 'Times New Roman'; font-size: 12px; font-weight: bold; } "
+                          "QComboBox { font-family: 'Times New Roman'; font-size: 12px; font-weight: bold; } "
+                          "QPushButton { font-family: 'Times New Roman'; font-size: 12px; font-weight: bold; } ");
+
+    // Kết nối sự kiện button
+    QObject::connect(okButton, &QPushButton::clicked, [=](){
+        QString text = lineEdit->text();
+        if(text == nullptr) {
+            QMessageBox::information(this, "Cảnh báo", "Nhập tên bộ kiểm thử");
+        }
+        for(int i = 0; i < JigTestList.size();  i ++){
+            if(text == JigTestList[i].name){
+                QMessageBox::information(this, "Cảnh báo", "Bộ kiểm thử đã tồn tại");
+                return;
+            }
+        }
+        testsiute new_TS;
+        new_TS.name = text;
+        updateTSShowing(new_TS);
+        Ui::testing_config *uiConfig = testingUi->getUi();
+        QListWidget *p_tableWidget = uiConfig->jigTestlist;
+        QListWidgetItem *item = new QListWidgetItem(text);
+        p_tableWidget->addItem(item);
+        uiConfig->nameTs->setText(text);
+
+        ui->groupBoxConfig->setEnabled(1);
+
+        dialog->close();
+    });
+
+    QObject::connect(cancelButton, &QPushButton::clicked, [=](){
+        dialog->close();
+    });
+
+    dialog->exec();
 }
 

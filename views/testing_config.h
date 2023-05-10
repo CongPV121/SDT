@@ -38,6 +38,9 @@ private slots:
 
     void on_jigTestlist_itemDoubleClicked(QListWidgetItem *item);
     void clearTableListTest(void);
+
+    void on_pushButton_clicked();
+
 private:
     Ui::testing_config *ui;
 };
@@ -81,7 +84,7 @@ private slots:
      void onbuttonCancel(void);
 };
 
-void updateTSShowing(testcase TC);
+void updateTSShowing(testsiute ts);
 void saveTestSuite(const testsiute& suite, const QString& fileName);
 void saveJigTestList(const QVector<testsiute>& jigTestList, const QString& fileName);
 QVector<testsiute> loadJigTestList(const QString& fileName);
