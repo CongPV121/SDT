@@ -655,6 +655,154 @@ QString config_dialog::get_dialog_CM_IO1(void){
     return nullptr;
 }
 /*------------------------------------------------------------------*/
+/*------------------------Set Paramaters TestCase-------------------*/
+/*------------------------------------------------------------------*/
+QString config_dialog::get_dialog_TC_JIG_VOLT1(void){
+    TC_Dut_Volt1_Para tc_jig;
+
+    tc_jig.dut_tc_id = this->findChild<QLineEdit *>("dut_tc_id")->text().toUInt() ;
+    tc_jig.max_avg_volt_mv = this->findChild<QLineEdit *>("max_avg_volt_mv")->text().toUInt() ;
+    tc_jig.min_avg_volt_mv = this->findChild<QLineEdit *>("min_avg_volt_mv")->text().toUInt() ;
+    tc_jig.ripple_volt_mv = this->findChild<QLineEdit *>("ripple_volt_mv")->text().toUInt() ;
+    tc_jig.timeout_ms = this->findChild<QLineEdit *>("timeout_ms")->text().toUInt() ;
+    tc_jig.type = TC_JIG_VOLT1_ID;
+    int size = sizeof (TC_Dut_Volt1_Para);
+    uint8_t data[size];
+    memcpy(data,(uint8_t*)&tc_jig,size);
+    QString dataStr = QString::fromUtf8(reinterpret_cast<const char*>(data), sizeof(data));
+    return dataStr;
+}
+
+QString config_dialog::get_dialog_TC_DUT_IO2(void){
+    return nullptr;
+}
+QString config_dialog::get_dialog_TC_DUT_IO3(void){
+
+    TC_Dut_Io3_Para tc_jig;
+
+    tc_jig.dut_tc_id = this->findChild<QLineEdit *>("dut_tc_id")->text().toUInt() ;
+    tc_jig.io_output_x_channel = this->findChild<QLineEdit *>("io_output_x_channel")->text().toUInt() ;
+    tc_jig.timeout_ms = this->findChild<QLineEdit *>("timeout_ms")->text().toUInt() ;
+    tc_jig.type = TC_DUT_IO3_ID;
+    int size = sizeof (TC_Dut_Io3_Para);
+    uint8_t data[size];
+    memcpy(data,(uint8_t*)&tc_jig,size);
+    QString dataStr = QString::fromUtf8(reinterpret_cast<const char*>(data), sizeof(data));
+    return dataStr;
+}
+QString config_dialog::get_dialog_TC_JIG_IO1(void){
+    return nullptr;
+}
+QString config_dialog::get_dialog_TC_JIG_IO2(void){
+    return nullptr;
+}
+QString config_dialog::get_dialog_TC_JIG_IO3(void){
+    return nullptr;
+}
+QString config_dialog::get_dialog_TC_JIG_IO4(void){
+    return nullptr;
+}
+QString config_dialog::get_dialog_TC_JIG_IO5(void){
+    TC_Jig_Io5_Para tc_jig;
+    int size = sizeof (TC_Jig_Io5_Para);
+
+    tc_jig.dut_tc_id = this->findChild<QLineEdit *>("dut_tc_id")->text().toUInt() ;
+    tc_jig.io_input_y_channel = this->findChild<QLineEdit *>("io_input_y_channel")->text().toUInt() ;
+    tc_jig.timeout_ms = this->findChild<QLineEdit *>("timeout_ms")->text().toUInt() ;
+    tc_jig.type = TC_JIG_IO5_ID;
+    uint8_t data[size];
+    memcpy(data,(uint8_t*)&tc_jig,size);
+    QString dataStr = QString::fromUtf8(reinterpret_cast<const char*>(data), sizeof(data));
+    return dataStr;
+}
+QString config_dialog::get_dialog_TC_JIG_IO6(void){
+    return nullptr;
+}
+QString config_dialog::get_dialog_TC_JIG_IO7(void){
+    TC_Jig_Io7_Para tc_jig;
+    int size = sizeof (TC_Jig_Io7_Para);
+
+    tc_jig.timeout_ms = this->findChild<QLineEdit *>("timeout_ms")->text().toUInt() ;
+    tc_jig.io_output_x_channel = this->findChild<QLineEdit *>("io_output_x_channel")->text().toUInt() ;
+    tc_jig.io_output_y_channel = this->findChild<QLineEdit *>("io_output_y_channel")->text().toUInt() ;
+    tc_jig.io_input_z_channel = this->findChild<QLineEdit *>("io_input_z_channel")->text().toUInt() ;
+    tc_jig.io_output_x_lv = this->findChild<QLineEdit *>("io_output_x_lv")->text().toUInt() ;
+    tc_jig.type = TC_JIG_IO7_ID;
+    uint8_t data[size];
+    memcpy(data,(uint8_t*)&tc_jig,size);
+    QString dataStr = QString::fromUtf8(reinterpret_cast<const char*>(data), sizeof(data));
+    return dataStr;
+}
+QString config_dialog::get_dialog_TC_JIG_VOLT2(void){
+    TC_Jig_Volt2_Para tc_jig;
+
+    tc_jig.dut_tc_id = this->findChild<QLineEdit *>("dut_tc_id")->text().toUInt() ;
+    tc_jig.adc_channel = this->findChild<QLineEdit *>("adc_channel")->text().toUInt() ;
+    tc_jig.voltage_devision_ratio_1000 = this->findChild<QLineEdit *>
+            ("voltage_devision_ratio_1000")->text().toUInt() ;
+    tc_jig.cycle_time_ms = this->findChild<QLineEdit *>("cycle_time_ms")->text().toUInt() ;
+    tc_jig.sample_number = this->findChild<QLineEdit *>("sample_number")->text().toUInt() ;
+    tc_jig.max_avg_volt_mv = this->findChild<QLineEdit *>("max_avg_volt_mv")->text().toUInt() ;
+    tc_jig.min_avg_volt_mv = this->findChild<QLineEdit *>("min_avg_volt_mv")->text().toUInt() ;
+    tc_jig.ripple_volt_mv = this->findChild<QLineEdit *>("ripple_volt_mv")->text().toUInt() ;
+    tc_jig.timeout_ms = this->findChild<QLineEdit *>("timeout_ms")->text().toUInt() ;
+    tc_jig.type = TC_DUT_VOLT1_ID;
+    int size = sizeof (TC_Jig_Volt2_Para);
+    uint8_t data[size];
+    memcpy(data,(uint8_t*)&tc_jig,size);
+    QString dataStr = QString::fromUtf8(reinterpret_cast<const char*>(data), sizeof(data));
+    return dataStr;
+}
+QString config_dialog::get_dialog_TC_JIG_VOLT3(void){
+
+    return nullptr;
+}
+QString config_dialog::get_dialog_TC_DUT_VOLT1(void){
+    TC_Dut_Volt1_Para tc_jig;
+
+    tc_jig.dut_tc_id = this->findChild<QLineEdit *>("dut_tc_id")->text().toUInt() ;
+    tc_jig.max_avg_volt_mv = this->findChild<QLineEdit *>("max_avg_volt_mv")->text().toUInt() ;
+    tc_jig.min_avg_volt_mv = this->findChild<QLineEdit *>("min_avg_volt_mv")->text().toUInt() ;
+    tc_jig.ripple_volt_mv = this->findChild<QLineEdit *>("ripple_volt_mv")->text().toUInt() ;
+    tc_jig.timeout_ms = this->findChild<QLineEdit *>("timeout_ms")->text().toUInt() ;
+    tc_jig.type = TC_DUT_VOLT1_ID;
+    int size = sizeof (TC_Dut_Volt1_Para);
+    uint8_t data[size];
+    memcpy(data,(uint8_t*)&tc_jig,size);
+    QString dataStr = QString::fromUtf8(reinterpret_cast<const char*>(data), sizeof(data));
+    return dataStr;
+}
+QString config_dialog::get_dialog_TC_CAN(void){
+    return nullptr;
+}
+QString config_dialog::get_dialog_TC_DUT_1(void){
+    TC_Dut1_Para tc_jig;
+
+    tc_jig.dut_tc_id = this->findChild<QLineEdit *>("dut_tc_id")->text().toUInt() ;
+    tc_jig.timeout_ms = this->findChild<QLineEdit *>("timeout_ms")->text().toUInt() ;
+    tc_jig.type = TC_DUT_1_ID;
+    int size = sizeof (TC_Dut1_Para);
+    uint8_t data[size];
+    memcpy(data,(uint8_t*)&tc_jig,size);
+    QString dataStr = QString::fromUtf8(reinterpret_cast<const char*>(data), sizeof(data));
+    return dataStr;
+}
+QString config_dialog::get_dialog_TC_BMS_OTP(void){
+    return nullptr;
+}
+QString config_dialog::get_dialog_TC_BMS_CELL_VOLT(void){
+    return nullptr;
+}
+QString config_dialog::get_dialog_TC_BMS_GATE_DRIVER(void){
+    return nullptr;
+}
+QString config_dialog::get_dialog_TC_BMS_SHUTDOWN(void){
+    return nullptr;
+}
+QString config_dialog::get_dialog_CM_IO1(void){
+    return nullptr;
+}
+/*------------------------------------------------------------------*/
 /*------------------------Get Paramaters TestCase-------------------*/
 /*------------------------------------------------------------------*/
 QString config_dialog::get_par_tc(QString text){

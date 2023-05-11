@@ -78,7 +78,7 @@ Ui::testing_config *testing_config::getUi()
 /* thay đổi thông số tương ứng với từng testcase*/
 void config_dialog::onComboBoxIndexChanged(int index){
     QString text = static_cast<QComboBox*>(sender())->currentText();
-   this->set_dialog_tc(text);
+    this->set_dialog_tc(text);
 
 }
 void creatTCShowing(testcase tc){
@@ -493,10 +493,13 @@ void testing_config::on_editTS_clicked()
     ui->saveTestSuite->setEnabled(1);
     ui->groupBoxConfig->setEnabled(1);
 }
-
-
-void testing_config::on_tableWidget_cellDoubleClicked(int row, int column)
+id testing_config::on_tableWidget_cellDoubleClicked(int row, int column)
 {
+    QString str = TS_showing.TestCase[row].testParamaters;
+    QByteArray ba = str.toUtf8();
+    const uint8_t *data = reinterpret_cast<const uint8_t *>(ba.constData());
+    int length = ba.size();
+
 
 }
 

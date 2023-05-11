@@ -106,7 +106,31 @@ public:
     QString get_dialog_TC_BMS_SHUTDOWN(void);
     QString get_dialog_CM_IO1(void);
 
+    QString set_par_TC_DUT_IO1(void);
+    QString set_par_TC_DUT_IO2(void);
+    QString set_par_TC_DUT_IO3(void);
+    QString set_par_TC_JIG_IO1(void);
+    QString set_par_TC_JIG_IO2(void);
+    QString set_par_TC_JIG_IO3(void);
+    QString set_par_TC_JIG_IO4(void);
+    QString set_par_TC_JIG_IO5(void);
+    QString set_par_TC_JIG_IO6(void);
+    QString set_par_TC_JIG_IO7(void);
+    QString set_par_TC_JIG_VOLT1(void);
+    QString set_par_TC_JIG_VOLT2(void);
+    QString set_par_TC_JIG_VOLT3(void);
+    QString set_par_TC_DUT_VOLT1(void);
+    QString set_par_TC_CAN(void);
+    QString set_par_TC_DUT_1(void);
+    QString set_par_TC_BMS_OTP(void);
+    QString set_par_TC_BMS_CELL_VOLT(void);
+    QString set_par_TC_BMS_GATE_DRIVER(void);
+    QString set_par_TC_BMS_SHUTDOWN(void);
+    QString set_par_CM_IO1(void);
+
     QString get_par_tc(QString);
+    QString set_par_tc(QString);
+
 
 private slots:
     void onComboBoxIndexChanged(int index);
