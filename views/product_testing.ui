@@ -77,6 +77,7 @@
     <font>
      <family>Times New Roman</family>
      <pointsize>12</pointsize>
+     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -99,6 +100,7 @@
      <font>
       <family>Times New Roman</family>
       <pointsize>14</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -113,6 +115,7 @@
       <font>
        <family>Times New Roman</family>
        <pointsize>12</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -125,6 +128,7 @@
       <font>
        <family>Times New Roman</family>
        <pointsize>12</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -137,6 +141,7 @@
       <font>
        <family>Times New Roman</family>
        <pointsize>12</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -149,6 +154,7 @@
       <font>
        <family>Times New Roman</family>
        <pointsize>12</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -167,6 +173,7 @@
      <font>
       <family>Times New Roman</family>
       <pointsize>14</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -187,6 +194,7 @@
      <font>
       <family>Times New Roman</family>
       <pointsize>14</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -236,6 +244,7 @@
      <font>
       <family>Times New Roman</family>
       <pointsize>14</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -256,6 +265,7 @@
      <font>
       <family>Times New Roman</family>
       <pointsize>14</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -277,6 +287,7 @@
     <font>
      <family>Times New Roman</family>
      <pointsize>12</pointsize>
+     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
@@ -297,13 +308,14 @@
     <font>
      <family>Times New Roman</family>
      <pointsize>12</pointsize>
+     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
    <property name="title">
     <string>Chọn bài kiểm thử</string>
    </property>
-   <widget class="QComboBox" name="comboBox">
+   <widget class="QComboBox" name="testsiuteList">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -315,7 +327,8 @@
     <property name="font">
      <font>
       <family>Times New Roman</family>
-      <pointsize>14</pointsize>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -333,6 +346,7 @@
      <font>
       <family>Times New Roman</family>
       <pointsize>12</pointsize>
+      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -365,7 +379,7 @@
     <string>Thông tin thiết bị</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>1581</x>
@@ -374,69 +388,81 @@
      <height>461</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QGroupBox" name="start_testing">
-      <property name="title">
-       <string>Start testing</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-      </property>
-      <widget class="QPushButton" name="pushButton_3">
-       <property name="geometry">
-        <rect>
-         <x>12</x>
-         <y>31</y>
-         <width>101</width>
-         <height>71</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Single Start</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_4">
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>30</y>
-         <width>101</width>
-         <height>71</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>All Start</string>
-       </property>
-      </widget>
-     </widget>
-    </item>
     <item row="1" column="0">
      <widget class="QGroupBox" name="stop_testing">
+      <property name="font">
+       <font>
+        <family>Times New Roman</family>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
       <property name="title">
        <string>Stop testing</string>
       </property>
-      <widget class="QPushButton" name="pushButton_5">
+      <widget class="QPushButton" name="SingleStop">
        <property name="geometry">
         <rect>
-         <x>21</x>
-         <y>46</y>
-         <width>91</width>
+         <x>30</x>
+         <y>40</y>
+         <width>101</width>
          <height>71</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+                                border-style: solid;
+                                border-width: 2px;
+                                border-color: #1E90FF;
+                                background-color: rgb(255, 0, 0);
+                                padding: 5px;
+                                }</string>
        </property>
        <property name="text">
         <string>Single Stop</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_6">
+      <widget class="QPushButton" name="AllStop">
        <property name="geometry">
         <rect>
-         <x>170</x>
-         <y>50</y>
-         <width>91</width>
-         <height>61</height>
+         <x>160</x>
+         <y>40</y>
+         <width>101</width>
+         <height>71</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+                                border-style: solid;
+                                border-width: 2px;
+                                border-color: #1E90FF;
+                                background-color: rgb(255, 0, 0);
+                                padding: 5px;
+                                }</string>
        </property>
        <property name="text">
         <string>All Stop</string>
@@ -446,9 +472,93 @@
     </item>
     <item row="2" column="0">
      <widget class="QGroupBox" name="groupBox_3">
+      <property name="font">
+       <font>
+        <family>Times New Roman</family>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
       <property name="title">
        <string>Export data</string>
       </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QGroupBox" name="start_testing">
+      <property name="font">
+       <font>
+        <family>Times New Roman</family>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="title">
+       <string>Start testing</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+      <widget class="QPushButton" name="SingleStart">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>31</y>
+         <width>101</width>
+         <height>71</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+                                border-style: solid;
+                                border-width: 2px;
+                                border-color: #1E90FF;
+                                background-color: rgb(0, 170, 127);
+                                padding: 5px;
+                                }</string>
+       </property>
+       <property name="text">
+        <string>Single Start</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="AllStart">
+       <property name="geometry">
+        <rect>
+         <x>160</x>
+         <y>30</y>
+         <width>101</width>
+         <height>71</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Times New Roman</family>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+                                border-style: solid;
+                                border-width: 2px;
+                                border-color: #1E90FF;
+                                background-color: rgb(0, 170, 127);
+                                padding: 5px;
+                                }</string>
+       </property>
+       <property name="text">
+        <string>All Start</string>
+       </property>
+      </widget>
      </widget>
     </item>
    </layout>

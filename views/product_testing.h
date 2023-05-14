@@ -16,6 +16,9 @@ public:
     ~product_testing();
     static product_testing* get_product_testing();
 
+private slots:
+    void on_SingleStart_clicked();
+
 private:
     Ui::product_testing *ui;
 };

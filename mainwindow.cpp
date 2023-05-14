@@ -140,6 +140,7 @@ void MainWindow::on_actionCh_nh_s_a_danh_s_ch_test_triggered()
 void MainWindow::on_testvehicleButton_clicked()
 {
     product_testing *p_product_testing = product_testing::get_product_testing();
+    p_product_testing->setModal(true);
     p_product_testing->exec();
 }
 

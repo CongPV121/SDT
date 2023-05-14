@@ -44,6 +44,11 @@ private slots:
 
     void on_tableWidget_cellDoubleClicked(int row, int column);
 
+    void on_pushButton_clicked();
+    void update_table_testCase(testsiute ts);
+
+    void on_tableWidget_cellActivated(int row, int column);
+
 private:
     Ui::testing_config *ui;
 };
@@ -60,7 +65,7 @@ public:
     config_dialog(QWidget *parent = nullptr) ;
     void dialog_init            (void);
     void dialog_clear            (void);
-    QString showTableWigdet        (void);
+    QString addRowTableWigdet        (int row);
     void set_dialog_TC_DUT_IO1(void);
     void set_dialog_TC_DUT_IO2(void);
     void set_dialog_TC_DUT_IO3(void);
@@ -106,42 +111,44 @@ public:
     QString get_dialog_TC_BMS_SHUTDOWN(void);
     QString get_dialog_CM_IO1(void);
 
-    QString set_par_TC_DUT_IO1(void);
-    QString set_par_TC_DUT_IO2(void);
-    QString set_par_TC_DUT_IO3(void);
-    QString set_par_TC_JIG_IO1(void);
-    QString set_par_TC_JIG_IO2(void);
-    QString set_par_TC_JIG_IO3(void);
-    QString set_par_TC_JIG_IO4(void);
-    QString set_par_TC_JIG_IO5(void);
-    QString set_par_TC_JIG_IO6(void);
-    QString set_par_TC_JIG_IO7(void);
-    QString set_par_TC_JIG_VOLT1(void);
-    QString set_par_TC_JIG_VOLT2(void);
-    QString set_par_TC_JIG_VOLT3(void);
-    QString set_par_TC_DUT_VOLT1(void);
-    QString set_par_TC_CAN(void);
-    QString set_par_TC_DUT_1(void);
-    QString set_par_TC_BMS_OTP(void);
-    QString set_par_TC_BMS_CELL_VOLT(void);
-    QString set_par_TC_BMS_GATE_DRIVER(void);
-    QString set_par_TC_BMS_SHUTDOWN(void);
-    QString set_par_CM_IO1(void);
+    void set_par_TC_DUT_IO1(testcase tc);
+    void set_par_TC_DUT_IO2(testcase tc);
+    void set_par_TC_DUT_IO3(testcase tc);
+    void set_par_TC_JIG_IO1(testcase tc);
+    void set_par_TC_JIG_IO2(testcase tc);
+    void set_par_TC_JIG_IO3(testcase tc);
+    void set_par_TC_JIG_IO4(testcase tc);
+    void set_par_TC_JIG_IO5(testcase tc);
+    void set_par_TC_JIG_IO6(testcase tc);
+    void set_par_TC_JIG_IO7         (testcase tc);
+    void set_par_TC_JIG_VOLT1       (testcase tc);
+    void set_par_TC_JIG_VOLT2       (testcase tc);
+    void set_par_TC_JIG_VOLT3       (testcase tc);
+    void set_par_TC_DUT_VOLT1       (testcase tc);
+    void set_par_TC_CAN             (testcase tc);
+    void set_par_TC_DUT_1           (testcase tc);
+    void set_par_TC_BMS_OTP         (testcase tc);
+    void set_par_TC_BMS_CELL_VOLT   (testcase tc);
+    void set_par_TC_BMS_GATE_DRIVER (testcase tc);
+    void set_par_TC_BMS_SHUTDOWN    (testcase tc);
+    void set_par_CM_IO1             (testcase tc);
 
     QString get_par_tc(QString);
-    QString set_par_tc(QString);
+    void set_par_tc(testcase);
+    void change_connect_button(void);
 
 
 private slots:
     void onComboBoxIndexChanged(int index);
-    void onbuttonOK(void);
+    void onbuttonOK_newTC(void);
+    void onbuttonOK_editTC(void);
      void onbuttonCancel(void);
 };
-
 void updateTSShowing(testsiute ts);
 void saveTestSuite(const testsiute& suite, const QString& fileName);
 void saveJigTestList(const QVector<testsiute>& jigTestList, const QString& fileName);
 QVector<testsiute> loadJigTestList(const QString& fileName);
 
+extern QVector<QString> testCases ;
 extern testing_config *testingUi;
 #endif // TESTING_CONFIG_H

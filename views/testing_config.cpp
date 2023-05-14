@@ -13,6 +13,7 @@
 testsiute TS_showing;
 
 QVector<QString> testCases = {
+    "Chọn bài kiểm thử",
     "TC_DUT_IO1",
     "TC_DUT_IO2",
     "TC_DUT_IO3",
@@ -36,6 +37,7 @@ QVector<QString> testCases = {
     "CM_IO1",
 };
 
+static QVector<testsiute> JigTestList;
 testing_config *testingUi = nullptr;
 /*Contructor */
 testing_config::testing_config(QWidget *parent) :
@@ -91,6 +93,7 @@ void updateTSShowing(testsiute ts){
 void testing_config::on_new_test_clicked()
 {
     config_dialog dialog;
+    dialog.set_dialog_tc(testCases[0]);
     dialog.exec();
 }
 config_dialog::config_dialog(QWidget *parent)
@@ -121,6 +124,7 @@ void config_dialog::dialog_init(){
     for(int i = 0; i < testCases.size(); i++){
         comboBox->addItem(testCases[i]);
     }
+    //comboBox->setCurrentIndex(2);
 
     QPushButton *buttonOk = new QPushButton("OK", this);
     buttonOk->setObjectName("buttonOk");
@@ -146,12 +150,11 @@ void config_dialog::dialog_init(){
                         "QPushButton { font-family: 'Times New Roman'; font-size: 18px; font-weight: bold; } ");
 
     connect(comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onComboBoxIndexChanged(int)));
-    connect(buttonOk, SIGNAL(clicked()), this, SLOT(onbuttonOK()));
+    connect(buttonOk, SIGNAL(clicked()), this, SLOT(onbuttonOK_newTC()));
     connect(buttonCancel, SIGNAL(clicked()), this, SLOT(onbuttonCancel()));
 }
-/*Xử lý sự kiện ok khi nhập liệu thông số testcase*/
-void config_dialog::onbuttonOK(){
-
+/*Xử lý sự kiện button ok khi nhập liệu thông số testcase*/
+void config_dialog::onbuttonOK_newTC(){
 
     QLineEdit *lineEdit = this->findChild<QLineEdit *>("nameTC");
     QString nametc = lineEdit->text();
@@ -160,9 +163,18 @@ void config_dialog::onbuttonOK(){
         msgBox.warning(this,"Lỗi","Hãy đặt tên bài test");
         return;
     }
-
-    QString showTestCase = this->showTableWigdet();
     QComboBox *comboBox = this->findChild<QComboBox*>("comboBox");
+    if(comboBox->currentIndex() == 0) {
+        QMessageBox msgBox;
+        msgBox.warning(this,"Lỗi","Hãy chọn bài kiểm thử");
+        return;
+    }
+    /*thêm tiếp testcase mới vào bảng*/
+    Ui::testing_config *uiConfig = testingUi->getUi();
+    QTableWidget *p_tableWidget = uiConfig->tableWidget;
+    int row = p_tableWidget->rowCount();
+    QString showTestCase = this->addRowTableWigdet(row);
+
     QString text;
     if (comboBox) {
         text = comboBox->currentText();
@@ -171,23 +183,62 @@ void config_dialog::onbuttonOK(){
     QString dataStr = this->get_par_tc(text);
     testcase tc_buff;
     tc_buff.name = this->findChild<QLineEdit *>("nameTC")->text();
+    tc_buff.typeTC = comboBox->currentText();
     tc_buff.testParamaters = dataStr;
     tc_buff.testShow = showTestCase;
 
     creatTCShowing(tc_buff);
     this->close();
 }
+/*Xử lý sự kiện button OK khi chỉnh sửa thông số testcase*/
+void config_dialog::onbuttonOK_editTC(){
+
+    QLineEdit *lineEdit = this->findChild<QLineEdit *>("nameTC");
+    QString nametc = lineEdit->text();
+    if(nametc == nullptr) {
+        QMessageBox msgBox;
+        msgBox.warning(this,"Lỗi","Hãy đặt tên bài test");
+        return;
+    }
+    QComboBox *comboBox = this->findChild<QComboBox*>("comboBox");
+    if(comboBox->currentIndex() == 0) {
+        QMessageBox msgBox;
+        msgBox.warning(this,"Lỗi","Hãy chọn bài kiểm thử");
+        return;
+    }
+    /*thay đổi testcase mới vào bảng*/
+    Ui::testing_config *uiConfig = testingUi->getUi();
+    QTableWidget *p_tableWidget = uiConfig->tableWidget;
+    int row = p_tableWidget->currentRow();
+    QString showTestCase = this->addRowTableWigdet(row);
+
+    QString text;
+    if (comboBox) {
+        text = comboBox->currentText();
+    }
+
+    QString dataStr = this->get_par_tc(text);
+    testcase tc_buff;
+    tc_buff.name = this->findChild<QLineEdit *>("nameTC")->text();
+    tc_buff.typeTC = comboBox->currentText();
+    tc_buff.testParamaters = dataStr;
+    tc_buff.testShow = showTestCase;
+    TS_showing.TestCase[row] = tc_buff;
+    this->close();
+}
 /*Hiển thị test case trên TableWigdet*/
 
-QString config_dialog::showTableWigdet(){
+QString config_dialog::addRowTableWigdet(int row){
     Ui::testing_config *uiConfig = testingUi->getUi();
     QTableWidget *p_tableWidget = uiConfig->tableWidget;
 
     QLineEdit *lineEdit = this->findChild<QLineEdit *>("nameTC");
     QString nametc = lineEdit->text();
 
-    int row = p_tableWidget->rowCount();
-    uiConfig->tableWidget->setRowCount(row + 1);
+    int rowcnt = p_tableWidget->rowCount();
+    if(row >= rowcnt){
+        uiConfig->tableWidget->setRowCount(rowcnt + 1);
+    }
 
     QTableWidgetItem *item = new QTableWidgetItem(nametc);
     p_tableWidget->setItem(row, 0, item);
@@ -242,6 +293,11 @@ QString config_dialog::showTableWigdet(){
 
 void config_dialog::onbuttonCancel(){
     this->close();
+}
+void config_dialog::change_connect_button(){
+    QPushButton *buttonOk = this->findChild<QPushButton *>("buttonOk");
+    disconnect(buttonOk, SIGNAL(clicked()), this, SLOT(onbuttonOK_newTC()));
+    connect(buttonOk, SIGNAL(clicked()), this, SLOT(onbuttonOK_editTC()));
 }
 /*xoá hiển thị tất cả các testcase trên TableWigdet*/
 void config_dialog::dialog_clear(void){
@@ -324,6 +380,7 @@ void saveJigTestList(const QVector<testsiute>& jigTestList, const QString& fileN
         {
             QJsonObject testCaseJson;
             testCaseJson["name"]            = testCase.name;
+            testCaseJson["typeTC"]            = testCase.typeTC;
             testCaseJson["testParameters"]  = testCase.testParamaters;
             testCaseJson["testShow"]        = testCase.testShow;
             testCaseArray.append(testCaseJson);
@@ -374,6 +431,7 @@ QVector<testsiute> loadJigTestList(const QString& fileName)
             testcase testCase;
             QJsonObject testCaseObj = testCaseJson.toObject();
             testCase.name           = testCaseObj["name"].toString();
+            testCase.typeTC         = testCaseObj["typeTC"].toString();
             testCase.testParamaters = testCaseObj["testParameters"].toString();
             testCase.testShow       = testCaseObj["testShow"].toString();
             testSuite.TestCase.append(testCase);
@@ -394,18 +452,7 @@ void testing_config::on_jigTestlist_itemDoubleClicked(QListWidgetItem *item)
             updateTSShowing(JigTestList[ts]);
             this->clearTableListTest();
             ui->nameTs->setText(text);
-            ui->tableWidget->setRowCount(JigTestList[ts].TestCase.size());
-
-            for (int row = 0; row < JigTestList[ts].TestCase.size(); row++) {
-                QTableWidgetItem *item = new QTableWidgetItem(JigTestList[ts].TestCase[row].name);
-                ui->tableWidget->setItem(row, 0, item);
-                item = new QTableWidgetItem(JigTestList[ts].TestCase[row].testShow);
-                ui->tableWidget->setItem(row, 2, item);
-            }
-
-            ui->tableWidget->resizeRowsToContents();
-            ui->tableWidget->resizeColumnsToContents();
-            
+            this->update_table_testCase(TS_showing);
             /*thiết bị đang được chọn*/
             for(int index = 0; index < ui->deviceTest->count(); index++){
                 if(JigTestList[ts].device == ui->deviceTest->itemText(index)){
@@ -493,13 +540,50 @@ void testing_config::on_editTS_clicked()
     ui->saveTestSuite->setEnabled(1);
     ui->groupBoxConfig->setEnabled(1);
 }
-id testing_config::on_tableWidget_cellDoubleClicked(int row, int column)
+void testing_config::on_tableWidget_cellDoubleClicked(int row, int column)
 {
-    QString str = TS_showing.TestCase[row].testParamaters;
-    QByteArray ba = str.toUtf8();
-    const uint8_t *data = reinterpret_cast<const uint8_t *>(ba.constData());
-    int length = ba.size();
+    config_dialog dialog;
+    dialog.change_connect_button();
 
+    int comboxIndex = dialog.findChild<QComboBox *>("comboBox")
+            ->findText(TS_showing.TestCase[row].typeTC);
+    dialog.findChild<QComboBox *>("comboBox")->setCurrentIndex(comboxIndex);
+    dialog.set_par_tc(TS_showing.TestCase[row]);
+    dialog.exec();
+
+    //    QString text = static_cast<QComboBox*>(sender())->currentText();
+    //    this->set_dialog_tc(text);
+
+    //    QString str = TS_showing.TestCase[row].testParamaters;
+    //    QByteArray ba = str.toUtf8();
+    //    const uint8_t *data = reinterpret_cast<const uint8_t *>(ba.constData());
+    //    int length = ba.size();
+}
+
+/*Xóa testCase*/
+void testing_config::on_pushButton_clicked()
+{
+    int currentRow = ui->tableWidget->currentRow();
+    TS_showing.TestCase.remove(currentRow);
+    this->update_table_testCase(TS_showing);
+}
+void testing_config::update_table_testCase(testsiute ts){
+    ui->tableWidget->setRowCount(ts.TestCase.size());
+
+    for (int row = 0; row < ts.TestCase.size(); row++) {
+        QTableWidgetItem *item = new QTableWidgetItem(ts.TestCase[row].name);
+        ui->tableWidget->setItem(row, 0, item);
+        item = new QTableWidgetItem(ts.TestCase[row].testShow);
+        ui->tableWidget->setItem(row, 2, item);
+    }
+
+    ui->tableWidget->resizeRowsToContents();
+    ui->tableWidget->resizeColumnsToContents();
+}
+
+
+void testing_config::on_tableWidget_cellActivated(int row, int column)
+{
 
 }
 

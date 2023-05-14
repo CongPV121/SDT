@@ -52,6 +52,7 @@ class testcase
 public:
     testcase() {};
     QString name;
+    QString typeTC;
     QString testParamaters;
     QString testShow;
 };
@@ -65,7 +66,7 @@ public:
 };
 /*-------------------------------------------------------*/
 
-extern QVector<testsiute> JigTestList;
+//extern QVector<testsiute> JigTestList;
 extern sdo_send_mailbox SDO_mailbox ;
 
 void testing_sdo_process            (sdo_send_mailbox *mailbox);
