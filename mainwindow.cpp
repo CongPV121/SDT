@@ -38,7 +38,6 @@ void MainWindow::on_testBpButton_clicked()
     p_bp->setModal(true);
     p_bp->show();
 
-
 }
 
 void MainWindow::on_testPmuButton_clicked()

@@ -222,7 +222,7 @@ void config_dialog::set_dialog_TC_JIG_VOLT1(void){
     QLabel *volMin_label      = new QLabel("Giá trị điện áp trung bình nhỏ nhất (mV):", this);
     QLabel *volDelta_label    = new QLabel("Giá trị điện áp dao động lớn nhất "
                                            "\n giữa các lần lấy mẫu (mV):", this);
-    // QLabel *dut_tc_id_label             = new QLabel("Mã số bài test của DUT:", this);
+    QLabel *dut_tc_id_label             = new QLabel("Mã số bài test của DUT:", this);
 
     QLineEdit *timeout_ms_edit    = new QLineEdit(this);
     QLineEdit *adcChanel_edit     = new QLineEdit(this);
@@ -232,7 +232,7 @@ void config_dialog::set_dialog_TC_JIG_VOLT1(void){
     QLineEdit *volMax_edit        = new QLineEdit(this);
     QLineEdit *volMin_edit        = new QLineEdit( this);
     QLineEdit *volDelta_edit      = new QLineEdit( this);
-    // QLineEdit *dut_tc_id_edit     = new QLineEdit( this);
+    QLineEdit *dut_tc_id_edit     = new QLineEdit( this);
 
     timeout_ms_edit->setValidator(new QIntValidator(0, 999999,timeout_ms_edit ));
     adcChanel_edit->setValidator(new QIntValidator(0, 255, adcChanel_edit));
@@ -242,7 +242,7 @@ void config_dialog::set_dialog_TC_JIG_VOLT1(void){
     volMax_edit->setValidator(new QIntValidator(0, 999999, volMax_edit));
     volMin_edit->setValidator(new QIntValidator(0, 999999, volMin_edit));
     volDelta_edit->setValidator(new QIntValidator(0, 999999, volDelta_edit));;
-    //dut_tc_id_edit->setValidator(new QIntValidator(0, 999999, dut_tc_id_edit));
+    dut_tc_id_edit->setValidator(new QIntValidator(0, 999999, dut_tc_id_edit));
 
     timeout_ms_edit->setObjectName("timeout_ms");
     adcChanel_edit->setObjectName("adc_channel");
@@ -252,7 +252,7 @@ void config_dialog::set_dialog_TC_JIG_VOLT1(void){
     volMax_edit->setObjectName("max_avg_volt_mv");
     volMin_edit->setObjectName("min_avg_volt_mv");
     volDelta_edit->setObjectName("ripple_volt_mv");
-    //dut_tc_id_edit->setObjectName("dut_tc_id_edit");
+    dut_tc_id_edit->setObjectName("dut_tc_id");
 
     QLayout *layout = this->layout();
     QGridLayout *gridLayout = qobject_cast<QGridLayout *>(layout);
@@ -265,7 +265,7 @@ void config_dialog::set_dialog_TC_JIG_VOLT1(void){
     gridLayout->addWidget(volMax_label,         row++, 0);
     gridLayout->addWidget(volMin_label,         row++, 0);
     gridLayout->addWidget(volDelta_label,       row++, 0);
-    //gridLayout->addWidget(dut_tc_id_label,      row++, 0);
+    gridLayout->addWidget(dut_tc_id_label,      row++, 0);
     row = this->row_continue;
     gridLayout->addWidget(timeout_ms_edit,      row++, 1);
     gridLayout->addWidget(adcChanel_edit,      row++, 1);
@@ -275,7 +275,7 @@ void config_dialog::set_dialog_TC_JIG_VOLT1(void){
     gridLayout->addWidget(volMax_edit,         row++, 1);
     gridLayout->addWidget(volMin_edit,         row++, 1);
     gridLayout->addWidget(volDelta_edit,       row++, 1);
-    //gridLayout->addWidget(dut_tc_id_edit,      row++, 1);
+    gridLayout->addWidget(dut_tc_id_edit,      row++, 1);
 
     QPushButton *buttonOk = this->findChild<QPushButton *>("buttonOk");
     QPushButton *buttonCancel = this->findChild<QPushButton *>("buttonCancel");
@@ -492,6 +492,10 @@ void config_dialog::set_dialog_CM_IO1(void){
     this->dialog_clear();
 
 }
+/*------------------------------------------------------------------*/
+/*------------------------Get Paramaters TestCase-------------------*/
+/*------------------------------------------------------------------*/
+
 
 QString config_dialog::get_dialog_TC_DUT_IO1(void){
     TC_Dut_Io1_Para tc_jig;
@@ -506,10 +510,6 @@ QString config_dialog::get_dialog_TC_DUT_IO1(void){
     QString dataStr = QString::fromUtf8(reinterpret_cast<const char*>(data), sizeof(data));
     return dataStr;
 }
-/*------------------------------------------------------------------*/
-/*------------------------Get Paramaters TestCase-------------------*/
-/*------------------------------------------------------------------*/
-
 
 QString config_dialog::get_dialog_TC_JIG_VOLT1(void){
     TC_Dut_Volt1_Para tc_jig;
@@ -826,10 +826,14 @@ void config_dialog::set_par_TC_BMS_GATE_DRIVER(testcase tc){
 void config_dialog::set_par_TC_BMS_SHUTDOWN(testcase tc){
 }
 void config_dialog::set_par_CM_IO1(testcase tc){
+
 }
+
 /*------------------------------------------------------------------*/
 /*------------------------Get Paramaters TestCase-------------------*/
 /*------------------------------------------------------------------*/
+
+
 QString config_dialog::get_par_tc(QString text){
     QString dataStr = nullptr;
 

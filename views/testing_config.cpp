@@ -44,8 +44,10 @@ testing_config::testing_config(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::testing_config)
 {
+
     ui->setupUi(this);
-    this->setStyleSheet("QTableWidgetItem { font-family: 'Times New Roman'; font-size: 18px; font-weight: bold; border: 2px solid red;} ");
+    this->setStyleSheet("QTableWidgetItem { font-family: 'Times New Roman'; "
+                        "font-size: 18px; font-weight: bold; border: 2px solid red;} ");
     this->ui->tableWidget->horizontalHeader()->setStyleSheet("QHeaderView::section{background-color: green}");
     this->upadateTestList();
 }
@@ -68,9 +70,13 @@ void testing_config::upadateTestList(void){
 testing_config::~testing_config()
 {
     delete ui;
+    //delete testingUi;
 }
 testing_config* testing_config::get_testing_config(){
+//    if(testingUi == nullptr){
+//    }
     testingUi = new testing_config();
+
     return testingUi;
 }
 Ui::testing_config *testing_config::getUi()
@@ -402,6 +408,7 @@ void saveJigTestList(const QVector<testsiute>& jigTestList, const QString& fileN
         file.close();
     }
 }
+/*Load danh sách test siute từ file Json*/
 QVector<testsiute> loadJigTestList(const QString& fileName)
 {
     QVector<testsiute> jigTestList;
@@ -551,13 +558,6 @@ void testing_config::on_tableWidget_cellDoubleClicked(int row, int column)
     dialog.set_par_tc(TS_showing.TestCase[row]);
     dialog.exec();
 
-    //    QString text = static_cast<QComboBox*>(sender())->currentText();
-    //    this->set_dialog_tc(text);
-
-    //    QString str = TS_showing.TestCase[row].testParamaters;
-    //    QByteArray ba = str.toUtf8();
-    //    const uint8_t *data = reinterpret_cast<const uint8_t *>(ba.constData());
-    //    int length = ba.size();
 }
 
 /*Xóa testCase*/

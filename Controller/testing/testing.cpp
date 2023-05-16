@@ -1,7 +1,9 @@
 #include "testing.h"
-//#include "Controller/testing/hmi_testing/hmi_testing.h"
+#include "Controller/app_co/pdo/pdo.h"
+#include "Controller/app_co/od/od.h"
+#include "Controller/app_co/sdo/sdo.h"
+#include "views/product_testing.h"
 
-sdo_send_mailbox SDO_mailbox;
 QVector<testsiute> JigTestList;
 
 testing::testing(QObject *parent) : QObject(parent)
@@ -9,74 +11,59 @@ testing::testing(QObject *parent) : QObject(parent)
 
 }
 
-bool push_data_into_queue_to_send(void (*method)(void),void (*response)(void),
-                                  uint32_t time_delay){
-    if(method == NULL){
-        return 0;
+#define JIG_NODEID                                      126
+#define JIG_PDO1                                        (0x181 + JIG_NODEID)
+
+static MSG_buff jig_pdo;
+void pdo_testing_process_handle(uint32_t canid, uint8_t *data){
+    uint32_t cob_id = canid & 0xFFFFFF80;
+
+    uint8_t node_id = (uint8_t) (canid & 0x7F);
+    if (node_id != JIG_NODEID){
+        return;
     }
-    if(SDO_mailbox.msg_waiting > 31){
-        return 0;
+    switch (cob_id) {
+    case JIG_PDO1:
+
+        jig_pdo.new_msg = true;
+        memcpy(jig_pdo.data, data, 8);
+        break;
+    default:
+        break;
+
     }
-    SDO_mailbox.sdo_send_msg[SDO_mailbox.msg_waiting].method            = method;
-    SDO_mailbox.sdo_send_msg[SDO_mailbox.msg_waiting].response_fucntion = response;
-    SDO_mailbox.sdo_send_msg[SDO_mailbox.msg_waiting].time_delay_10ms   = time_delay;
-    SDO_mailbox.msg_waiting ++;
-    return 1;
 }
-static bool shift_left(sdo_send_mailbox *mailbox){
-    for(int i = 0; i < 31; i++){
-        mailbox->sdo_send_msg[i] = mailbox->sdo_send_msg[i + 1];
+uint8_t testCaseID;
+
+void pdo_testing_processing(void) {
+
+    if (jig_pdo.new_msg == true) {
+        jig_pdo.new_msg = false;
+        if(jig_pdo.data[6] == STATUS_SFPI_success){
+            testCaseID = jig_pdo.data[7];
+            push_data_into_queue_to_send(read_testing_result,
+                                         update_table_testing_result,NULL,10);
+        }
     }
-    mailbox->sdo_send_msg[31].method = NULL;
-    mailbox->sdo_send_msg[31].time_delay_10ms = 0;
-    if(mailbox->msg_waiting <= 0){
-        mailbox->msg_waiting = 0;
-    }
-    else{
-        mailbox->msg_waiting --;
-    }
-    return 1;
 }
 
-sdo_msg_buff sdo_sending_msg;
-void testing_sdo_process(sdo_send_mailbox *mailbox){
-    // printf("boot sate: %d\n",mailbox->msg_waiting);
+uint8_t test_result[1024];
 
-    CO_SDO* p_sdo = &CO_DEVICE.sdo_client;
+void  read_testing_result(void){
+    memset(test_result,0,1024);
+    CO_Sub_Object test_object = {.p_data = BP_infor.sn,
+                                 .attr   = ODA_SDO_RW,
+                                 .len    = 32,
+                                 .p_ext  = NULL
+                                };
+    CO_SDOclient_start_upload(&CO_DEVICE.sdo_client,
+                              0,
+                              0x2002,
+                              1,
+                              &test_object, 3000);
+}
+void update_table_testing_result(void){
 
-    switch( CO_SDO_get_status(p_sdo) ){
-    case CO_SDO_RT_idle:
-        if( mailbox->msg_waiting <= 0){
-            break;
-        }
-        if(mailbox->sdo_send_msg[0].method == NULL) {
-            shift_left(mailbox);
-            break;
-        }
-        if(mailbox->sdo_send_msg[0].time_delay_10ms > 0){
-            mailbox->sdo_send_msg[0].time_delay_10ms --;
-            break;
-        }
-        sdo_sending_msg = mailbox->sdo_send_msg[0];
-        mailbox->sdo_send_msg[0].method();
-        shift_left(mailbox);
-        break;
+     update_testing_result( testCaseID, test_result);
 
-    case CO_SDO_RT_busy:
-        break;
-
-    case CO_SDO_RT_success:
-        CO_SDO_reset_status(p_sdo);
-        if(sdo_sending_msg.response_fucntion != NULL){
-            sdo_sending_msg.response_fucntion();
-        }
-        break;
-
-    case CO_SDO_RT_abort:
-        CO_SDO_reset_status(p_sdo);
-        //        if(sdo_sending_msg->response_fucntion != NULL){
-        //            sdo_sending_msg->response_fucntion();
-        //        }
-        break;
-    }
 }

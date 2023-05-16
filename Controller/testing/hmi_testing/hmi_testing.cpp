@@ -3,6 +3,8 @@
 #include "Controller/app_co/od/od.h"
 #include "Controller/controler.h"
 #include "Controller/config/config.h"
+#include "Controller/app_co/sdo/sdo.h"
+
 #include <QMessageBox>
 
 bool testing_hmi = 0;
@@ -19,15 +21,19 @@ hmi_testing test[3];
 void read_hmi_infor_config(void){
     push_data_into_queue_to_send(read_device_serial_number,
                                  respone_read_device_serial_number,
+                                 NULL,
                                  0);
     push_data_into_queue_to_send(read_fw_version,
                                  respone_read_fw_version,
+                                 NULL,
                                  0);
     push_data_into_queue_to_send(read_hw_version,
                                  respone_read_hw_version,
+                                 NULL,
                                  0);
     push_data_into_queue_to_send(read_esim_number,
                                  respone_read_esim_number,
+                                 NULL,
                                  0);
 }
 uint8_t hmi_sn[32];
@@ -43,6 +49,7 @@ void write_hmi_sn( QString value ){
     memcpy(hmi_sn,path,value.length());
 
     push_data_into_queue_to_send(send_write_hmi_sn,
+                                 NULL,
                                  NULL,
                                  0);
 }
@@ -244,6 +251,7 @@ bool  write_ev_id( QString value ){
 
     push_data_into_queue_to_send(send_write_ev_id,
                                  write_crc_infor,
+                                 NULL,
                                  10);
     return 1;
 
@@ -260,6 +268,7 @@ void  write_crc_infor(void){
 
     push_data_into_queue_to_send(send_write_crc,
                                  write_device_infor_success,
+                                 NULL,
                                  100);
 
 }

@@ -93,7 +93,7 @@ typedef struct {
 extern BP_PDO BP_data;
 extern BP_infor_t BP_infor;
 
-void pdo_process_handle(uint32_t canid, uint8_t *data);
+void pdo_bp_process_handle(uint32_t canid, uint8_t *data);
 bool pdo_data_processing(void);
 #ifdef __cplusplus
 }

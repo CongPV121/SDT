@@ -211,8 +211,19 @@
       <height>41</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="value">
-     <number>24</number>
+     <number>0</number>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="result">
@@ -252,7 +263,7 @@
      <string>Thiết bị kiểm thử :</string>
     </property>
    </widget>
-   <widget class="QLabel" name="testSuite_2">
+   <widget class="QLabel" name="deviceName">
     <property name="geometry">
      <rect>
       <x>570</x>
@@ -333,7 +344,7 @@
      </font>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_7">
+   <widget class="QPushButton" name="download_device">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -547,13 +558,7 @@
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">QPushButton {
-                                border-style: solid;
-                                border-width: 2px;
-                                border-color: #1E90FF;
-                                background-color: rgb(0, 170, 127);
-                                padding: 5px;
-                                }</string>
+        <string notr="true"/>
        </property>
        <property name="text">
         <string>All Start</string>

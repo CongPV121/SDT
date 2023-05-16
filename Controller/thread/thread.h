@@ -9,7 +9,7 @@ class thread : public QObject
 {
     Q_OBJECT
 private:
-    QTimer *timer_10ms;
+    QTimer *timer_bootMaster;
     QTimer *timer_1ms;
     QTimer *timer_testing_process;
     QTimer *timer_Notification;
@@ -19,7 +19,7 @@ public:
     static thread *start_timer();
 public slots:
     void timeout_timer_1ms_handle();
-    void timeout_timer_10ms_handle();
+    void timeout_timer_bootMaster_processing();
     void timeout_timer_testing_process_handle();
     void timeout_timer_Notification_handle();
 

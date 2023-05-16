@@ -16,24 +16,7 @@ public:
     explicit testing(QObject *parent = nullptr);
 };
 
-/*----------------------SDO BUFF---------------------------------*/
 
-typedef struct sdo_msg_buff_t sdo_msg_buff;
-typedef struct sdo_send_mailbox_t sdo_send_mailbox;
-
-struct sdo_msg_buff_t{
-
-    void        (*method)(void);
-    void        (*response_fucntion)(void);
-    uint32_t    time_delay_10ms;// time delay before start
-
-};
-
-struct sdo_send_mailbox_t{
-    sdo_msg_buff    sdo_send_msg[32];
-    uint16_t        msg_waiting = 0;
-
-};
 /*----------------------device information---------------------------------*/
 typedef struct {
     uint16_t CRC;
@@ -66,11 +49,9 @@ public:
 };
 /*-------------------------------------------------------*/
 
-//extern QVector<testsiute> JigTestList;
-extern sdo_send_mailbox SDO_mailbox ;
-
-void testing_sdo_process            (sdo_send_mailbox *mailbox);
-bool push_data_into_queue_to_send(void (*method)(void ),void (*response)(void),
-                                  uint32_t time_delay);
+void pdo_testing_process_handle(uint32_t canid, uint8_t *data);
+void read_testing_result(void);
+void update_table_testing_result(void);
+void pdo_testing_processing(void);
 
 #endif // TESTING_H

@@ -3,6 +3,7 @@
 #include "Controller/testing/testing.h"
 #include "views/bp.h"
 #include "Controller/config/config.h"
+#include "Controller/app_co/sdo/sdo.h"
 bp_tesing::bp_tesing()
 {
 
@@ -16,32 +17,42 @@ void read_bp_infor_config(void){
 
     push_data_into_queue_to_send(read_sn,
                                  bp_sn_show_sucsess,
+                                 NULL,
                                  0);
     push_data_into_queue_to_send(read_hw_bp_version,
                                  bp_hw_version_sucsess,
+                                 NULL,
                                  0);
     push_data_into_queue_to_send(read_fw_bp_version,
                                  bp_fw_version_sucsess,
+                                 NULL,
                                  0);
     push_data_into_queue_to_send(read_device_mating,
                                  bp_device_mating_sucsess,
+                                 NULL,
                                  0);
     push_data_into_queue_to_send(request_pdo1,
+                                 NULL,
                                  NULL,
                                  10);
     push_data_into_queue_to_send(request_pdo2,
                                  NULL,
+                                 NULL,
                                  10);
     push_data_into_queue_to_send(request_pdo3,
+                                 NULL,
                                  NULL,
                                  10);
     push_data_into_queue_to_send(request_pdo4,
                                  NULL,
+                                 NULL,
                                  10);
     push_data_into_queue_to_send(request_pdo5,
                                  NULL,
+                                 NULL,
                                  10);
     push_data_into_queue_to_send(request_pdo6,
+                                 NULL,
                                  NULL,
                                  10);
 }
@@ -232,6 +243,7 @@ bool write_device_mating( QString value ){
 
     push_data_into_queue_to_send(send_device_sn_mating_bp,
                                  NULL,
+                                 NULL,
                                  0);
     return 1;
 }
@@ -271,6 +283,7 @@ bool  write_sn_number( QString value ){
     memcpy(bp_sn + 9,path,valueRev.length());
 
     push_data_into_queue_to_send(send_sn_bp,
+                                 NULL,
                                  NULL,
                                  10);
     return 1;

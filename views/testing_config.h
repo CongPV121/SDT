@@ -28,29 +28,27 @@ public:
     ~testing_config();
     Ui::testing_config *getUi();
     void upadateTestList(void);
+
 private slots:
     void on_new_test_clicked();
-
-
     void on_saveTestSuite_clicked();
 
     void on_pushButton_2_clicked();
-
-    void on_jigTestlist_itemDoubleClicked(QListWidgetItem *item);
-    void clearTableListTest(void);
+    void on_jigTestlist_itemDoubleClicked   (QListWidgetItem *item);
+    void clearTableListTest                 (void);
     void on_newTestSiute_clicked();
-
     void on_editTS_clicked();
-
-    void on_tableWidget_cellDoubleClicked(int row, int column);
-
+    void on_tableWidget_cellDoubleClicked   (int row, int column);
     void on_pushButton_clicked();
-    void update_table_testCase(testsiute ts);
-
-    void on_tableWidget_cellActivated(int row, int column);
+    void update_table_testCase              (testsiute ts);
+    void on_tableWidget_cellActivated       (int row, int column);
 
 private:
     Ui::testing_config *ui;
+protected:
+    void closeEvent(QCloseEvent *event){
+        delete this;
+    }
 };
 
 

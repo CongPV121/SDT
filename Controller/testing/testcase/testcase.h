@@ -228,8 +228,15 @@ typedef struct
 }TC_Jig_Volt2_Para;
 
 /*----------------------------------*/
+typedef enum
+{
+    STATUS_SFPI_idle        = 0,
+    STATUS_SFPI_processing  = 3,
+    STATUS_SFPI_fail        = 1,
+    STATUS_SFPI_success     = 2
 
-;
+}Status_sfpi_t;
+/*----------------------------------*/
 
 /*----------------------------------*/
 
